@@ -37,7 +37,7 @@ Phase 1 : Fondations
 
  Setup projet (Makefile, structure dossiers)
  Main loop avec readline
- Commande simple sans arguments (ls, pwd)
+ copier env dans une struct
  Exit basique
 
 Phase 2 : Parsing basique

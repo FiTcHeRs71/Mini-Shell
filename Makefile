@@ -30,7 +30,7 @@ SRCS_SIGNALS = $(addprefix $(SRCDIR)/signals/, \
 	)
 
 SRCS_ENV = $(addprefix $(SRCDIR)/env/, \
-	)
+	env_init.c)
 
 SRCS_UTILS = $(addprefix $(SRCDIR)/utils/, \
 	)

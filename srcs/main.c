@@ -1,11 +1,16 @@
 
 #include "../includes/minishell.h"
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
 	char	*line;
+	t_shell	shell;
 
-	while (1)
+	ft_memset(&shell, 0, sizeof(shell));
+	init_shell(&shell, envp);
+	while (true)
 	{
 		line = readline("Minishell > ");
 		if(!line)
