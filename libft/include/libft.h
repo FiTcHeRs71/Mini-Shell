@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 17:49:03 by fducrot           #+#    #+#             */
-/*   Updated: 2025/12/04 17:49:13 by fducrot          ###   ########.ch       */
+/*   Created: 2025/12/27 10:43:43 by fducrot           #+#    #+#             */
+/*   Updated: 2025/12/27 10:43:48 by fducrot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 # define LIBFT_H
 
 # include <stdint.h>
-# include <stdlib.h>
 # include <string.h>
-# include <unistd.h>
 # include <stdbool.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdarg.h>
+# include <stdio.h>
 # include "ft_printf/ft_printf.h"
 # include "get_next_line/get_next_line.h"
 

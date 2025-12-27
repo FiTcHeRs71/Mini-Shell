@@ -40,7 +40,7 @@ Phase 1 : Fondations
  Commande simple sans arguments (ls, pwd)
  Exit basique
 
-Phase 2 : Parsing basiqu
+Phase 2 : Parsing basique
 
  Lexer : découpe en tokens
  Parser : commandes avec arguments
@@ -213,3 +213,45 @@ Commit régulièrement avec messages clairs
 Une feature = une branche
 Tester après chaque ajout
 Documenter les fonctions complexes
+
+minishell/
+├── includes/
+│   ├── minishell.h       # Structures principales
+│   └── builtins.h
+├── srcs/
+│   ├── main.c            # Loop principal + readline
+│   ├── lexer/
+│   │   ├── tokenize.c    # Découpe en tokens
+│   │   └── token_utils.c
+│   ├── parser/
+│   │   ├── parse.c       # Construction AST
+│   │   ├── parse_cmd.c   # Parse commandes simples
+│   │   ├── parse_pipe.c  # Parse pipes
+│   │   └── parse_redir.c # Parse redirections
+│   ├── expander/
+│   │   ├── expand_vars.c # Expansion $VAR et $?
+│   │   └── expand_utils.c
+│   ├── executor/
+│   │   ├── execute.c     # Exécution AST
+│   │   ├── exec_cmd.c    # Fork + execve
+│   │   ├── exec_pipe.c   # Gestion pipes
+│   │   └── exec_redir.c  # Gestion redirections
+│   ├── builtins/
+│   │   ├── builtin_cd.c
+│   │   ├── builtin_echo.c
+│   │   ├── builtin_env.c
+│   │   ├── builtin_export.c
+│   │   ├── builtin_pwd.c
+│   │   ├── builtin_unset.c
+│   │   └── builtin_exit.c
+│   ├── signals/
+│   │   └── signals.c     # Gestion Ctrl-C, Ctrl-D, Ctrl-\
+│   ├── env/
+│   │   ├── env_init.c    # Copie environnement
+│   │   └── env_utils.c   # Get/set/unset variables
+│   └── utils/
+│       ├── error.c
+│       ├── free.c        # Libération mémoire
+│       └── utils.c
+├── libft/                # Ta libft
+└── Makefile

@@ -1,7 +1,7 @@
 
 #include "../includes/minishell.h"
 
-int main(int argc, char **argv, char **envp)
+int main(void)
 {
 	char	*line;
 
@@ -9,9 +9,13 @@ int main(int argc, char **argv, char **envp)
 	{
 		line = readline("Minishell > ");
 		if(!line)
+		{
 			ft_printf("Exit\n");
+			free(line);
+			break;
+		}
 		if(line)
-			ft_printf("%s", line);
+			ft_printf("%s\n", line);
 		free(line);
 	}
 	return (0);

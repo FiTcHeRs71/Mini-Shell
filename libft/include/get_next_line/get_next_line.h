@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 10:33:57 by fducrot           #+#    #+#             */
-/*   Updated: 2025/12/12 10:33:57 by fducrot          ###   ########.ch       */
+/*   Created: 2025/12/27 10:43:35 by fducrot           #+#    #+#             */
+/*   Updated: 2025/12/27 10:43:35 by fducrot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@
 # ifndef MAX_FD
 #  define MAX_FD 1000
 # endif
-
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
 
 /* get_next_line_bonus.c */
 char	*get_next_line(int fd);
