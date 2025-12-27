@@ -1,0 +1,215 @@
+Input → Lexer → Parser → Executor
+  ↓       ↓        ↓         ↓
+"cmd"  Tokens    AST    Résultat
+
+Prio 1 : || (OU)
+Prio 2 : && (ET)
+Prio 3 : | (PIPE)
+Prio 4 : Commandes (ls, grep, etc...)
+
+Document fil rouge - Minishell
+Un document de référence qui te guide tout au long du projet. Voici ce que je mettrais dedans :
+1. Vue d'ensemble du projet
+
+Objectif
+Créer un shell minimal fonctionnel type bash avec parsing, exécution de commandes, pipes et redirections.
+Contraintes techniques
+
+2. Architecture technique
+Pipeline de traitement
+Input (readline) 
+  → Lexer (tokenization)
+    → Expander (variables $VAR, $?)
+      → Parser (AST)
+        → Executor (fork/exec/pipe)
+          → Output
+
+Structures de données principales
+
+t_token : tokens issus du lexer
+t_ast_node : nœuds de l'arbre syntaxique
+t_env : liste chaînée des variables d'environnement
+t_shell : structure globale (env, exit_status, fd_backup)
+
+
+3. Roadmap de développement
+Phase 1 : Fondations
+
+ Setup projet (Makefile, structure dossiers)
+ Main loop avec readline
+ Commande simple sans arguments (ls, pwd)
+ Exit basique
+
+Phase 2 : Parsing basiqu
+
+ Lexer : découpe en tokens
+ Parser : commandes avec arguments
+ Gestion des espaces multiples
+ Gestion basique des quotes
+
+Phase 3 : Built-ins
+
+ echo avec option -n
+ pwd (getcwd)
+ env (affichage)
+ cd (chdir + gestion $PWD, $OLDPWD)
+ export (ajouter/modifier variables)
+ unset (supprimer variables)
+ exit (avec code retour)
+
+Phase 4 : Redirections
+
+ < (input redirection)
+ > (output redirection)
+ >> (append)
+ << (heredoc)
+ Combinaisons de redirections
+ Gestion des erreurs (fichier inexistant, permissions)
+
+Phase 5 : Pipes
+
+ Pipe simple (cmd1 | cmd2)
+ Pipes multiples (cmd1 | cmd2 | cmd3)
+ Pipes + redirections combinés
+ Gestion des fd correcte
+
+Phase 6 : Expansion
+
+ Variables d'environnement $VAR
+ Exit status $?
+ Quotes simples (pas d'expansion)
+ Quotes doubles (avec expansion)
+ Gestion des cas limites
+
+Phase 7 : Signaux
+
+ Ctrl-C au prompt (nouvelle ligne)
+ Ctrl-C pendant exécution (kill process)
+ Ctrl-D (exit)
+ Ctrl-\ (rien au prompt, core dump en exec)
+
+Phase 8 : Polish
+
+ Valgrind : 0 leaks
+ Norminette : 0 erreurs
+ Edge cases et gestion d'erreurs
+ Tests exhaustifs
+ Documentation du code
+
+
+Parsing
+
+Tokenization : découper input en morceaux logiques
+AST : représenter structure hiérarchique des commandes
+Quotes : gérer ' et " avec comportements différents
+
+Signaux
+
+signal() ou sigaction() : configurer handlers
+Comportement différent selon contexte (prompt vs exec)
+
+Environnement
+
+Copier envp dans structure personnelle
+Modifier sans affecter l'environnement parent
+Format : KEY=value
+
+5. Checklist de tests
+Commandes basiques
+bashls
+ls -la
+pwd
+echo "hello world"
+echo -n "no newline"
+Built-ins
+bashcd /tmp
+cd ..
+cd
+export VAR=value
+export VAR="value with spaces"
+echo $VAR
+unset VAR
+exit 42
+Redirections
+bash< file cat
+echo "test" > output.txt
+cat file1 > file2
+cat >> append.txt
+cat << EOF
+Pipes
+bashls | grep txt
+cat file | grep word | wc -l
+echo "test" | cat -e | cat -e
+Combinaisons
+bash< input.txt grep word | wc -l > output.txt
+cat << EOF | grep test > result.txt
+export VAR=hello && echo $VAR | cat -e
+Edge cases
+bash""                    # Empty command
+"   "                 # Spaces only
+|||                   # Multiple pipes
+< > file              # Invalid syntax
+echo '$USER'          # Single quotes (literal)
+echo "$USER"          # Double quotes (expansion)
+echo "$?"             # Exit status
+Signaux
+bashsleep 100  # Ctrl-C pendant l'exécution
+cat        # Ctrl-D (EOF)
+          # Ctrl-C au prompt
+6. Pièges courants et solutions
+Piège 1 : File descriptors qui fuient
+
+Symptôme : "Too many open files"
+Solution : Fermer TOUS les fd ouverts, backup stdin/stdout
+
+Piège 2 : Memory leaks dans le parsing
+
+Symptôme : Valgrind explose
+Solution : Free systématique, fonction cleanup dédiée
+
+Piège 3 : Zombies processes
+
+Symptôme : Processus enfants non terminés
+Solution : Toujours wait() après fork()
+
+Piège 4 : Built-ins dans child process
+
+Symptôme : cd ne change pas de répertoire
+Solution : Built-ins DOIVENT s'exécuter dans le parent
+
+Piège 5 : Quotes mal gérées
+
+Symptôme : echo "$USER" affiche littéralement $USER
+Solution : Parser quotes AVANT expansion
+
+Piège 6 : Heredoc qui bloque readline
+
+Symptôme : Comportement étrange avec <<
+Solution : Gérer heredoc séparément, signaux adaptés
+
+Piège 7 : Variables d'environnement corrompues
+
+Symptôme : Segfault ou variables bizarres
+Solution : Deep copy de envp, gestion mémoire rigoureuse
+
+7. Ressources utiles
+Man pages essentielles
+
+man 3 readline
+man 2 fork
+man 2 execve
+man 2 pipe
+man 2 dup2
+man 2 signal
+
+Commandes de debug
+bashvalgrind --leak-check=full --track-fds=yes ./minishell
+strace ./minishell  # Voir les syscalls
+Tester contre bash
+
+Pour chaque commande, compare le comportement avec bash réel.
+
+Commit régulièrement avec messages clairs
+Une feature = une branche
+Tester après chaque ajout
+Documenter les fonctions complexes
