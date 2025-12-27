@@ -27,7 +27,12 @@ void	init_shell(t_shell *shell, char **envp);
 
 
 /*========================== utils ==========================*/
+/* error.c */
 
+
+
+/* clear.c */
+void clean_and_exit(t_shell *shell);
 
 
 

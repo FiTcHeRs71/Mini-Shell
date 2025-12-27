@@ -17,7 +17,7 @@ int main(int argc, char **argv, char **envp)
 		{
 			ft_printf("Exit\n");
 			free(line);
-			break;
+			clean_and_exit(&shell);
 		}
 		if(line)
 			ft_printf("%s\n", line);
