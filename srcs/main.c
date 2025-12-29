@@ -16,12 +16,13 @@ int main(int argc, char **argv, char **envp)
 		if(!line)
 		{
 			ft_printf("Exit\n");
-			free(line);
-			clean_and_exit(&shell);
+			clean_before_exit(&shell);
+			break ;
 		}
+		add_history(line);
 		if(line)
 			ft_printf("%s\n", line);
-		free(line);
 	}
+	rl_clear_history();
 	return (0);
 }

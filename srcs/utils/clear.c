@@ -1,25 +1,26 @@
 
 #include "../../includes/minishell.h"
 
-void	clear_linked_list(t_env **lst, void (*del)(void*))
+void	clear_linked_list(t_env **env, void (*del)(void*))
 {
-	t_list	*tmp;
+	t_env	*tmp;
 
-	if (!*lst)
+	if (!*env)
 	{
 		return ;
 	}
-	while (*lst)
+	while (*env)
 	{
-		tmp = (*lst)->next;
-		ft_lstdelone(*lst, del);
-		*lst = tmp;
+	tmp = (*env)->next;
+	(del)((*env)->key);
+	(del)((*env)->value);
+	(del)(*env);
+	*env = tmp;
 	}
-	free(*lst);
-	*lst = NULL;
+	*env = NULL;
 }
 
-void clean_and_exit(t_shell *shell)
+void clean_before_exit(t_shell *shell)
 {
 	clear_linked_list(shell->env, free);
 	free(shell->env);

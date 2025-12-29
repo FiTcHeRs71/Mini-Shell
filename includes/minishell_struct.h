@@ -1,7 +1,7 @@
 #ifndef MINISHELL_STRUCT_H
 # define MINISHELL_STRUCT_H
 
-typedef struct	s_env //TODO : ajouter un valeur qui save le debut.
+typedef struct	s_env //TODO : ajouter une valeur qui save le debut ?
 {
 	char			*key;
 	char			*value;

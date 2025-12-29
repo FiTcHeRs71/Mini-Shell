@@ -32,7 +32,7 @@ void	init_shell(t_shell *shell, char **envp);
 
 
 /* clear.c */
-void clean_and_exit(t_shell *shell);
+void clean_before_exit(t_shell *shell);
 
 
 
