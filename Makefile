@@ -15,7 +15,7 @@ SRCS_LEXER = $(addprefix $(SRCDIR)/lexer/, \
 	)
 
 SRCS_PARSER = $(addprefix $(SRCDIR)/parser/, \
-	parse.c parse_command.c)
+	parse.c parse_command.c parse_pipe.c parse_redir.c)
 
 SRCS_EXPANDER = $(addprefix $(SRCDIR)/expander/, \
 	)

@@ -41,3 +41,6 @@ typedef struct	s_ast_node
 t_ast_node	*create_node(t_node_type type);
 t_ast_node	*parse_command(t_token **current);
 t_ast_node	*parser_token(t_token *token);
+t_ast_node	*parser_pipe(t_token **current);
+t_ast_node	*parser_redir(t_token **current);
+void	advance_token(t_token **current);

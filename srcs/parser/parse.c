@@ -1,6 +1,14 @@
 
 #include "../../includes/work.h"
 
+void	advance_token(t_token **current)
+{
+	if (current && *current)
+	{
+		*current = (*current)->next;
+	}
+}
+
 t_ast_node	*create_node(t_node_type type)
 {
 	t_ast_node	*new_node;
@@ -20,6 +28,14 @@ t_ast_node	*parser_token(t_token *token)
 	if(token->type == TOKEN_WORD)
 	{
 		node = parse_command(&token);
+	}
+	else if (token->type == TOKEN_PIPE)
+	{
+		node = parser_pipe(&token);
+	}
+	else if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT)
+	{
+		node = parser_redir(&token);
 	}
 	return(node);
 }

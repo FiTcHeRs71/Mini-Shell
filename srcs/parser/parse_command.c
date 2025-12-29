@@ -9,7 +9,7 @@ int	count_arg(t_token *current)
 	while (current != NULL && current->type == TOKEN_WORD)
 	{
 		size++;
-		current = current->next;
+		advance_token(&current);
 	}
 	return (size);
 }
@@ -35,7 +35,7 @@ t_ast_node	*parse_command(t_token **current)
 		cmd->args[i] = ft_strdup((*current)->value);
 		if (!cmd->args[i])
 			exit(EXIT_FAILURE);// TODO : exit clean
-		(*current) = (*current)->next;
+		advance_token(current);
 		i++;
 	}
 	cmd->args[i] = NULL;

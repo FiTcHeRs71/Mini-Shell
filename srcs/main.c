@@ -29,8 +29,8 @@ int main(int argc, char **argv, char **envp)
 	rl_clear_history();*/
 	test = ft_calloc(1, sizeof(t_token));
 	test2 = ft_calloc(1, sizeof(t_token));
-	test->type = TOKEN_WORD;
-	test->value = "KCORP";
+	test->type = TOKEN_PIPE;
+	test->value = "|";
 	test->next = test2;
 	test2->type = TOKEN_WORD;
 	test2->value = "ON FIRE";
