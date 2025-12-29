@@ -1,16 +1,19 @@
 
 #include "../includes/minishell.h"
+#include "../includes/work.h"
 
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	char	*line;
+	//char	*line;
 	t_shell	shell;
+	t_token	*test;
+	t_token *test2;
 
 	ft_memset(&shell, 0, sizeof(shell));
 	init_shell(&shell, envp);
-	while (true)
+	/*while (true)
 	{
 		line = readline("Minishell > ");
 		if(!line)
@@ -23,6 +26,15 @@ int main(int argc, char **argv, char **envp)
 		if(line)
 			ft_printf("%s\n", line);
 	}
-	rl_clear_history();
+	rl_clear_history();*/
+	test = ft_calloc(1, sizeof(t_token));
+	test2 = ft_calloc(1, sizeof(t_token));
+	test->type = TOKEN_WORD;
+	test->value = "KCORP";
+	test->next = test2;
+	test2->type = TOKEN_WORD;
+	test2->value = "ON FIRE";
+	test2->next = NULL;
+	parser_token(test);
 	return (0);
 }

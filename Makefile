@@ -15,7 +15,7 @@ SRCS_LEXER = $(addprefix $(SRCDIR)/lexer/, \
 	)
 
 SRCS_PARSER = $(addprefix $(SRCDIR)/parser/, \
-	)
+	parse.c parse_command.c)
 
 SRCS_EXPANDER = $(addprefix $(SRCDIR)/expander/, \
 	)
@@ -57,7 +57,7 @@ RED = \033[0;31m
 RESET = \033[0m
 
 # Rules
-all: $(NAME)
+all: $(LIBFTDIR)/libft.a $(NAME)
 	@echo "$(GREEN)🎉 $(NAME) ready! 🎉$(RESET)"
 
 $(LIBFTDIR)/libft.a:
@@ -71,7 +71,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 	@printf "$(GREEN)✓ Compiled $(notdir $<)   $(RESET)\n"
 
-$(NAME): $(LIBFTDIR)/libft.a $(OBJS)
+$(NAME): $(OBJS)
 	@echo "$(YELLOW)🔗 Linking $(NAME)...$(RESET)"
 	@$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)✓ $(NAME) created successfully!$(RESET)"
