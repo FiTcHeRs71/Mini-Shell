@@ -9,7 +9,7 @@ void	clear_linked_list(t_env **env, void (*del)(void*))
 	{
 		return ;
 	}
-	while (*env)
+	while (*env) //TODO :  CHECK SI LES VARIABLES EXISTE
 	{
 	tmp = (*env)->next;
 	(del)((*env)->key);
@@ -23,5 +23,6 @@ void	clear_linked_list(t_env **env, void (*del)(void*))
 void clean_before_exit(t_shell *shell)
 {
 	clear_linked_list(shell->env, free);
+	rl_clear_history();
 	free(shell->env);
 }

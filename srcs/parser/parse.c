@@ -1,9 +1,11 @@
 
 #include "../../includes/work.h"
 
-void	last_check(t_token *token, int paren_balance)
+void	last_token_check(t_token *last, int paren_balance, t_token *prev_token)
 {
-	if (is_flow_operator(token) || is_redirection(token))
+	if (last->type == TOKEN_PIPE && prev_token->type == TOKEN_WORD)
+		return ;
+	if (is_flow_operator(last) || is_redirection(last))
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
 	if (paren_balance != 0)
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
@@ -40,6 +42,7 @@ void check_token_redir(t_token *token)
 	if (token->next->type != TOKEN_WORD)
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
 }
+
 void	check_token_and_or(t_token *token, t_token *prev_token)
 {
 	if (is_operator(prev_token))
@@ -50,31 +53,31 @@ void	check_token_and_or(t_token *token, t_token *prev_token)
 
 void	validate_syntaxe(t_token *token)
 {
-	t_token *current;
 	t_token	*prev_token;
+	t_token	*temp;
 	int		paren_balance;
 
-	if (!token || token->type == TOKEN_PIPE) // TODO : ERROR MESSAGE, les split ?
+	if (!token || is_flow_operator(token)) // TODO : ERROR MESSAGE, les split ?
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
-	current = token;
 	prev_token = NULL;
 	paren_balance = 0;
-	while (current)
+	while (token)
 	{
-		if (current->type == TOKEN_LPAREN)
-			paren_balance = check_token_lparen(current, paren_balance);
-		if (current->type == TOKEN_RPAREN)
+		if (token->type == TOKEN_LPAREN)
+			paren_balance = check_token_lparen(token, paren_balance);
+		if (token->type == TOKEN_RPAREN)
 			paren_balance = check_token_rparen(paren_balance);
-		if (current->type == TOKEN_PIPE)
-			check_token_pipe(current, prev_token);
-		if (current->type == TOKEN_AND || current->type == TOKEN_OR)
-			check_token_and_or(current, prev_token);
-		if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT)
+		if (token->type == TOKEN_PIPE)
+			check_token_pipe(token, prev_token);
+		if (token->type == TOKEN_AND || token->type == TOKEN_OR)
+			check_token_and_or(token, prev_token);
+		if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT)
 			check_token_redir(token);
-		prev_token = current;
-		current = current->next;
+		temp = prev_token;
+		prev_token = token;
+		token = token->next;
 	}
-	last_check(prev_token, paren_balance);
+	last_token_check(prev_token, paren_balance, temp);
 }
 
 t_ast_node	*parser_token(t_token *token)
