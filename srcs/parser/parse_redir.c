@@ -5,7 +5,7 @@ t_ast_node	*parser_redir(t_token **current)
 	t_ast_node *left;
 	t_ast_node	*redir_node;
 
-	if(!current || !(*current))
+	if(!current || !(*current)->type != TOKEN_WORD)
 		return (NULL);
 	left = parse_command(current);
 	if (!left)

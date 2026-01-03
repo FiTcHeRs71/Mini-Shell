@@ -12,6 +12,10 @@ t_ast_node	*parser_pipe(t_token **current)
 		advance_token(current);
 		pipe_node->left = left;
 		pipe_node->right = parser_pipe(current);
+		if (!pipe_node->right)
+		{
+			return (false); // TODO : ERROR MESSAGE FREE AST RETURN NULL
+		}
 		return (pipe_node);
 	}
 	return (left);

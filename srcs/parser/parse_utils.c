@@ -56,9 +56,9 @@ bool	is_flow_operator(t_token *token)
 	{
 		return (false);
 	}
-	if (token && token->type == TOKEN_PIPE 
-		|| token->type == TOKEN_AND
-		|| token->type == TOKEN_OR)
+if (token && (token->type == TOKEN_PIPE 
+	|| token->type == TOKEN_AND
+	|| token->type == TOKEN_OR))
 	{
 		return (true);
 	}

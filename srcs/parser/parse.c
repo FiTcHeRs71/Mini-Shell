@@ -5,7 +5,7 @@ bool	validate_syntaxe(t_token *token)
 {
 	t_token *current;
 	t_token	*prev_token;
-	int		*paren_balance;
+	int		paren_balance;
 
 	if (!token || token->type == TOKEN_PIPE) // TODO : ERROR MESSAGE, les split ?
 		return (false);
@@ -30,13 +30,13 @@ bool	validate_syntaxe(t_token *token)
 		{
 			if (is_flow_operator(prev_token))
 				return (false); // TODO : ERROR MESSAGE
-			if (!current->next && is_operator(current->next))
+			if (current->next && is_operator(current->next))
 				return (false); // TODO : ERROR MESSAGE
 		}
 		if (current->type == TOKEN_AND || current->type == TOKEN_OR)
 		{
 			if (is_operator(prev_token))
-				return (false); // TODO : ERROR MESSAGE
+				
 			if (is_operator(current->next))
 				return (false); // TODO : ERROR MESSAGE
 		}
@@ -44,15 +44,15 @@ bool	validate_syntaxe(t_token *token)
 		{
 			if (!current->next)
 				return (false); // TODO : ERROR MESSAGE
-			if (!current->next->type != TOKEN_WORD)
+			if (current->next->type != TOKEN_WORD)
 				return (false); // TODO : ERROR MESSAGE
 		}
 		prev_token = current;
 		current = current->next;
 	}
-	if (is_flow_operator(current) || is_redirection(current))
+	if (is_flow_operator(prev_token) || is_redirection(prev_token))
 		return (false); // TODO : ERROR MESSAGE
-	if (paren_balance != 0)\
+	if (paren_balance != 0)
 		return (false); // TODO : ERROR MESSAGE
 	return (true);
 }
