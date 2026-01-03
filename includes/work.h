@@ -10,6 +10,8 @@ typedef enum e_token_type {
     TOKEN_HEREDOC,   // 
 	TOKEN_OR,
 	TOKEN_AND,
+	TOKEN_LPAREN,
+	TOKEN_RPAREN,
 } t_token_type;
 
 typedef struct s_token {
@@ -48,4 +50,6 @@ t_ast_node	*parser_pipe(t_token **current);
 t_ast_node	*parser_redir(t_token **current);
 bool	is_redirection(t_token *token);
 bool	is_pipe(t_token *token);
+bool	is_operator(t_token *token);
+bool	is_flow_operator(t_token *token);
 void	advance_token(t_token **current);

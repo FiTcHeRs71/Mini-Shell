@@ -3,27 +3,56 @@
 
 bool	validate_syntaxe(t_token *token)
 {
-	t_token *current;t
+	t_token *current;
+	t_token	*prev_token;
+	int		*paren_balance;
 
-	if (!token)
+	if (!token || token->type == TOKEN_PIPE) // TODO : ERROR MESSAGE, les split ?
 		return (false);
-	if (token->type == TOKEN_PIPE)
-		return (false); // TODO : ERROR MESSAGE
 	current = token;
+	prev_token = NULL;
+	paren_balance = 0;
 	while (current)
 	{
-		if (is_redirection(current))
-			if (!current->next || current->next->type != TOKEN_WORD)
+		if (current->type == TOKEN_LPAREN)
+		{
+			paren_balance++;
+			if(!current->next)
 				return (false); // TODO : ERROR MESSAGE
+		}
+		if (current->type == TOKEN_RPAREN)
+		{
+			paren_balance--;
+			if (paren_balance < 0)
+				return (false); // TODO : ERROR MESSAGE
+		}
 		if (current->type == TOKEN_PIPE)
-			if (!current->next ||  current->next->type == TOKEN_PIPE)
+		{
+			if (is_flow_operator(prev_token))
 				return (false); // TODO : ERROR MESSAGE
-		advance_token(current);
+			if (!current->next && is_operator(current->next))
+				return (false); // TODO : ERROR MESSAGE
+		}
+		if (current->type == TOKEN_AND || current->type == TOKEN_OR)
+		{
+			if (is_operator(prev_token))
+				return (false); // TODO : ERROR MESSAGE
+			if (is_operator(current->next))
+				return (false); // TODO : ERROR MESSAGE
+		}
+		if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT)
+		{
+			if (!current->next)
+				return (false); // TODO : ERROR MESSAGE
+			if (!current->next->type != TOKEN_WORD)
+				return (false); // TODO : ERROR MESSAGE
+		}
+		prev_token = current;
+		current = current->next;
 	}
-	current = token;
-	while (current->next)
-		advance_token(current);
-	if (current->type == TOKEN_PIPE || is_redirection(current))
+	if (is_flow_operator(current) || is_redirection(current))
+		return (false); // TODO : ERROR MESSAGE
+	if (paren_balance != 0)\
 		return (false); // TODO : ERROR MESSAGE
 	return (true);
 }
