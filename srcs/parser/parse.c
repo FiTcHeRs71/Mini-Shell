@@ -81,7 +81,7 @@ t_ast_node	*parser_token(t_token *token)
 {
 	t_ast_node	*ast;
 	validate_syntaxe(token);
-	ft_printf("Valid");
+	ft_printf("Valid\n");
 	ast = NULL;
 	return (ast);
 }

@@ -32,7 +32,7 @@ int main(int argc, char **argv, char **envp)
 	test->type = TOKEN_WORD;
 	test->value = "|";
 	test->next = test2;
-	test2->type = TOKEN_REDIR_OUT;
+	test2->type = TOKEN_WORD;
 	test2->value = "ON FIRE";
 	test2->next = NULL;
 	parser_token(test);
