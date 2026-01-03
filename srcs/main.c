@@ -29,10 +29,10 @@ int main(int argc, char **argv, char **envp)
 	rl_clear_history();*/
 	test = ft_calloc(1, sizeof(t_token));
 	test2 = ft_calloc(1, sizeof(t_token));
-	test->type = TOKEN_PIPE;
+	test->type = TOKEN_WORD;
 	test->value = "|";
 	test->next = test2;
-	test2->type = TOKEN_WORD;
+	test2->type = TOKEN_REDIR_OUT;
 	test2->value = "ON FIRE";
 	test2->next = NULL;
 	parser_token(test);
