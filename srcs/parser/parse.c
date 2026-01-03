@@ -1,41 +1,34 @@
 
 #include "../../includes/work.h"
 
-void	advance_token(t_token **current)
+bool	validate_syntaxe(t_token *token)
 {
-	if (current && *current)
-	{
-		*current = (*current)->next;
-	}
-}
+	t_token *current;t
 
-t_ast_node	*create_node(t_node_type type)
-{
-	t_ast_node	*new_node;
-
-	new_node = ft_calloc(1, sizeof(t_ast_node));
-	if(!new_node)
+	if (!token)
+		return (false);
+	if (token->type == TOKEN_PIPE)
+		return (false); // TODO : ERROR MESSAGE
+	current = token;
+	while (current)
 	{
-		//TODO : EXIT
+		if (is_redirection(current))
+			if (!current->next || current->next->type != TOKEN_WORD)
+				return (false); // TODO : ERROR MESSAGE
+		if (current->type == TOKEN_PIPE)
+			if (!current->next ||  current->next->type == TOKEN_PIPE)
+				return (false); // TODO : ERROR MESSAGE
+		advance_token(current);
 	}
-	new_node->type = type;
-	return(new_node);
+	current = token;
+	while (current->next)
+		advance_token(current);
+	if (current->type == TOKEN_PIPE || is_redirection(current))
+		return (false); // TODO : ERROR MESSAGE
+	return (true);
 }
 
 t_ast_node	*parser_token(t_token *token)
 {
-	t_ast_node	*node;
-	if(token->type == TOKEN_WORD)
-	{
-		node = parse_command(&token);
-	}
-	else if (token->type == TOKEN_PIPE)
-	{
-		node = parser_pipe(&token);
-	}
-	else if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT)
-	{
-		node = parser_redir(&token);
-	}
-	return(node);
+	t_ast_node	*ast;
 }
