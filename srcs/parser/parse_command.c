@@ -14,7 +14,7 @@ int	count_arg(t_token *current)
 	return (size);
 }
 
-t_ast_node	*parse_command(t_token **current)
+t_ast_node	*parser_command(t_token **current)
 {
 	t_ast_node	*cmd;
 	int			arg_count;

@@ -80,11 +80,20 @@ void	validate_syntaxe(t_token *token)
 	last_token_check(prev_token, paren_balance, temp);
 }
 
-t_ast_node	*parser_token(t_token *token)
+t_ast_node	*parse(t_token *token)
 {
 	t_ast_node	*ast;
+	t_token		*current;
+
+	if (!token)
+	{
+		return (NULL);
+	}
 	validate_syntaxe(token);
-	ft_printf("Valid\n");
-	ast = NULL;
+	current = token;
+	ast = parser_or(&current);
+	if (current != NULL)
+		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
+	ft_printf("check fin ast \n");
 	return (ast);
 }

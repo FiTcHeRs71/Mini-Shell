@@ -5,9 +5,9 @@ t_ast_node	*parser_redir(t_token **current)
 	t_ast_node *left;
 	t_ast_node	*redir_node;
 
-	if(!current || !(*current)->type != TOKEN_WORD)
+	if(!current || !(*current))
 		return (NULL);
-	left = parse_command(current);
+	left = parser_command(current);
 	if (!left)
 		exit(EXIT_FAILURE);// TODO : exit clean must be a file | checking file
 	while (current && is_redirection(*current))

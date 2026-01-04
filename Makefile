@@ -15,7 +15,8 @@ SRCS_LEXER = $(addprefix $(SRCDIR)/lexer/, \
 	)
 
 SRCS_PARSER = $(addprefix $(SRCDIR)/parser/, \
-	parse.c parse_command.c parse_pipe.c parse_redir.c parse_utils.c)
+	parse.c parse_command.c parse_pipe.c parse_redir.c parse_utils.c \
+	parse_and.c parse_or.c parse_paren.c)
 
 SRCS_EXPANDER = $(addprefix $(SRCDIR)/expander/, \
 	)
@@ -102,11 +103,6 @@ norm:
 	@echo "$(YELLOW)📋 Checking norminette...$(RESET)"
 	@norminette $(SRCDIR) $(INCDIR) $(LIBFTDIR) 2>&1 | grep -v "OK!" || \
 		echo "$(GREEN)✓ All files conform to norminette$(RESET)"
-
-debug: CFLAGS += -fsanitize=address -g3
-debug: re
-	@echo "$(YELLOW)🐛 Debug build complete$(RESET)"
-
 help:
 	@echo "$(CYAN)═══════════════════════════════════════════════════════$(RESET)"
 	@echo "$(GREEN)  Minishell Makefile - Available targets$(RESET)"
@@ -118,7 +114,6 @@ help:
 	@echo "  $(YELLOW)run$(RESET)       - Build and run minishell"
 	@echo "  $(YELLOW)valgrind$(RESET)  - Run with valgrind memory checker"
 	@echo "  $(YELLOW)norm$(RESET)      - Check norminette compliance"
-	@echo "  $(YELLOW)debug$(RESET)     - Build with address sanitizer"
 	@echo "  $(YELLOW)help$(RESET)      - Show this help message"
 	@echo "$(CYAN)═══════════════════════════════════════════════════════$(RESET)"
 

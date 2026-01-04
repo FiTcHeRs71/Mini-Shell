@@ -44,10 +44,12 @@ typedef struct	s_ast_node
 }				t_ast_node;
 
 t_ast_node	*create_node(t_node_type type);
-t_ast_node	*parse_command(t_token **current);
-t_ast_node	*parser_token(t_token *token);
+t_ast_node	*parser_command(t_token **current);
+t_ast_node	*parse(t_token *token);
 t_ast_node	*parser_pipe(t_token **current);
 t_ast_node	*parser_redir(t_token **current);
+t_ast_node	*parser_or(t_token **current);
+t_ast_node	*parser_and(t_token **current);
 bool	is_redirection(t_token *token);
 bool	is_pipe(t_token *token);
 bool	is_operator(t_token *token);
