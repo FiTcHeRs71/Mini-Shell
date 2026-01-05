@@ -27,6 +27,7 @@ int main(int argc, char **argv, char **envp)
 			tokenisation(token_list, line);
 			ft_printf("check\n");
 			parse(*token_list);
+			ft_printf("check\n");
 		}
 	}
 	rl_clear_history();

@@ -8,6 +8,10 @@ t_ast_node	*parser_pipe(t_token **current)
 	if (!current || !(*current))
 		return (NULL);
 	left = parser_redir(current);
+	if (!(*current)->type)
+	{
+		return (NULL);
+	}
 	if (current && (*current)->type == TOKEN_PIPE)
 	{
 		pipe_node = create_node(NODE_PIPE);
