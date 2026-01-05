@@ -1,11 +1,11 @@
 
 #include "../../includes/work.h"
 
-void	last_token_check(t_token *last, int paren_balance, t_token *prev_token)
+void	last_token_check(t_token *last, int paren_balance) //t_token *prev_token
 {
 	if (!last)
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
-	 /*if (last->type == TOKEN_PIPE && prev_token->type == TOKEN_WORD)
+	/*if (last->type == TOKEN_PIPE && prev_token->type == TOKEN_WORD)
 		return ;*/ //TODO : A check avec le L
 	if (is_flow_operator(last) || is_redirection(last))
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
@@ -16,9 +16,9 @@ void	last_token_check(t_token *last, int paren_balance, t_token *prev_token)
 int	check_token_lparen(t_token *token, int paren_balance)
 {
 	paren_balance++;
-	if(!token->next)
+	if (!token->next)
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
-	return(paren_balance);
+	return (paren_balance);
 }
 
 int	check_token_rparen(int paren_balance)
@@ -26,7 +26,7 @@ int	check_token_rparen(int paren_balance)
 	paren_balance--;
 	if (paren_balance < 0)
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
-	return(paren_balance);
+	return (paren_balance);
 }
 
 void	check_token_pipe(t_token *token, t_token *prev_token)
@@ -37,7 +37,7 @@ void	check_token_pipe(t_token *token, t_token *prev_token)
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
 }
 
-void check_token_redir(t_token *token)
+void	check_token_redir(t_token *token)
 {
 	if (!token->next)
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
@@ -56,7 +56,6 @@ void	check_token_and_or(t_token *token, t_token *prev_token)
 void	validate_syntaxe(t_token *token)
 {
 	t_token	*prev_token;
-	t_token	*temp;
 	int		paren_balance;
 
 	if (!token || is_flow_operator(token)) // TODO : ERROR MESSAGE, les split ?
@@ -75,11 +74,10 @@ void	validate_syntaxe(t_token *token)
 			check_token_and_or(token, prev_token);
 		if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT)
 			check_token_redir(token);
-		temp = prev_token;
 		prev_token = token;
 		token = token->next;
 	}
-	last_token_check(prev_token, paren_balance, temp);
+	last_token_check(prev_token, paren_balance);
 }
 
 t_ast_node	*parse(t_token *token)

@@ -2,10 +2,10 @@
 
 t_ast_node	*parser_redir(t_token **current)
 {
-	t_ast_node *left;
+	t_ast_node	*left;
 	t_ast_node	*redir_node;
 
-	if(!current || !(*current))
+	if (!current || !(*current))
 		return (NULL);
 	left = parser_paren(current);
 	if (!left)

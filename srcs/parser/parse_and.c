@@ -2,10 +2,10 @@
 
 t_ast_node	*parser_and(t_token **current)
 {
-	t_ast_node *left;
-	t_ast_node *and_node;
+	t_ast_node	*left;
+	t_ast_node	*and_node;
 
-	if(!current || !(*current))
+	if (!current || !(*current))
 		return (NULL);
 	left = parser_pipe(current);
 	while (*current && (*current)->type == TOKEN_AND)

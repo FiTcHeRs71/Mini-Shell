@@ -18,13 +18,13 @@ t_ast_node	*parser_command(t_token **current)
 {
 	t_ast_node	*cmd;
 	int			arg_count;
-	int	i;
+	int			i;
 
-	if(!current || !(*current) || (*current)->type != TOKEN_WORD)
+	if (!current || !(*current) || (*current)->type != TOKEN_WORD)
 		return (NULL);
 	i = 0;
 	cmd = create_node(NODE_CMD);
-	if(!cmd)
+	if (!cmd)
 		exit(EXIT_FAILURE);// TODO : exit clean
 	arg_count = count_arg(*current);
 	cmd->args = ft_calloc(arg_count + 1, sizeof(char *));
@@ -41,4 +41,3 @@ t_ast_node	*parser_command(t_token **current)
 	cmd->args[i] = NULL;
 	return (cmd);
 }
-

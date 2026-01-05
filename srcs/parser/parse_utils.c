@@ -14,12 +14,12 @@ t_ast_node	*create_node(t_node_type type)
 	t_ast_node	*new_node;
 
 	new_node = ft_calloc(1, sizeof(t_ast_node));
-	if(!new_node)
+	if (!new_node)
 	{
 		exit(EXIT_FAILURE);// TODO : exit clean must be a file | checking file
 	}
 	new_node->type = type;
-	return(new_node);
+	return (new_node);
 }
 
 bool	is_redirection(t_token *token)
@@ -50,15 +50,16 @@ bool	is_pipe(t_token *token)
 	}
 	return (false);
 }
+
 bool	is_flow_operator(t_token *token)
 {
 	if (!token)
 	{
 		return (false);
 	}
-if (token && (token->type == TOKEN_PIPE 
-	|| token->type == TOKEN_AND
-	|| token->type == TOKEN_OR))
+	if (token && (token->type == TOKEN_PIPE
+			|| token->type == TOKEN_AND
+			|| token->type == TOKEN_OR))
 	{
 		return (true);
 	}

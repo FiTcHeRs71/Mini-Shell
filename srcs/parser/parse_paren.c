@@ -1,16 +1,16 @@
 
 #include "../../includes/work.h"
 
-t_ast_node *parser_paren(t_token **current)
+t_ast_node	*parser_paren(t_token **current)
 {
-	t_ast_node *subsell;
-	t_ast_node *content;
+	t_ast_node	*subsell;
+	t_ast_node	*content;
 
 	if (*current && (*current)->type == TOKEN_LPAREN)
 	{
 		advance_token(current);
 		content = parser_or(current);
-		if(!*current ||(*current)->type != TOKEN_RPAREN)
+		if (!*current || (*current)->type != TOKEN_RPAREN)
 		{
 			exit(EXIT_FAILURE);// TODO : exit clean
 		}

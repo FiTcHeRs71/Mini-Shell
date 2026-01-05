@@ -2,10 +2,10 @@
 
 t_ast_node	*parser_pipe(t_token **current)
 {
-	t_ast_node *left;
-	t_ast_node *pipe_node;
+	t_ast_node	*left;
+	t_ast_node	*pipe_node;
 
-	if(!current || !(*current))
+	if (!current || !(*current))
 		return (NULL);
 	left = parser_redir(current);
 	if (current && (*current)->type == TOKEN_PIPE)
