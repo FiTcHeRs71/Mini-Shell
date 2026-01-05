@@ -5,7 +5,7 @@ void	tokenize(t_token **token, t_token *new, char *buffer)
 	int i;
 
 	i = 0;
-	new->value = buffer;
+	new->value = ft_strdup(buffer);
 	if (ft_isalnum(buffer[i]))
 		new->type = TOKEN_WORD;
 	else if (!ft_strncmp(buffer, "|", 2))
