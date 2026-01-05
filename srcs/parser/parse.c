@@ -1,5 +1,5 @@
 
-#include "../../includes/work.h"
+#include "../../includes/minishell.h"
 
 void	last_token_check(t_token *last, int paren_balance) //t_token *prev_token
 {

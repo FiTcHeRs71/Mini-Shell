@@ -1,22 +1,21 @@
 
 #include "../includes/minishell.h"
-#include "../includes/work.h"
 
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	//char	*line;
+	char	*line;
 	t_shell	shell;
-	t_token	*test;
-	t_token *test2;
+	t_token	**token_list;
 
+	token_list = ft_calloc(1, sizeof(t_token *));
 	ft_memset(&shell, 0, sizeof(shell));
 	init_shell(&shell, envp);
-	/*while (true)
+	while (true)
 	{
 		line = readline("Minishell > ");
-		if(!line)
+		if(!line) // crtl - D
 		{
 			ft_printf("Exit\n");
 			clean_before_exit(&shell);
@@ -24,17 +23,12 @@ int main(int argc, char **argv, char **envp)
 		}
 		add_history(line);
 		if(line)
-			ft_printf("%s\n", line);
+		{
+			tokenisation(token_list, line);
+			ft_printf("check\n");
+			parse(*token_list);
+		}
 	}
-	rl_clear_history();*/
-	test = ft_calloc(1, sizeof(t_token));
-	test2 = ft_calloc(1, sizeof(t_token));
-	test->type = TOKEN_WORD;
-	test->value = "|";
-	test->next = test2;
-	test2->type = TOKEN_WORD;
-	test2->value = "ON FIRE";
-	test2->next = NULL;
-	parse(test);
+	rl_clear_history();
 	return (0);
 }

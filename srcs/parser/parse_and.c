@@ -1,4 +1,4 @@
-#include "../../includes/work.h"
+#include "../../includes/minishell.h"
 
 t_ast_node	*parser_and(t_token **current)
 {
