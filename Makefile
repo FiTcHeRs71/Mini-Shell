@@ -34,7 +34,7 @@ SRCS_ENV = $(addprefix $(SRCDIR)/env/, \
 	env_init.c)
 
 SRCS_UTILS = $(addprefix $(SRCDIR)/utils/, \
-	clear.c error.c)
+	clear.c error.c helpers.c)
 
 # Combine all sources
 SRCS = $(SRCS_MAIN) $(SRCS_LEXER) $(SRCS_PARSER) $(SRCS_EXPANDER) \

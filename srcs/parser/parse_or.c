@@ -6,13 +6,11 @@ t_ast_node	*parser_or(t_token **current)
 	t_ast_node	*or_node;
 	t_ast_node	*left;
 
-	if (!current || !(*current) || !(*current)->type)
+	if (!current || !(*current))
 		return (NULL);
 	left = parser_and(current);
-	if (!(*current)->type)
-	{
-		return (NULL);
-	}
+	if (!current || !(*current))
+		return (left);
 	while (current && (*current)->type == TOKEN_OR)
 	{
 		or_node = create_node(NODE_OR);

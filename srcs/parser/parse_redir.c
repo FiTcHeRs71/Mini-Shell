@@ -8,12 +8,8 @@ t_ast_node	*parser_redir(t_token **current)
 	if (!current || !(*current))
 		return (NULL);
 	left = parser_paren(current);
-	if (!(*current)->type)
-	{
-		return (NULL);
-	}
-	if (!left)
-		exit(EXIT_FAILURE);// TODO : exit clean must be a file | checking file
+	if (!current || !(*current))
+		return (left);
 	while (current && is_redirection(*current))
 	{
 		redir_node = create_node(NODE_REDIR);

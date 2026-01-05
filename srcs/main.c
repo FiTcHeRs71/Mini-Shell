@@ -8,12 +8,13 @@ int main(int argc, char **argv, char **envp)
 	char	*line;
 	t_shell	shell;
 	t_token	*token_list;
+	t_ast_node *tree;
 
-	token_list = NULL;
 	ft_memset(&shell, 0, sizeof(shell));
 	init_shell(&shell, envp);
 	while (true)
 	{
+		token_list = NULL;
 		line = readline("Minishell > ");
 		if(!line) // crtl - D
 		{
@@ -25,13 +26,9 @@ int main(int argc, char **argv, char **envp)
 		if(line)
 		{
 			tokenisation(&token_list, line);
-			while (token_list)
-			{
-				printf("new token value is : %s\n", token_list->value);
-				token_list = token_list->next;
-			}
-			ft_printf("check\n");
-			parse(token_list);
+			tree = parse(token_list);
+			if (tree)
+				print_ast(tree, 0);
 			ft_printf("check\n");
 		}
 	}

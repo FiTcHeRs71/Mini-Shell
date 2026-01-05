@@ -67,3 +67,4 @@ bool	is_pipe(t_token *token);
 bool	is_operator(t_token *token);
 bool	is_flow_operator(t_token *token);
 void	advance_token(t_token **current);
+void	print_ast(t_ast_node *node, int depth);
