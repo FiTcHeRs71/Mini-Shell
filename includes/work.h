@@ -1,24 +1,35 @@
 
 #include"minishell.h"
 
-typedef enum e_token_type {
-    TOKEN_WORD,      // Commande ou argument
-    TOKEN_PIPE,      // |
-    TOKEN_REDIR_IN,  // 
-    TOKEN_REDIR_OUT, // >
-    TOKEN_APPEND,    // >>
-    TOKEN_HEREDOC,   // 
-	TOKEN_OR,
-	TOKEN_AND,
-	TOKEN_LPAREN,
-	TOKEN_RPAREN,
-} t_token_type;
+typedef enum e_token_type
+{
+	TOKEN_WORD, // cmd, args or filename
+	TOKEN_PIPE, // |
+	TOKEN_REDIR_IN, // >
+	TOKEN_REDIR_OUT, // <
+	TOKEN_APPEND, // >>
+	TOKEN_HEREDOC, // <<
+	TOKEN_AND, // &&
+	TOKEN_OR, // ||
+	TOKEN_LPAREN, // (
+	TOKEN_RPAREN, // )
+}	t_token_type;
 
-typedef struct s_token {
-    t_token_type     type;
-    char             *value;
-    struct s_token   *next;
-} t_token;
+typedef enum e_quote_type
+{
+	NO_QUOTE,
+	SINGLE_QUOTE, // '
+	DOUBLE_QUOTE, // "
+}	t_quote_type;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	t_quote_type	quote;
+	char			*value;
+	bool			expand;
+	struct s_token	*next;
+}	t_token;
 
 typedef enum	e_node_type
 {
