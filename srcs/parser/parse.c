@@ -3,8 +3,10 @@
 
 void	last_token_check(t_token *last, int paren_balance, t_token *prev_token)
 {
-	if (last->type == TOKEN_PIPE && prev_token->type == TOKEN_WORD)
-		return ;
+	if (!last)
+		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
+	 /*if (last->type == TOKEN_PIPE && prev_token->type == TOKEN_WORD)
+		return ;*/ //TODO : A check avec le L
 	if (is_flow_operator(last) || is_redirection(last))
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
 	if (paren_balance != 0)
@@ -92,8 +94,12 @@ t_ast_node	*parse(t_token *token)
 	validate_syntaxe(token);
 	current = token;
 	ast = parser_or(&current);
+	if (! ast)
+	{
+		return (NULL);
+	}
 	if (current != NULL)
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
-	ft_printf("check fin ast \n");
+	ft_printf("check fin ast \n"); // TODO : A enlever 
 	return (ast);
 }

@@ -50,6 +50,7 @@ t_ast_node	*parser_pipe(t_token **current);
 t_ast_node	*parser_redir(t_token **current);
 t_ast_node	*parser_or(t_token **current);
 t_ast_node	*parser_and(t_token **current);
+t_ast_node *parser_paren(t_token **current);
 bool	is_redirection(t_token *token);
 bool	is_pipe(t_token *token);
 bool	is_operator(t_token *token);
