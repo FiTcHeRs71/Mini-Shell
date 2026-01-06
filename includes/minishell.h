@@ -6,6 +6,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "work.h"
+# include "lex.h"
 
 /*========================== env ==========================*/
 /* env_init.c */

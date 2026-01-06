@@ -18,9 +18,8 @@ int	tokenize_double_quotes(t_token **token, t_token *new_tok, char *line, int i)
 			buffer[buf_i++] = c;
 			i++;
 		}
-		// if (line[i] != '"')
+		// if (line[i] != '"') // TODO : no end quote error
 		// 	ft_error();
-		buffer[buf_i] = '\0';
 		tokenize(token, new_tok, buffer);
 	}
 	free(buffer);
@@ -35,7 +34,7 @@ int	tokenize_single_quotes(t_token **token, t_token *new_tok, char *line, int i)
 
 	buf_i = 0;
 	buffer = ft_calloc(find_word_length(new_tok, line, i) + 1, sizeof(char));
-	// if (!buffer)
+	// if (!buffer) // TODO : alloc error
 	// 	ft_error();
 	if (new_tok->quote != NO_QUOTE)
 	{
@@ -45,9 +44,8 @@ int	tokenize_single_quotes(t_token **token, t_token *new_tok, char *line, int i)
 			buffer[buf_i++] = c;
 			i++;
 		}
-		// if (line[i] != '\'')
+		// if (line[i] != '\'') // TODO : no end quote error
 		// 	ft_error();
-		buffer[buf_i] = '\0';
 		tokenize(token, new_tok, buffer);
 	}
 	free(buffer);
@@ -86,7 +84,6 @@ int	tokenize_no_quotes(t_token **token, t_token *new_tok, char *line, int i)
 		buffer[buf_i++] = c;
 		i++;
 	}
-	buffer[buf_i] = '\0';
 	tokenize(token, new_tok, buffer);
 	i -= 1;
 	free(buffer);

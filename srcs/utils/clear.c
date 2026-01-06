@@ -37,7 +37,7 @@ void	free_token(t_token *token)
 	}
 	while (token)
 	{
-		temp = token;
+		temp = token->next;
 		if (token && token->value)
 		{
 			free(token->value);
