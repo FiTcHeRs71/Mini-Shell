@@ -5,7 +5,6 @@
 # include "minishell_struct.h"
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "lex.h"
 
 /*========================== env ==========================*/
 /* env_init.c */
@@ -40,7 +39,7 @@ int		find_word_length(t_token *new_tok, char *line, int i);
 
 
 /* clear.c */
-void clean_before_exit(t_shell *shell);
+
 
 
 
