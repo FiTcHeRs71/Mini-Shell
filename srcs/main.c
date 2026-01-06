@@ -1,19 +1,24 @@
 
 #include "../includes/minishell.h"
 
+static void	reset_var(t_shell *shell, int argc, char **argv)
+{
+	(void)argc;
+	(void)argv;
+	shell->tree_ast = NULL;
+	shell->token_list = NULL;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_shell		shell;
 
-	(void)argc;
-	(void)argv;
 	ft_memset(&shell, 0, sizeof(t_shell));
 	init_shell(&shell, envp);
 	while (true)
 	{
-		shell.token_list = NULL;
-		shell.tree_ast = NULL;
+		reset_var(&shell, argc, argv);
 		line = readline("Minishell > ");
 		if (!line)
 			break ;
