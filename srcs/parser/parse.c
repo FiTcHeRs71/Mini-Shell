@@ -91,7 +91,6 @@ t_ast_node	*parse(t_token *token)
 		return (NULL);
 	}
 	validate_syntaxe(token);
-	ft_printf("Syntax Valid\n");
 	current = token;
 	ast = parser_or(&current);
 	if (!ast)
