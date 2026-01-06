@@ -1,35 +1,6 @@
 
 #include "../../includes/minishell.h"
 
-void	last_token_check(t_token *last, int paren_balance)
-		// t_token *prev_token
-{
-	if (!last)
-		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
-	/*if (last->type == TOKEN_PIPE && prev_token->type == TOKEN_WORD)
-		return ;*/ //TODO : A check avec le L
-	if (is_flow_operator(last) || is_redirection(last))
-		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
-	if (paren_balance != 0)
-		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
-}
-
-int	check_token_lparen(t_token *token, int paren_balance)
-{
-	paren_balance++;
-	if (!token->next)
-		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
-	return (paren_balance);
-}
-
-int	check_token_rparen(int paren_balance)
-{
-	paren_balance--;
-	if (paren_balance < 0)
-		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
-	return (paren_balance);
-}
-
 void	check_token_pipe(t_token *token, t_token *prev_token)
 {
 	if (is_flow_operator(prev_token))

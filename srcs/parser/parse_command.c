@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-int	count_arg(t_token *current)
+static int	count_arg(t_token *current)
 {
 	int	size;
 
