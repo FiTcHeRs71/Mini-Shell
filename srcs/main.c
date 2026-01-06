@@ -28,8 +28,8 @@ int main(int argc, char **argv, char **envp)
 			tree = parse(token_list);
 			print_ast(tree, 0);
 		}
-		//free_ast(tree);
-		//free_token(token_list);
+		free_ast(tree);
+		free_token(token_list);
 	}
 	rl_clear_history();
 	return (0);
