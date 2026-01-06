@@ -5,6 +5,7 @@
 # include "minishell_struct.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "lex.h"
 
 /*========================== env ==========================*/
 /* env_init.c */
@@ -17,12 +18,13 @@ void	init_shell(t_shell *shell, char **envp);
 /*========================== lexer ==========================*/
 /* tokenize.c */
 void	tokenisation(t_token **token, char *line);
-void	tokenize(t_token **token, t_token *new, char *buffer);
 
 /* tokenize_utils.c*/
 t_token	*new_token();
-void	add_back_token(t_token **token, t_token *new);
 t_token	*last_token(t_token *token);
+void	add_back_token(t_token **token, t_token *new);
+void	tokenize(t_token **token, t_token *new, char *buffer);
+int		find_word_length(t_token *new_tok, char *line, int i);
 
 /*========================== parser ==========================*/
 

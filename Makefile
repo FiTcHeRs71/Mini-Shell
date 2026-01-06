@@ -12,7 +12,7 @@ SRCS_MAIN = $(addprefix $(SRCDIR)/, \
 	main.c)
 
 SRCS_LEXER = $(addprefix $(SRCDIR)/lexer/, \
-	tokenize.c tokenize_utils.c)
+	tokenize.c tokenize_utils.c redirect_tokenisation.c)
 
 SRCS_PARSER = $(addprefix $(SRCDIR)/parser/, \
 	parse.c parse_command.c parse_pipe.c parse_redir.c parse_utils.c \
