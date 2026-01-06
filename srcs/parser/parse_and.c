@@ -18,7 +18,7 @@ t_ast_node	*parser_and(t_token **current)
 		and_node->right = parser_pipe(current);
 		if (!and_node->right)
 		{
-			exit(EXIT_FAILURE);// TODO : exit clean
+			exit(EXIT_FAILURE); // TODO : exit clean
 		}
 		left = and_node;
 	}

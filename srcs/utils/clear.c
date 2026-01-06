@@ -61,7 +61,7 @@ void	free_ast(t_ast_node *tree)
 	if (tree && tree->args)
 	{
 		i = 0;
-		while(tree->args[i])
+		while (tree->args[i])
 		{
 			free(tree->args[i]);
 			i++;
@@ -84,11 +84,11 @@ void	clean_up_fds(t_shell *shell)
 	}
 	if (shell->stdin_back_up > 0)
 	{
-		close (shell->stdin_back_up);
+		close(shell->stdin_back_up);
 	}
 	if (shell->stdout_back_up > 0)
 	{
-		close (shell->stdout_back_up);
+		close(shell->stdout_back_up);
 	}
 }
 

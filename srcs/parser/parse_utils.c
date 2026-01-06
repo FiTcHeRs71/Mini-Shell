@@ -16,7 +16,7 @@ t_ast_node	*create_node(t_node_type type)
 	new_node = ft_calloc(1, sizeof(t_ast_node));
 	if (!new_node)
 	{
-		exit(EXIT_FAILURE);// TODO : exit clean must be a file | checking file
+		exit(EXIT_FAILURE); // TODO : exit clean must be a file | checking file
 	}
 	new_node->type = type;
 	return (new_node);
@@ -28,10 +28,8 @@ bool	is_redirection(t_token *token)
 	{
 		return (false);
 	}
-	if (token->type == TOKEN_REDIR_IN
-		|| token->type == TOKEN_REDIR_OUT
-		|| token->type == TOKEN_APPEND
-		|| token->type == TOKEN_HEREDOC)
+	if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT
+		|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
 	{
 		return (true);
 	}
@@ -57,8 +55,7 @@ bool	is_flow_operator(t_token *token)
 	{
 		return (false);
 	}
-	if (token && (token->type == TOKEN_PIPE
-			|| token->type == TOKEN_AND
+	if (token && (token->type == TOKEN_PIPE || token->type == TOKEN_AND
 			|| token->type == TOKEN_OR))
 	{
 		return (true);
@@ -72,12 +69,9 @@ bool	is_operator(t_token *token)
 	{
 		return (false);
 	}
-	if (token->type == TOKEN_PIPE
-		|| token->type == TOKEN_AND
-		|| token->type == TOKEN_OR
-		|| token->type == TOKEN_REDIR_IN
-		|| token->type == TOKEN_REDIR_OUT
-		|| token->type == TOKEN_APPEND
+	if (token->type == TOKEN_PIPE || token->type == TOKEN_AND
+		|| token->type == TOKEN_OR || token->type == TOKEN_REDIR_IN
+		|| token->type == TOKEN_REDIR_OUT || token->type == TOKEN_APPEND
 		|| token->type == TOKEN_HEREDOC)
 	{
 		return (true);

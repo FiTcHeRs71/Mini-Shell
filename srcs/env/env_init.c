@@ -39,13 +39,13 @@ static void	add_env_variable(t_env **env, char *envp)
 	new = ft_calloc(1, sizeof(t_env));
 	if (!new)
 	{
-		exit(EXIT_FAILURE); //TODO :  error manage + free
+		exit(EXIT_FAILURE); // TODO :  error manage + free
 	}
 	finder = ft_strchr(envp, '=');
 	if (!finder)
 	{
 		free(new);
-		return;
+		return ;
 	}
 	new->key = ft_substr(envp, 0, finder - envp);
 	new->value = ft_strdup(finder + 1);
@@ -59,7 +59,7 @@ void	init_shell(t_shell *shell, char **envp)
 
 	i = 0;
 	envp_list = NULL;
-	while(envp[i])
+	while (envp[i])
 	{
 		add_env_variable(&envp_list, envp[i]);
 		i++;
@@ -67,4 +67,3 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->env = ft_calloc(1, sizeof(t_env *));
 	*(shell->env) = envp_list;
 }
-

@@ -1,7 +1,8 @@
 
 #include "../../includes/minishell.h"
 
-void	last_token_check(t_token *last, int paren_balance) //t_token *prev_token
+void	last_token_check(t_token *last, int paren_balance)
+		// t_token *prev_token
 {
 	if (!last)
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
@@ -59,7 +60,7 @@ void	validate_syntaxe(t_token *token)
 	int		paren_balance;
 
 	if (!token || is_flow_operator(token)) // TODO : ERROR MESSAGE, les split ?
-		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
+		exit(EXIT_FAILURE);                // TODO : ERROR MESSAGE
 	prev_token = NULL;
 	paren_balance = 0;
 	while (token)
