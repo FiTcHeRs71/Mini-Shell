@@ -27,6 +27,7 @@ void	free_env_list(t_env *env)
 		env = temp;
 	}
 }
+
 void	free_token(t_token *token)
 {
 	t_token	*temp;
@@ -76,6 +77,7 @@ void	free_ast(t_ast_node *tree)
 	free_ast(tree->left);
 	free(tree);
 }
+
 void	clean_up_fds(t_shell *shell)
 {
 	if (!shell)
