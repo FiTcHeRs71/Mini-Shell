@@ -15,7 +15,6 @@ int	main(int argc, char **argv, char **envp)
 	while (true)
 	{
 		token_list = NULL;
-		token_list = NULL;
 		line = readline("Minishell > ");
 		if (!line)
 		{
@@ -26,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 		if (line)
 		{
 			tokenisation(&token_list, line);
-			tree = parse(token_list);
+			tree = parse(token_list, &shell);
 		}
 		free_ast(tree);
 		free_token(token_list);

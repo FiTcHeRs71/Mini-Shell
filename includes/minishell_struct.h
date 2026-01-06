@@ -65,6 +65,7 @@ typedef struct	s_ast_node
 typedef struct	s_shell
 {
 	t_env	**env;
+	bool	syntax_flag;
 	int		stdin_back_up;
 	int		stdout_back_up;
 }				t_shell;

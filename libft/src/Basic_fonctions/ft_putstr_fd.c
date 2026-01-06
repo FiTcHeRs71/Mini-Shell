@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdcurot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/06 14:34:23 by fdcurot           #+#    #+#             */
-/*   Updated: 2025/10/07 10:56:53 by fdcurot          ###   ########.fr       */
+/*   Created: 2026/01/06 16:40:22 by fducrot           #+#    #+#             */
+/*   Updated: 2026/01/06 16:40:38 by fducrot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@ void	ft_putstr_fd(char *s, int fd)
 {
 	size_t	i;
 
+	if (!s)
+	{
+		return ;
+	}
 	i = 0;
 	while (s[i])
 	{

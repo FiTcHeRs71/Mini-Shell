@@ -61,17 +61,18 @@ bool		is_operator(t_token *token);
 
 /* parse_utils2.c */
 t_ast_node	*create_node(t_node_type type);
-void		advance_token(t_token **current);
-int			check_token_lparen(t_token *token, int paren_balance);
-int			check_token_rparen(int paren_balance);
-void		last_token_check(t_token *last, int paren_balance);
+void	advance_token(t_token **current);
+void	last_token_check(t_token *last, int paren_balance, t_token *prev_token, t_shell *shell);
+int	check_token_rparen(int paren_balance, t_shell *shell);
+int	check_token_lparen(t_token *token, int paren_balance, t_shell *shell);
 
 /* parse.c */
-t_ast_node	*parse(t_token *token);
-void	validate_syntaxe(t_token *token);
-void	check_token_and_or(t_token *token, t_token *prev_token);
-void	check_token_redir(t_token *token);
-void	check_token_pipe(t_token *token, t_token *prev_token);
+t_ast_node	*parse(t_token *token, t_shell *shell);
+void	validate_syntaxe(t_token *token, t_shell *shell);
+void	check_token_and_or(t_token *token, t_token *prev_token, t_shell *shell);
+void	check_token_redir(t_token *token, t_shell *shell);
+void	check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
+
 
 /*========================== signal ==========================*/
 
@@ -79,7 +80,7 @@ void	check_token_pipe(t_token *token, t_token *prev_token);
 
 /*========================== utils ==========================*/
 /* error.c */
-
+void		syntaxe_error(char	*token);
 
 
 /* clear.c */

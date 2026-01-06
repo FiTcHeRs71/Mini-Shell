@@ -22,31 +22,43 @@ t_ast_node	*create_node(t_node_type type)
 	return (new_node);
 }
 
-int	check_token_lparen(t_token *token, int paren_balance)
+int	check_token_lparen(t_token *token, int paren_balance, t_shell *shell)
 {
 	paren_balance++;
 	if (!token->next)
-		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
+	{
+		shell->syntax_flag = true;
+	}
 	return (paren_balance);
 }
 
-int	check_token_rparen(int paren_balance)
+int	check_token_rparen(int paren_balance, t_shell *shell)
 {
 	paren_balance--;
 	if (paren_balance < 0)
-		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
+	{
+		shell->syntax_flag = true;
+	}
 	return (paren_balance);
 }
 
-void	last_token_check(t_token *last, int paren_balance)
-		// t_token *prev_token
+void	last_token_check(t_token *last, int paren_balance, t_token *prev_token, t_shell *shell)
 {
 	if (!last)
-		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
-	/*if (last->type == TOKEN_PIPE && prev_token->type == TOKEN_WORD)
-		return ;*/ //TODO : A check avec le L
+		return ;
+	if (last->type == TOKEN_PIPE && prev_token->type == TOKEN_WORD)
+	{
+		shell->syntax_flag = true;
+		return ;
+	}
 	if (is_flow_operator(last) || is_redirection(last))
-		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
+	{
+		shell->syntax_flag = true;
+		return ;
+	}
 	if (paren_balance != 0)
-		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
+	{
+		shell->syntax_flag = true;
+		return ;
+	}
 }
