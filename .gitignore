@@ -418,3 +418,5 @@ FodyWeavers.xsd
 *.msp
 *.o
 main.c
+readline.supp
+valgrind.log
