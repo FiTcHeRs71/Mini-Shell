@@ -14,6 +14,7 @@ int main(int argc, char **argv, char **envp)
 	init_shell(&shell, envp);
 	while (true)
 	{
+		token_list = NULL;
 		line = readline("Minishell > ");
 		if(!line)
 		{
