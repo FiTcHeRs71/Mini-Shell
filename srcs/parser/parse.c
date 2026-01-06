@@ -93,7 +93,7 @@ t_ast_node	*parse(t_token *token)
 	ft_printf("Syntax Valid\n");
 	current = token;
 	ast = parser_or(&current);
-	if (! ast)
+	if (!ast)
 	{
 		return (NULL);
 	}

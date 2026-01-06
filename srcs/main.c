@@ -8,6 +8,7 @@ int main(int argc, char **argv, char **envp)
 	char	*line;
 	t_shell	shell;
 	t_token	*token_list;
+	t_ast_node *tree;
 
 	ft_memset(&shell, 0, sizeof(shell));
 	init_shell(&shell, envp);
@@ -27,10 +28,12 @@ int main(int argc, char **argv, char **envp)
 			tokenisation(&token_list, line);
 			while (token_list)
 			{
-				printf("new token value is : %s, %d, %d\n", token_list->value, token_list->type, token_list->quote);
+				printf("new token value is : %s\n", token_list->value);
 				token_list = token_list->next;
 			}
+			ft_printf("check\n");
 			parse(token_list);
+			ft_printf("check\n");
 		}
 	}
 	rl_clear_history();

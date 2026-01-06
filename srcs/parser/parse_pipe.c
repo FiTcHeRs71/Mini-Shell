@@ -8,9 +8,9 @@ t_ast_node	*parser_pipe(t_token **current)
 	if (!current || !(*current))
 		return (NULL);
 	left = parser_redir(current);
-	if (!(*current)->type)
+	if (!current || !(*current))
 	{
-		return (NULL);
+		return (left);
 	}
 	if (current && (*current)->type == TOKEN_PIPE)
 	{

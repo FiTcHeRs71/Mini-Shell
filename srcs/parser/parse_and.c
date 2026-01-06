@@ -8,10 +8,8 @@ t_ast_node	*parser_and(t_token **current)
 	if (!current || !(*current))
 		return (NULL);
 	left = parser_pipe(current);
-	if (!(*current)->type)
-	{
-		return (NULL);
-	}
+	if (!current || !(*current))
+		return (left);
 	while (*current && (*current)->type == TOKEN_AND)
 	{
 		and_node = create_node(NODE_AND);
