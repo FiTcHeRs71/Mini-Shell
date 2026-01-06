@@ -26,14 +26,8 @@ int main(int argc, char **argv, char **envp)
 		if(line)
 		{
 			tokenisation(&token_list, line);
-			while (token_list)
-			{
-				printf("new token value is : %s\n", token_list->value);
-				token_list = token_list->next;
-			}
-			ft_printf("check\n");
-			parse(token_list);
-			ft_printf("check\n");
+			tree = parse(token_list);
+			print_ast(tree, 0);
 		}
 	}
 	rl_clear_history();

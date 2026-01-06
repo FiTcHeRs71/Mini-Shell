@@ -99,6 +99,5 @@ t_ast_node	*parse(t_token *token)
 	}
 	if (current != NULL)
 		exit(EXIT_FAILURE); // TODO : ERROR MESSAGE
-	ft_printf("check fin ast \n"); // TODO : A enlever 
 	return (ast);
 }
