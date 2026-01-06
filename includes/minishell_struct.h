@@ -1,13 +1,10 @@
 #ifndef MINISHELL_STRUCT_H
 # define MINISHELL_STRUCT_H
 
-typedef struct	s_env //TODO : ajouter une valeur qui save le debut ?
+typedef enum e_error
 {
-	char			*key;
-	char			*value;
-	struct	s_env	*prev;
-	struct	s_env	*next;
-}				t_env;
+	MALLOC,
+}t_error;
 
 typedef enum e_token_type
 {
@@ -29,6 +26,14 @@ typedef enum e_quote_type
 	SINGLE_QUOTE, // '
 	DOUBLE_QUOTE, // "
 }	t_quote_type;
+
+typedef struct	s_env //TODO : ajouter une valeur qui save le debut ?
+{
+	char			*key;
+	char			*value;
+	struct	s_env	*prev;
+	struct	s_env	*next;
+}				t_env;
 
 typedef struct s_token
 {
@@ -64,7 +69,9 @@ typedef struct	s_ast_node
 
 typedef struct	s_shell
 {
-	t_env	**env;
+	t_env	*env;
+	t_token *token_list;
+	t_ast_node *tree_ast;
 	bool	syntax_flag;
 	int		stdin_back_up;
 	int		stdout_back_up;

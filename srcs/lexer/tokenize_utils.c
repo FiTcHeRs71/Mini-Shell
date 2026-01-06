@@ -34,13 +34,13 @@ int	find_word_length(t_token *new_tok, char *line, int i)
 	}
 }
 
-t_token	*new_token()
+t_token	*new_token(t_shell *shell)
 {
 	t_token	*new_ele;
 
 	new_ele = ft_calloc(1, sizeof(t_token));
 	if (!new_ele)
-		return (NULL);
+		ft_error(shell, MALLOC);
 	return (new_ele);
 }
 

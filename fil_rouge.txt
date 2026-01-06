@@ -271,3 +271,8 @@ typedef struct s_token {
     char             *value;
     struct s_token   *next;
 } t_token;
+
+a checker c1r3s4% <><
+zsh: parse error near `<'
+c1r3s4% 
+

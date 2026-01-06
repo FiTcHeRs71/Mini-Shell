@@ -55,13 +55,13 @@ void	free_ast(t_ast_node *tree)
 {
 	int	i;
 
+	i = 0;
 	if (!tree)
 	{
 		return ;
 	}
 	if (tree && tree->args)
 	{
-		i = 0;
 		while (tree->args[i])
 		{
 			free(tree->args[i]);
@@ -94,9 +94,8 @@ void	clean_up_fds(t_shell *shell)
 	}
 }
 
-void	clean_before_exit(t_shell *shell)
+void	clean_up_loop(t_shell *shell)
 {
-	clean_up_fds(shell);
-	free_env_list(*(shell->env));
-	free(shell->env);
+	free_ast(shell->tree_ast);
+	free_token(shell->token_list);
 }

@@ -82,10 +82,10 @@ t_ast_node	*parse(t_token *token, t_shell *shell)
 	validate_syntaxe(token, shell);
 	if(shell->syntax_flag == true)
 	{
-		syntaxe_error("Error");
+		syntaxe_error();
 		return (NULL);
 	}
-	ast = parser_or(&token);
+	ast = parser_or(shell, &token);
 	if (!ast)
 	{
 		return (NULL);

@@ -9,14 +9,14 @@ void	advance_token(t_token **current)
 	}
 }
 
-t_ast_node	*create_node(t_node_type type)
+t_ast_node	*create_node(t_shell *shell, t_node_type type)
 {
 	t_ast_node	*new_node;
 
 	new_node = ft_calloc(1, sizeof(t_ast_node));
 	if (!new_node)
 	{
-		exit(EXIT_FAILURE); // TODO : exit clean must be a file | checking file
+		ft_error(shell, MALLOC);
 	}
 	new_node->type = type;
 	return (new_node);

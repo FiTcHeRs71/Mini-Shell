@@ -5,8 +5,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_shell		shell;
-	t_token		*token_list;
-	t_ast_node	*tree;
 
 	(void)argc;
 	(void)argv;
@@ -14,22 +12,20 @@ int	main(int argc, char **argv, char **envp)
 	init_shell(&shell, envp);
 	while (true)
 	{
-		token_list = NULL;
+		shell.token_list = NULL;
+		shell.tree_ast = NULL;
 		line = readline("Minishell > ");
 		if (!line)
-		{
-			clean_before_exit(&shell);
 			break ;
-		}
 		add_history(line);
 		if (line)
 		{
-			tokenisation(&token_list, line);
-			tree = parse(token_list, &shell);
+			tokenisation(&shell, &shell.token_list, line);
+			shell.tree_ast = parse(shell.token_list, &shell);
 		}
-		free_ast(tree);
-		free_token(token_list);
+		clean_up_loop(&shell);
 	}
+	clean_before_exit(&shell);
 	rl_clear_history();
 	return (0);
 }
