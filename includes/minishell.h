@@ -5,6 +5,7 @@
 # include "minishell_struct.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "work.h"
 
 /*========================== env ==========================*/
 /* env_init.c */
