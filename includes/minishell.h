@@ -5,6 +5,7 @@
 # include "minishell_struct.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "work.h"
 
 /*========================== env ==========================*/
 /* env_init.c */
@@ -38,7 +39,7 @@ t_token	*last_token(t_token *token);
 
 
 /* clear.c */
-void clean_before_exit(t_shell *shell);
+
 
 
 
