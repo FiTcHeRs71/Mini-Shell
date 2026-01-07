@@ -48,7 +48,7 @@ static int	set_quote_type(t_token *new_tok, char *line, int i)
 	return (1);
 }
 
-void	tokenisation(t_shell *shell, t_token **token, char *line)
+void	tokenisation(t_shell *shell, char *line)
 {
 	t_token	*new_tok;
 	int		i;
@@ -62,7 +62,7 @@ void	tokenisation(t_shell *shell, t_token **token, char *line)
 		if (!line[i])
 			break ;
 		i += set_quote_type(new_tok, line, i);
-		i = redirect_all(shell, token, new_tok, line, i);
+		i = redirect_all(shell, new_tok, line, i);
 		i++;
 	}
 }
