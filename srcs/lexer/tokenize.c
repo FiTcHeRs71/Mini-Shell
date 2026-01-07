@@ -3,7 +3,7 @@
 void	tokenize(t_token **token, t_token *new, char *buffer)
 {
 	new->value = ft_strdup(buffer);
-	if (ft_isalnum(*buffer))
+	if (ft_isprint(*buffer))
 		new->type = TOKEN_WORD;
 	else if (!ft_strncmp(buffer, "|", 2))
 		new->type = TOKEN_PIPE;
@@ -23,8 +23,8 @@ void	tokenize(t_token **token, t_token *new, char *buffer)
 		new->type = TOKEN_LPAREN;
 	else if (!ft_strncmp(buffer, ")", 2))
 		new->type = TOKEN_RPAREN;
-	else // TODO : checker avec L si syntaxe error, quel msg ? voir fil_rouge .txt ERR.1
-		syntaxe_error(" A DEFE");
+	else
+		syntaxe_error("");
 	add_back_token(token, new);
 }
 
@@ -65,4 +65,5 @@ void	tokenisation(t_shell *shell, char *line)
 		i = redirect_all(shell, new_tok, line, i);
 		i++;
 	}
+	expansion(shell);
 }
