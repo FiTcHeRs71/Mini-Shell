@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	tokenize_double_quotes(t_shell *shell, t_token **token, t_token *new_tok, char *line, int i)
+int	tokenize_double_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 {
 	char	*buffer;
 	char	c;
@@ -20,13 +20,13 @@ int	tokenize_double_quotes(t_shell *shell, t_token **token, t_token *new_tok, ch
 		}
 		if (line[i] != '"') // TODO : checker avec l si syntaxe error
 		 	syntaxe_error();
-		tokenize(token, new_tok, buffer);
+		tokenize(&shell->token_list, new_tok, buffer);
 	}
 	free(buffer);
 	return (i);
 }
 
-int	tokenize_single_quotes(t_shell *shell, t_token **token, t_token *new_tok, char *line, int i)
+int	tokenize_single_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 {
 	char	*buffer;
 	char	c;
@@ -46,13 +46,13 @@ int	tokenize_single_quotes(t_shell *shell, t_token **token, t_token *new_tok, ch
 		}
 		if (line[i] != '\'') // TODO : no end quote error
 			syntaxe_error();
-		tokenize(token, new_tok, buffer);
+		tokenize(&shell->token_list, new_tok, buffer);
 	}
 	free(buffer);
 	return (i);
 }
 
-void	tokenize_parenthesis(t_shell *shell, t_token **token, t_token *new_tok, char c)
+void	tokenize_parenthesis(t_shell *shell, t_token *new_tok, char c)
 {
 	char	*buffer;
 	int		buf_i;
@@ -62,11 +62,11 @@ void	tokenize_parenthesis(t_shell *shell, t_token **token, t_token *new_tok, cha
 	 	ft_error(shell, MALLOC);
 	buf_i = 0;
 	buffer[buf_i] = c;
-	tokenize(token, new_tok, buffer);
+	tokenize(&shell->token_list, new_tok, buffer);
 	free(buffer);
 }
 
-int	tokenize_no_quotes(t_shell *shell, t_token **token, t_token *new_tok, char *line, int i)
+int	tokenize_no_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 {
 	char	*buffer;
 	char	c;
@@ -86,29 +86,29 @@ int	tokenize_no_quotes(t_shell *shell, t_token **token, t_token *new_tok, char *
 		buffer[buf_i++] = c;
 		i++;
 	}
-	tokenize(token, new_tok, buffer);
+	tokenize(&shell->token_list, new_tok, buffer);
 	i -= 1;
 	free(buffer);
 	return (i);
 }
 
-int	redirect_all(t_shell *shell, t_token **token, t_token *new_tok, char *line, int i)
+int	redirect_all(t_shell *shell, t_token *new_tok, char *line, int i)
 {
 	if (new_tok->quote == SINGLE_QUOTE)
 	{
-		i = tokenize_single_quotes(shell, token, new_tok, line, i);
+		i = tokenize_single_quotes(shell, new_tok, line, i);
 	}
 	else if (new_tok->quote == DOUBLE_QUOTE)
 	{
-		i = tokenize_double_quotes(shell, token, new_tok, line, i);
+		i = tokenize_double_quotes(shell, new_tok, line, i);
 	}
 	else if (line[i] == '(' || line[i] == ')')
 	{
-		tokenize_parenthesis(shell, token, new_tok, line[i]);
+		tokenize_parenthesis(shell, new_tok, line[i]);
 	}
 	else if (new_tok->quote == NO_QUOTE && line[i] != ')')
 	{
-		i = tokenize_no_quotes(shell, token, new_tok, line, i);
+		i = tokenize_no_quotes(shell, new_tok, line, i);
 	}
 	return (i);
 }

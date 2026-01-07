@@ -19,7 +19,7 @@ void	init_shell(t_shell *shell, char **envp);
 /*========================== lexer ==========================*/
 /* tokenize.c */
 void		tokenize(t_token **token, t_token *new, char *buffer);
-void		tokenisation(t_shell *shell, t_token **token, char *line);
+void		tokenisation(t_shell *shell, char *line);
 
 /* tokenize_utils.c*/
 t_token		*new_token(t_shell *shell);
@@ -28,11 +28,11 @@ void		add_back_token(t_token **token, t_token *new);
 int			find_word_length(t_token *new_tok, char *line, int i);
 
 /* redirect_tokenisation.c */
-int	tokenize_double_quotes(t_shell *shell, t_token **token, t_token *new_tok, char *line, int i);
-int	tokenize_single_quotes(t_shell *shell, t_token **token, t_token *new_tok, char *line, int i);
-void	tokenize_parenthesis(t_shell *shell, t_token **token, t_token *new_tok, char c);
-int	tokenize_no_quotes(t_shell *shell, t_token **token, t_token *new_tok, char *line, int i);
-int	redirect_all(t_shell *shell, t_token **token, t_token *new_tok, char *line, int i);
+void		tokenize_parenthesis(t_shell *shell, t_token *new_tok, char c);
+int			tokenize_double_quotes(t_shell *shell, t_token *new_tok, char *line, int i);
+int			tokenize_single_quotes(t_shell *shell, t_token *new_tok, char *line, int i);
+int			tokenize_no_quotes(t_shell *shell, t_token *new_tok, char *line, int i);
+int			redirect_all(t_shell *shell, t_token *new_tok, char *line, int i);
 
 /*========================== parser ==========================*/
 /* parser_and.c */
