@@ -18,8 +18,8 @@ int	tokenize_double_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 			buffer[buf_i++] = c;
 			i++;
 		}
-		if (line[i] != '"') // TODO : checker avec l si syntaxe error
-			syntaxe_error("A DEF");
+		if (line[i] != '"') // TODO : checker avec l si syntaxe error, quel msg ?
+			syntaxe_error("");
 		tokenize(&shell->token_list, new_tok, buffer);
 	}
 	free(buffer);
@@ -44,7 +44,7 @@ int	tokenize_single_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 			buffer[buf_i++] = c;
 			i++;
 		}
-		if (line[i] != '\'') // TODO : checker avec l si syntaxe error
+		if (line[i] != '\'') // TODO : checker avec l si syntaxe error, quel msg ?
 			syntaxe_error("A DEF");
 		tokenize(&shell->token_list, new_tok, buffer);
 	}
@@ -96,18 +96,22 @@ int	redirect_all(t_shell *shell, t_token *new_tok, char *line, int i)
 {
 	if (new_tok->quote == SINGLE_QUOTE)
 	{
+		new_tok->expand = false;
 		i = tokenize_single_quotes(shell, new_tok, line, i);
 	}
 	else if (new_tok->quote == DOUBLE_QUOTE)
 	{
+		new_tok->expand = true;
 		i = tokenize_double_quotes(shell, new_tok, line, i);
 	}
 	else if (line[i] == '(' || line[i] == ')')
 	{
+		new_tok->expand = false;
 		tokenize_parenthesis(shell, new_tok, line[i]);
 	}
 	else if (new_tok->quote == NO_QUOTE && line[i] != ')')
 	{
+		new_tok->expand = true;
 		i = tokenize_no_quotes(shell, new_tok, line, i);
 	}
 	return (i);

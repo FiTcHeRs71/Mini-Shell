@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-static int	increment_len(char *line,  char c, int i)
+int	increment_len(char *line, char c, int i)
 {
 	int	len;
 

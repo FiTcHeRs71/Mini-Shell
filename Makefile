@@ -19,7 +19,7 @@ SRCS_PARSER = $(addprefix $(SRCDIR)/parser/, \
 	parse_and.c parse_or.c parse_paren.c parse_utils2.c)
 
 SRCS_EXPANDER = $(addprefix $(SRCDIR)/expander/, \
-	)
+	expand.c)
 
 SRCS_EXECUTOR = $(addprefix $(SRCDIR)/executor/, \
 	)
