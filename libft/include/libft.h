@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/27 10:43:43 by fducrot           #+#    #+#             */
-/*   Updated: 2025/12/27 10:43:48 by fducrot          ###   ########.ch       */
+/*   Created: 2026/01/07 09:13:58 by fducrot           #+#    #+#             */
+/*   Updated: 2026/01/07 09:13:58 by fducrot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include "ft_printf/ft_printf.h"
 # include "get_next_line/get_next_line.h"
 
-/* Fonction "IS"  */
+/* Fonction "IS" */
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);

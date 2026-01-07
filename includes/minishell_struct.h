@@ -8,23 +8,23 @@ typedef enum e_error
 
 typedef enum e_token_type
 {
-	TOKEN_WORD, // cmd, args or filename
-	TOKEN_PIPE, // |
-	TOKEN_REDIR_IN, // >
-	TOKEN_REDIR_OUT, // <
-	TOKEN_APPEND, // >>
-	TOKEN_HEREDOC, // <<
-	TOKEN_AND, // &&
-	TOKEN_OR, // ||
-	TOKEN_LPAREN, // (
-	TOKEN_RPAREN, // )
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_APPEND,
+	TOKEN_HEREDOC,
+	TOKEN_AND,
+	TOKEN_OR,
+	TOKEN_LPAREN,
+	TOKEN_RPAREN,
 }	t_token_type;
 
 typedef enum e_quote_type
 {
 	NO_QUOTE,
-	SINGLE_QUOTE, // '
-	DOUBLE_QUOTE, // "
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE,
 }	t_quote_type;
 
 typedef struct	s_env
@@ -57,12 +57,9 @@ typedef enum	e_node_type
 typedef struct	s_ast_node
 {
 	t_node_type			type;
-	//CMD
 	char				**args;
-	//PIPE | REDIR
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
-	//REDIR
 	char				*file;
 	t_token_type		redir_type;
 }				t_ast_node;
@@ -75,6 +72,7 @@ typedef struct	s_shell
 	bool	syntax_flag;
 	int		stdin_back_up;
 	int		stdout_back_up;
+	int		last_exit_status;
 }				t_shell;
 
 

@@ -12,7 +12,7 @@ void	ft_error(t_shell *shell, int error)
 	if (error == MALLOC)
 	{
 		ft_putstr_fd("Memory allocation failed\n", 2);
-		clean_before_exit(shell);
-		exit(EXIT_FAILURE);
 	}
+	clean_before_exit(shell);
+	exit(EXIT_FAILURE);
 }
