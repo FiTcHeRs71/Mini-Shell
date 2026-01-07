@@ -23,8 +23,8 @@ void	tokenize(t_token **token, t_token *new, char *buffer)
 		new->type = TOKEN_LPAREN;
 	else if (!ft_strncmp(buffer, ")", 2))
 		new->type = TOKEN_RPAREN;
-	// else // TODO : wrong agruments error
-	// 	ft_error();
+	else // TODO : checker avec L si syntaxe error, quel msg ? voir fil_rouge .txt ERR.1
+		syntaxe_error(" A DEFE");
 	add_back_token(token, new);
 }
 

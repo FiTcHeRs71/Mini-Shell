@@ -80,7 +80,7 @@ void	check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
 
 /*========================== utils ==========================*/
 /* error.c */
-void		syntaxe_error();
+void		syntaxe_error(char *msg);
 void	ft_error(t_shell *shell, int error);
 
 /* clear.c */

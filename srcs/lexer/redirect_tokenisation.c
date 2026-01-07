@@ -18,8 +18,8 @@ int	tokenize_double_quotes(t_shell *shell, t_token **token, t_token *new_tok, ch
 			buffer[buf_i++] = c;
 			i++;
 		}
-		if (line[i] != '"') // TODO : checker avec l si syntaxe error
-		 	syntaxe_error();
+		if (line[i] != '"') // TODO : checker avec l si syntaxe error, quel msg ?
+		 	syntaxe_error("A DEF");
 		tokenize(token, new_tok, buffer);
 	}
 	free(buffer);
@@ -44,8 +44,8 @@ int	tokenize_single_quotes(t_shell *shell, t_token **token, t_token *new_tok, ch
 			buffer[buf_i++] = c;
 			i++;
 		}
-		if (line[i] != '\'') // TODO : no end quote error
-			syntaxe_error();
+		if (line[i] != '\'') // TODO : checker avec l si syntaxe error, quel msg ?
+			syntaxe_error("A DEF");
 		tokenize(token, new_tok, buffer);
 	}
 	free(buffer);

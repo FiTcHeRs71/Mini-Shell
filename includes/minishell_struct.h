@@ -27,7 +27,7 @@ typedef enum e_quote_type
 	DOUBLE_QUOTE, // "
 }	t_quote_type;
 
-typedef struct	s_env //TODO : ajouter une valeur qui save le debut ?
+typedef struct	s_env
 {
 	char			*key;
 	char			*value;

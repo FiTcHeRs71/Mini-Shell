@@ -276,3 +276,8 @@ a checker c1r3s4% <><
 zsh: parse error near `<'
 c1r3s4% 
 
+ERR.1 
+Minishell > (ls && ls && ls | ls) && (grep a)
+Minishell : syntax error near unexpected token 
+ A DEFE
+Minishell > 

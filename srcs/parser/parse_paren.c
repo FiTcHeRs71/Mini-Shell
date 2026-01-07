@@ -12,7 +12,7 @@ t_ast_node	*parser_paren(t_shell *shell, t_token **current)
 		content = parser_or(shell, current);
 		if (!*current || (*current)->type != TOKEN_RPAREN)
 		{
-			exit(EXIT_FAILURE);// TODO : exit clean
+			syntaxe_error("Expected ')'"); // TODO : a confirmer
 		}
 		advance_token(current);
 		subsell = create_node(shell, NODE_SUBSHELL);

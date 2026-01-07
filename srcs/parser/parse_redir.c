@@ -16,10 +16,10 @@ t_ast_node	*parser_redir(t_shell *shell, t_token **current)
 		redir_node->redir_type = (*current)->type;
 		advance_token(current);
 		if (!*current || (*current)->type != TOKEN_WORD)
-			exit(EXIT_FAILURE);// TODO : exit clean must be a file | checking file
+			syntaxe_error("Must be a file after a redirect"); // TODO : a confirmer
 		redir_node->file = ft_strdup((*current)->value);
 		if (!redir_node->file)
-			exit(EXIT_FAILURE);// TODO : exit clean must be a file | checking file
+			ft_error(shell, MALLOC);
 		redir_node->left = left;
 		advance_token(current);
 		left = redir_node;
