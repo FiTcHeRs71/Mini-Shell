@@ -10,6 +10,8 @@
 # include "work.h"
 # include "lex.h"
 
+extern int	g_signal;
+
 /*========================== env ==========================*/
 /* env_init.c */
 void		init_shell(t_shell *shell, char **envp);
