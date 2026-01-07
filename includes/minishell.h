@@ -12,11 +12,15 @@
 
 /*========================== env ==========================*/
 /* env_init.c */
-void	init_shell(t_shell *shell, char **envp);
+void		init_shell(t_shell *shell, char **envp);
 
 /*========================== executor ==========================*/
-
-
+/* built_in_X.c*/
+void		exec_echo(char **args);
+void		exec_env(t_shell *shell);
+void		exec_exit(t_shell *shell, char **args);
+void		exec_pwd(t_shell *shell);
+void		exec_unset(t_shell *shell, char *args);
 
 /*========================== lexer ==========================*/
 /* tokenize.c */
@@ -37,22 +41,12 @@ int			tokenize_no_quotes(t_shell *shell, t_token *new_tok, char *line, int i);
 int			redirect_all(t_shell *shell, t_token *new_tok, char *line, int i);
 
 /*========================== parser ==========================*/
-/* parser_and.c */
+/* parse_X.c */
 t_ast_node	*parser_and(t_shell *shell, t_token **current);
-
-/* parse_command.c */
 t_ast_node	*parser_command(t_shell *shell, t_token **current);
-
-/* parse_or.c */
 t_ast_node	*parser_or(t_shell *shell, t_token **current);
-
-/* parse_paren.c */
 t_ast_node	*parser_paren(t_shell *shell, t_token **current);
-
-/* parse_pipe.c */
 t_ast_node	*parser_pipe(t_shell *shell, t_token **current);
-
-/* parse_redir.c */
 t_ast_node	*parser_redir(t_shell *shell, t_token **current);
 
 /* parse_utils.c */
@@ -69,21 +63,22 @@ int			check_token_rparen(int paren_balance, t_shell *shell);
 int			check_token_lparen(t_token *token, int paren_balance, t_shell *shell);
 
 /* parse.c */
-void	parse(t_token *token, t_shell *shell);
-void	validate_syntaxe(t_token *token, t_shell *shell);
-void	check_token_and_or(t_token *token, t_token *prev_token, t_shell *shell);
-void	check_token_redir(t_token *token, t_shell *shell);
-void	check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
+void		parse(t_token *token, t_shell *shell);
+void		validate_syntaxe(t_token *token, t_shell *shell);
+void		check_token_and_or(t_token *token, t_token *prev_token, t_shell *shell);
+void		check_token_redir(t_token *token, t_shell *shell);
+void		check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
 
 
 /*========================== signal ==========================*/
-
-
+/* signal.c */
+void	update_signal(t_shell *shell);
+void	init_signal(void);
 
 /*========================== utils ==========================*/
 /* error.c */
 void		syntaxe_error(char *msg);
-void	ft_error(t_shell *shell, int error);
+void		ft_error(t_shell *shell, int error);
 
 /* clear.c */
 void		clean_up_fds(t_shell *shell);

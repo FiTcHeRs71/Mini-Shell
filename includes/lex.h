@@ -3,7 +3,7 @@
 
 #include "minishell.h"
 
-int	increment_len(char *line, char c, int i);
+int		increment_len(char *line, char c, int i);
 void	expansion(t_shell *shell);
 
 #endif

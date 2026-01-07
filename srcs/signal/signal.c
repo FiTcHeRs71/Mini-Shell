@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	handle_sigint(int sig)
+static void	handle_sigint(int sig)
 {
 	(void)sig;
 	g_signal = 130;
