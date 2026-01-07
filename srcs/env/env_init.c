@@ -25,10 +25,12 @@ static void	env_add_back(t_env **env, t_env *new)
 	if (!*env)
 	{
 		*env = new;
+		new->prev = NULL;
 		return ;
 	}
 	last = env_last(*env);
 	last->next = new;
+	new->prev = last;
 }
 
 static void	add_env_variable(t_shell *shell, t_env **env, char *envp)
@@ -67,5 +69,5 @@ void	init_shell(t_shell *shell, char **envp)
 		add_env_variable(shell, &shell->env, envp[i]);
 		i++;
 	}
-
+	init_signal();
 }

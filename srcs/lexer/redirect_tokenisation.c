@@ -9,7 +9,7 @@ int	tokenize_double_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 	buf_i = 0;
 	buffer = ft_calloc(find_word_length(new_tok, line, i) + 1, sizeof(char));
 	if (!buffer)
-	 	ft_error(shell, MALLOC);
+		ft_error(shell, MALLOC);
 	if (new_tok->quote != NO_QUOTE)
 	{
 		while (line[i] != '"' && line[i])
@@ -18,8 +18,8 @@ int	tokenize_double_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 			buffer[buf_i++] = c;
 			i++;
 		}
-		if (line[i] != '"') // TODO : checker avec l si syntaxe error, quel msg ?
-		 	syntaxe_error("A DEF");
+		if (line[i] != '"') // TODO : checker avec l si syntaxe error
+			syntaxe_error("A DEF");
 		tokenize(&shell->token_list, new_tok, buffer);
 	}
 	free(buffer);
@@ -35,7 +35,7 @@ int	tokenize_single_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 	buf_i = 0;
 	buffer = ft_calloc(find_word_length(new_tok, line, i) + 1, sizeof(char));
 	if (!buffer)
-	 	ft_error(shell, MALLOC);
+		ft_error(shell, MALLOC);
 	if (new_tok->quote != NO_QUOTE)
 	{
 		while (line[i] != '\'' && line[i])
@@ -44,7 +44,7 @@ int	tokenize_single_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 			buffer[buf_i++] = c;
 			i++;
 		}
-		if (line[i] != '\'') // TODO : checker avec l si syntaxe error, quel msg ?
+		if (line[i] != '\'') // TODO : checker avec l si syntaxe error
 			syntaxe_error("A DEF");
 		tokenize(&shell->token_list, new_tok, buffer);
 	}
@@ -59,7 +59,7 @@ void	tokenize_parenthesis(t_shell *shell, t_token *new_tok, char c)
 
 	buffer = ft_calloc(2, sizeof(char));
 	if (!buffer)
-	 	ft_error(shell, MALLOC);
+		ft_error(shell, MALLOC);
 	buf_i = 0;
 	buffer[buf_i] = c;
 	tokenize(&shell->token_list, new_tok, buffer);
@@ -75,7 +75,7 @@ int	tokenize_no_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 	buf_i = 0;
 	buffer = ft_calloc(find_word_length(new_tok, line, i) + 1, sizeof(char));
 	if (!buffer)
-	 	ft_error(shell, MALLOC);
+		ft_error(shell, MALLOC);
 	while (line[i] != ' ' && line[i])
 	{
 		if (line[i] == ')')

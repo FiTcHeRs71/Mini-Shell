@@ -27,8 +27,8 @@ SRCS_EXECUTOR = $(addprefix $(SRCDIR)/executor/, \
 SRCS_BUILTINS = $(addprefix $(SRCDIR)/builtins/, \
 	)
 
-SRCS_SIGNALS = $(addprefix $(SRCDIR)/signals/, \
-	)
+SRCS_SIGNALS = $(addprefix $(SRCDIR)/signal/, \
+	signal.c)
 
 SRCS_ENV = $(addprefix $(SRCDIR)/env/, \
 	env_init.c)

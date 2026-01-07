@@ -70,30 +70,27 @@ void	validate_syntaxe(t_token *token, t_shell *shell)
 	last_token_check(prev_token, paren_balance, prev_token, shell);
 }
 
-t_ast_node	*parse(t_token *token, t_shell *shell)
+void	parse(t_token *token, t_shell *shell)
 {
-	t_ast_node	*ast;
-
 	shell->syntax_flag = false;
 	if (!token)
 	{
-		return (NULL);
+		return ;
 	}
 	validate_syntaxe(token, shell);
-	if(shell->syntax_flag == true)
+	if (shell->syntax_flag == true)
 	{
 		syntaxe_error("");
 		shell->last_exit_status = 2;
-		return (NULL);
+		return ;
 	}
-	ast = parser_or(shell, &token);
-	if (!ast)
+	shell->tree_ast = parser_or(shell, &token);
+	if (!shell->tree_ast)
 	{
-		return (NULL);
+		return ;
 	}
 	if (token != NULL)
 	{
 		syntaxe_error("");
 	}
-	return (ast);
 }

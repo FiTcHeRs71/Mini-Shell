@@ -1,6 +1,8 @@
 
 #include "../includes/minishell.h"
 
+int			g_signal;
+
 static void	reset_var(t_shell *shell, int argc, char **argv)
 {
 	(void)argc;
@@ -11,14 +13,17 @@ static void	reset_var(t_shell *shell, int argc, char **argv)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*line;
-	t_shell		shell;
+	char	*line;
+	t_shell	shell;
 
+	g_signal = 0;
 	ft_memset(&shell, 0, sizeof(t_shell));
 	init_shell(&shell, envp);
 	while (true)
 	{
 		reset_var(&shell, argc, argv);
+		if (g_signal != 0)
+			update_signal(&shell);
 		line = readline("Minishell > ");
 		if (!line)
 			break ;
@@ -26,7 +31,7 @@ int	main(int argc, char **argv, char **envp)
 		if (line)
 		{
 			tokenisation(&shell, line);
-			shell.tree_ast = parse(shell.token_list, &shell);
+			parse(shell.token_list, &shell);
 		}
 		clean_up_loop(&shell);
 	}

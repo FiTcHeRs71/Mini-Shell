@@ -1,10 +1,12 @@
+#define _GNU_SOURCE
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/include/libft.h" 
-# include "minishell_struct.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
+# include "../libft/include/libft.h" 
+# include "minishell_struct.h"
 # include "work.h"
 # include "lex.h"
 
@@ -67,7 +69,7 @@ int	check_token_rparen(int paren_balance, t_shell *shell);
 int	check_token_lparen(t_token *token, int paren_balance, t_shell *shell);
 
 /* parse.c */
-t_ast_node	*parse(t_token *token, t_shell *shell);
+void	parse(t_token *token, t_shell *shell);
 void	validate_syntaxe(t_token *token, t_shell *shell);
 void	check_token_and_or(t_token *token, t_token *prev_token, t_shell *shell);
 void	check_token_redir(t_token *token, t_shell *shell);
