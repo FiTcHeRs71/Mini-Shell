@@ -26,11 +26,6 @@ int	main(int argc, char **argv, char **envp)
 		if (line)
 		{
 			tokenisation(&shell, line);
-			while (shell.token_list)
-			{
-				printf("value is : %s\n", shell.token_list->value);
-				shell.token_list = shell.token_list->next;
-			}
 			shell.tree_ast = parse(shell.token_list, &shell);
 		}
 		clean_up_loop(&shell);

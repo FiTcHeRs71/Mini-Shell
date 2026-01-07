@@ -67,4 +67,5 @@ void	init_shell(t_shell *shell, char **envp)
 		add_env_variable(shell, &shell->env, envp[i]);
 		i++;
 	}
+
 }

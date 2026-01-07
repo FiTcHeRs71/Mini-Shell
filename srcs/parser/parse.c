@@ -83,6 +83,7 @@ t_ast_node	*parse(t_token *token, t_shell *shell)
 	if(shell->syntax_flag == true)
 	{
 		syntaxe_error("");
+		shell->last_exit_status = 2;
 		return (NULL);
 	}
 	ast = parser_or(shell, &token);
