@@ -66,14 +66,14 @@ typedef struct	s_ast_node
 
 typedef struct	s_shell
 {
-	t_env	*env;
-	t_token *token_list;
-	t_ast_node *tree_ast;
-	bool	syntax_flag;
-	bool	is_child;
-	int		stdin_back_up;
-	int		stdout_back_up;
-	int		last_exit_status;
+	t_env		*env;
+	t_token		*token_list;
+	t_ast_node	*tree_ast;
+	bool		syntax_flag;
+	bool		is_child;
+	int			stdin_back_up;
+	int			stdout_back_up;
+	int			last_exit_status;
 }				t_shell;
 
 

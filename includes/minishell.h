@@ -63,10 +63,10 @@ bool		is_operator(t_token *token);
 
 /* parse_utils2.c */
 t_ast_node	*create_node(t_shell *shell, t_node_type type);
-void	advance_token(t_token **current);
-void	last_token_check(t_token *last, int paren_balance, t_token *prev_token, t_shell *shell);
-int	check_token_rparen(int paren_balance, t_shell *shell);
-int	check_token_lparen(t_token *token, int paren_balance, t_shell *shell);
+void		advance_token(t_token **current);
+void		last_token_check(t_token *last, int paren_balance, t_token *prev_token, t_shell *shell);
+int			check_token_rparen(int paren_balance, t_shell *shell);
+int			check_token_lparen(t_token *token, int paren_balance, t_shell *shell);
 
 /* parse.c */
 void	parse(t_token *token, t_shell *shell);
