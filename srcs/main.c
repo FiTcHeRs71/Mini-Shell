@@ -9,6 +9,7 @@ static void	reset_var(t_shell *shell, int argc, char **argv)
 	(void)argv;
 	shell->tree_ast = NULL;
 	shell->token_list = NULL;
+	shell->last_exit_status = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -37,5 +38,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 	clean_before_exit(&shell);
 	rl_clear_history();
-	return (0);
 }
