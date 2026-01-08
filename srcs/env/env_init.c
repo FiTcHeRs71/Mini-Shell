@@ -33,11 +33,13 @@ void	env_add_back(t_env **env, t_env *new)
 	new->prev = last;
 }
 
-static void	add_env_variable(t_shell *shell, t_env **env, char *envp)
+void	add_env_variable(t_shell *shell, t_env **env, char *envp)
 {
 	char	*finder;
 	t_env	*new;
 
+	if (!envp)
+		return ;
 	new = ft_calloc(1, sizeof(t_env));
 	if (!new)
 	{
