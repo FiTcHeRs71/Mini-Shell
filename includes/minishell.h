@@ -15,6 +15,7 @@ extern int	g_signal;
 /*========================== env ==========================*/
 /* env_init.c */
 void		init_shell(t_shell *shell, char **envp);
+void		env_add_back(t_env **env, t_env *new);
 
 /*========================== executor ==========================*/
 /* built_in_X.c*/

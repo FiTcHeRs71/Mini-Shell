@@ -14,7 +14,7 @@ static t_env	*env_last(t_env *env)
 	return (env);
 }
 
-static void	env_add_back(t_env **env, t_env *new)
+void	env_add_back(t_env **env, t_env *new)
 {
 	t_env	*last;
 
