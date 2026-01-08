@@ -5,6 +5,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <errno.h>
 # include "../libft/include/libft.h" 
 # include "minishell_struct.h"
 # include "work.h"
