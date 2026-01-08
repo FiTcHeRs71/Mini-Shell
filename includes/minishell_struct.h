@@ -71,6 +71,11 @@ typedef struct	s_shell
 	t_ast_node	*tree_ast;
 	bool		syntax_flag;
 	bool		is_child;
+	bool		heredoc;
+	int			pipehd[2];
+	int			pipefd[2];
+	int			fd_in;
+	int			fd_out;
 	int			stdin_back_up;
 	int			stdout_back_up;
 	int			last_exit_status;

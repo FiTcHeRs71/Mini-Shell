@@ -46,6 +46,34 @@ int	exec_sub(t_shell *shell, t_ast_node *node)
 	return (1);
 }
 
+int	exec_redir(t_shell *shell, t_ast_node *node)
+{
+	int	signal;
+
+	signal = 0;
+	if (node->redir_type == TOKEN_REDIR_IN) // >
+		return (open_and_dup(shell, node));
+	else if (node->redir_type == TOKEN_APPEND) // >>
+		return (open_and_dup(shell,node));
+	else if (node->redir_type == TOKEN_REDIR_OUT) // <
+	{
+		signal = open_redir_in(shell, node->right);
+		if (signal != 0)
+			return (signal);
+		dup2(shell->fd_in, STDIN_FILENO);
+		close(shell->fd_in);
+		return (exec_ast(shell, node->left));
+	}
+	else if (node->redir_type == TOKEN_HEREDOC)
+	{
+		shell->heredoc = true;
+		exec_heredoc(shell, node->right);
+		dup2(shell->pipehd[1], STDIN_FILENO);
+		close(shell->pipehd[1]);
+		return (exec_ast(shell, node->left));
+	}
+}
+
 int	exec_ast(t_shell *shell, t_ast_node *node)
 {
 	if (!node)
@@ -53,9 +81,9 @@ int	exec_ast(t_shell *shell, t_ast_node *node)
 	if (node->type == NODE_CMD)
 		return (exec_cmd());
 	else if (node->type == NODE_PIPE)
-		return (exec_pipe());
+		return (exec_pipe(shell, node));
 	else if (node->type == NODE_REDIR)
-		return (exec_redir());
+		return (exec_redir(shell, node));
 	else if (node->type == NODE_OR)
 		return (exec_or(shell, node));
 	else if (node->type == NODE_AND)
