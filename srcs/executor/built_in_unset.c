@@ -3,8 +3,6 @@
 
 static void	delete_node(t_shell *shell)
 {
-	t_shell	*temp;
-
 	if (!shell)
 	{
 		return ;
