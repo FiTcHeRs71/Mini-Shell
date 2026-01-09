@@ -21,7 +21,7 @@ static void	update_env(t_shell *shell, char *key)
 		{
 			if (shell->env->value)
 				free(shell->env->value);
-			shell->env->value = get_current_dir_name();
+			shell->env->value = getcwd(NULL, 0);
 			return ;
 		}
 		shell->env = shell->env->next;
@@ -37,7 +37,7 @@ static void	helpers_update_env(t_shell *shell, t_env *finder, char *old_pwd)
 	}
 	else if (!finder)
 	{
-		add_env_variable(shell, &shell->env, ft_strjoin("PWD=",get_current_dir_name()));
+		add_env_variable(shell, &shell->env, ft_strjoin("PWD=",getcwd(NULL, 0)));
 	}
 	finder = get_env_node(shell, "OLDPWD");
 	if (finder)
@@ -89,7 +89,7 @@ static void	go_back_directory(t_shell *shell, t_env *finder, char *old_pwd)
 	if (way)
 		free(way);
 }
-static void	go_to_absolute_way(t_shell *shell, t_env *finder, char *old_pwd, char *path)
+static void	go_to_directory(t_shell *shell, t_env *finder, char *old_pwd, char *path)
 {
 	int	flag;
 
@@ -109,28 +109,24 @@ void	exec_cd(t_shell *shell, char **args) //compter le nb dargs pour valide chem
 	char	*old_pwd;
 
 	finder = NULL;
-	old_pwd = get_current_dir_name();
+	old_pwd = getcwd(NULL, 0);
 	if (!old_pwd)
 		ft_error(shell, MALLOC);
 	if (!args[1])
 	{
 		go_to_home(shell, finder, old_pwd);
 	}
-	else if (ft_strncmp(args[1], "..", ft_strlen(args[1])))
-	{
-		go_back_directory(shell, finder, old_pwd);
-	}
 	else if (ft_strncmp(args[1], ".", ft_strlen(args[1])))
 	{
 		return ;
 	}
-	/*else if (ft_strncmp(args[1], "./", 2)) // chemin relatif
+	else if (ft_strncmp(args[1], "..", ft_strlen(args[1])))
 	{
-		go_to_relativ_path(shell, finder, old_pwd, args[1]);
-	}*/
-	else //chemin absolue
+		go_back_directory(shell, finder, old_pwd);
+	}
+	else
 	{
-		go_to_absolute_way(shell, finder, old_pwd, args[1]);
+		go_to_directory(shell, finder, old_pwd, args[1]);
 	}
 }
 
