@@ -22,19 +22,24 @@ static void	delete_node(t_shell *shell)
 	}
 }
 
-void	exec_unset(t_shell *shell, char *args)
+int	exec_unset(t_shell *shell, char *args)
 {
+	if (!shell)
+	{
+		return (1);
+	}
 	while (shell->env)
 	{
 		if (!shell)
 		{
-			return ;
+			return (1);
 		}
 		if (ft_strncmp(args, shell->env->key, ft_strlen(args)))
 		{
 			delete_node(shell);
-			return ;
+			return (0);
 		}
 		shell->env = shell->env->next;
 	}
+	return (0); // TODO : a conf
 }

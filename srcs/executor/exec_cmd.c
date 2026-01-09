@@ -42,14 +42,14 @@ static int	check_cmd(t_shell *shell, t_ast_node *node)
 		return (update_cmd(shell, node, node->args[0]));
 }
 
-static int	is_builtin(/*t_shell *shell, t_ast_node *node*/)
+static int	is_builtin(t_shell *shell, t_ast_node *node)
 {
 	int	signal;
 
-	signal = -1;
-	// if (!ft_strncmp(node->file, "cd", 3))
-	// 	signal = exec_cd();
-	// else if (!ft_strncmp(node->file, "echo", 5))
+	signal = 0;
+	//if(!ft_strncmp(node->file, "cd", 3))
+		//signal = exec_cd();
+	// else if (!ft_strncmp(node->file, "echo", 5)
 	// 	signal = exec_echo(node->args);
 	// else if (!ft_strncmp(node->file, "env", 4))
 	// 	signal = exec_env(shell);
@@ -59,8 +59,8 @@ static int	is_builtin(/*t_shell *shell, t_ast_node *node*/)
 	// 	signal = exec_export();
 	// else if (!ft_strncmp(node->file, "pwd", 4))
 	// 	signal = exec_pwd(shell);
-	// else if (!ft_strncmp(node->file, "unset", 5))
-	// 	signal = exec_unset(shell, node->args);
+	if (!ft_strncmp(node->file, "unset", 5))
+		signal = exec_unset(shell, node->args[0]);
 	return (signal);
 }
 
@@ -73,7 +73,7 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 	signal = check_cmd(shell, node);
 	if (signal == 0)
 	{
-		signal = is_builtin(/*shell, node*/);
+		signal = is_builtin(shell, node);
 		if (signal == 0)
 			return (0);
 		if (signal > 0)
