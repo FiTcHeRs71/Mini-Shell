@@ -45,6 +45,16 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_pipe
+{
+	int	pipefd[2];
+	int	pid_l;
+	int	pid_r;
+	int	status_l;
+	int	status_r;
+	int	code;
+}	t_pipe;
+
 typedef enum	e_node_type
 {
 	NODE_PIPE,
@@ -59,6 +69,7 @@ typedef struct	s_ast_node
 {
 	t_node_type			type;
 	char				**args;
+	char				*cmd_path;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
 	char				*file;

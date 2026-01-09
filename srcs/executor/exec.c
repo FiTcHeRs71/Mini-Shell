@@ -5,7 +5,7 @@ int	exec_and(t_shell *shell, t_ast_node *node)
 	int	signal;
 
 	signal = exec_ast(shell, node->left);
-	if (signal = 0)
+	if (signal == 0)
 		return (exec_ast(shell, node->right));
 	else
 		return (signal);
@@ -68,10 +68,11 @@ int	exec_redir(t_shell *shell, t_ast_node *node)
 	{
 		shell->heredoc = true;
 		exec_heredoc(shell, node->right);
-		dup2(shell->pipehd[1], STDIN_FILENO);
-		close(shell->pipehd[1]);
+		dup2(shell->pipehd[0], STDIN_FILENO);
+		close(shell->pipehd[0]);
 		return (exec_ast(shell, node->left));
 	}
+	return (1);
 }
 
 int	exec_ast(t_shell *shell, t_ast_node *node)
@@ -79,7 +80,7 @@ int	exec_ast(t_shell *shell, t_ast_node *node)
 	if (!node)
 		return (0);
 	if (node->type == NODE_CMD)
-		return (exec_cmd());
+		return (exec_cmd(shell, node));
 	else if (node->type == NODE_PIPE)
 		return (exec_pipe(shell, node));
 	else if (node->type == NODE_REDIR)
@@ -90,6 +91,7 @@ int	exec_ast(t_shell *shell, t_ast_node *node)
 		return (exec_and(shell, node));
 	else if (node->type == NODE_SUBSHELL)
 		return (exec_sub(shell, node));
+	return (1);
 }
 
 // exec(node):

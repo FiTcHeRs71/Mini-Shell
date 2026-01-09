@@ -23,7 +23,8 @@ SRCS_EXPANDER = $(addprefix $(SRCDIR)/expander/, \
 
 SRCS_EXECUTOR = $(addprefix $(SRCDIR)/executor/, \
 	built_in_env.c built_in_exit.c built_in_cd.c built_in_echo.c built_in_export.c \
-	built_in_pwd.c built_in_unset.c)
+	built_in_pwd.c built_in_unset.c exec.c exec_utils.c exec_pipe.c exec_heredoc.c \
+	exec_cmd.c exec_cmd_utils.c )
 
 SRCS_BUILTINS = $(addprefix $(SRCDIR)/builtins/, \
 	)

@@ -14,7 +14,7 @@ void	exec_heredoc(t_shell *shell, t_ast_node *node)
 		{
 			free(limiter);
 			free(line);
-			close_fd(shell->pipehd[1]);
+			close(shell->pipehd[1]);
 			break ;
 		}
 		ft_putstr_fd(line, shell->pipehd[1]);

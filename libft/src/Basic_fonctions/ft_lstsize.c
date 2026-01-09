@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdcurot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 14:33:28 by fdcurot           #+#    #+#             */
-/*   Updated: 2025/10/06 14:33:30 by fdcurot          ###   ########.fr       */
+/*   Updated: 2026/01/09 15:15:04 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
