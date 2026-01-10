@@ -25,7 +25,7 @@ void		exec_echo(char **args);
 void		exec_env(t_shell *shell);
 void		exec_exit(t_shell *shell, char **args);
 void		exec_pwd(t_shell *shell);
-void		exec_unset(t_shell *shell, char *args);
+int			exec_unset(t_shell *shell, char *args);
 
 /*========================== lexer ==========================*/
 /* tokenize.c */
