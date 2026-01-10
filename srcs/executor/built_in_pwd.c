@@ -1,23 +1,27 @@
 
 #include "../../includes/minishell.h"
 
-void	exec_pwd(t_shell *shell)
+int	exec_pwd(t_shell *shell)
 {
-	if (!shell)
+	t_env	*env;
+
+	if (!shell || !shell->env)
 	{
-		return ;
+		return (1);
 	}
-	while (shell->env)
+	env = shell->env;
+	while (env)
 	{
-		if (!shell)
+		if (!env)
 		{
-			return ;
+			return (1);
 		}
-		if (ft_strncmp(shell->env->key, "PWD", 3))
+		if (ft_strncmp(env->key, "PWD", 3) == 0)
 		{
-			ft_printf("%s", shell->env->value);
-			return ;
+			ft_printf("%s",env->value);
 		}
-		shell->env = shell->env->next;
+		env = env->next;
 	}
+	ft_printf("\n");
+	return (0);
 }

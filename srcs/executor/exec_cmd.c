@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-char	**convert_env(t_env *env)
+static char	**convert_env(t_env *env)
 {
 	char	**new_env;
 	char	*tmp;
@@ -46,7 +46,7 @@ int	is_builtin(t_shell *shell, t_ast_node *node)
 {
 	int	signal;
 
-	signal = 0;
+	signal = -1;
 	if (!ft_strncmp(node->args[0], "echo", 5))
 		signal = exec_echo(node->args);
 	//else if(!ft_strncmp(node->args[0], "cd", 3))
@@ -57,16 +57,16 @@ int	is_builtin(t_shell *shell, t_ast_node *node)
 	// 	signal = exec_exit(shell, node->args);
 	// else if (!ft_strncmp(node->args[0], "export", 7))
 	// 	signal = exec_export();
-	// else if (!ft_strncmp(node->args[0], "pwd", 4))
-	// 	signal = exec_pwd(shell);
-	//if (!ft_strncmp(node->args[0], "unset", 5))
+	else if (!ft_strncmp(node->args[0], "pwd", 4))
+		signal = exec_pwd(shell);
+	//else if (!ft_strncmp(node->args[0], "unset", 5))
 		//signal = exec_unset(shell, node->args[0]);
 	return (signal);
 }
 
 int	exec_cmd(t_shell *shell, t_ast_node *node)
 {
-	int	signal = 0;
+	int	signal;
 	int	pid;
 	int	status;
 
