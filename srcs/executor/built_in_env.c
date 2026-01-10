@@ -1,21 +1,22 @@
 
 #include "../../includes/minishell.h"
 
-void	exec_env(t_shell *shell)
+int	exec_env(t_shell *shell)
 {
 	if (!shell || !shell->env)
 	{
-		return ;
+		return (1);
 	}
 	while (shell->env)
 	{
 		if (!shell)
 		{
-			return ;
+			return (1);
 		}
 		ft_printf("%s", shell->env->key);
 		ft_printf("=");
 		ft_printf("%s\n", shell->env->value);
 		shell->env = shell->env->next;
 	}
+	return (0);
 }

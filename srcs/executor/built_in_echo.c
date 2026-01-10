@@ -1,12 +1,12 @@
 
 #include "../../includes/minishell.h"
 
-void	exec_echo(char **args)
+int	exec_echo(char **args)
 {
 	int	i;
 
 	if (!args)
-		return ;
+		ft_printf("\n");
 	if (ft_strncmp(args[1], "-n", ft_strlen(args[1])))
 	{
 		i = 2;
@@ -15,7 +15,6 @@ void	exec_echo(char **args)
 			ft_printf("%s", args[i]);
 			i++;
 		}
-		return ;
 	}
 	else if (args[1])
 	{
@@ -26,6 +25,6 @@ void	exec_echo(char **args)
 			i++;
 		}
 		ft_printf("\n");
-		return ;
 	}
+	return (0);
 }

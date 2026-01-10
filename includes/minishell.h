@@ -21,8 +21,8 @@ void		add_env_variable(t_shell *shell, t_env **env, char *envp);
 
 /*========================== executor ==========================*/
 /* built_in_X.c*/
-void		exec_echo(char **args);
-void		exec_env(t_shell *shell);
+int			exec_echo(char **args);
+int			exec_env(t_shell *shell);
 void		exec_exit(t_shell *shell, char **args);
 void		exec_pwd(t_shell *shell);
 int			exec_unset(t_shell *shell, char *args);
