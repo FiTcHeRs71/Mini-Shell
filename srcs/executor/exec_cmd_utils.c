@@ -76,12 +76,13 @@ int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd)
 		if (access(path, X_OK) == 0)
 		{
 			node->cmd_path = path;
-			return (/*free_tabs(paths)*/ 0); /*TODO : free **char*/
+			free (path);
+			return (ft_free_2d_array(paths), 0); /*TODO : free **char*/
 		}
 		else
 			free(path);
 		i++;
 	}
-	//free_tabs(paths);
+	ft_free_2d_array(paths);
 	return (127);
 }
