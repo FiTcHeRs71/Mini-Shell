@@ -77,7 +77,7 @@ int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd)
 		{
 			node->cmd_path = path;
 			free (path);
-			return (ft_free_2d_array(paths), 0); /*TODO : free **char*/
+			return (ft_free_2d_array(paths), 0);
 		}
 		else
 			free(path);
