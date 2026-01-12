@@ -26,6 +26,7 @@ int			exec_env(t_shell *shell);
 int			exec_exit(t_shell *shell, char **args);
 int			exec_pwd(t_shell *shell);
 int			exec_unset(t_shell *shell, char *args);
+int			exec_export(t_shell *shell, t_env **env, char **args);
 
 /*========================== lexer ==========================*/
 /* tokenize.c */
@@ -94,6 +95,7 @@ void		clean_up_loop(t_shell *shell);
 
 /* exit.c */
 void		clean_before_exit(t_shell *shell);
+void		clean_without_exit(t_shell *shell);
 
 /* A RANGER */
 void		print_ast(t_ast_node *node, int depth);

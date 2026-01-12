@@ -7,12 +7,16 @@ int	exec_exit(t_shell *shell, char **args)
 	int	i;
 
 	exit_code = 0;
+	i = 0;
 	if (args[1]) // TODO : Comment il enegriste avec les quotes et simple quotes ?
 	{
 		while (args[1][i])
 		{
-			if (ft_isdigit(args[1][i]))
+			if (!ft_isdigit(args[1][i]) || i > 10)
+			{
+				exit_code = 2;
 				break ;
+			}
 			i++;
 		}
 		if ((args[1][i]) == '\0')
@@ -22,6 +26,6 @@ int	exec_exit(t_shell *shell, char **args)
 	{
 		exit_code = shell->last_exit_status;
 	}
-	clean_before_exit(shell);
-	exit(exit_code);
+	clean_without_exit(shell);
+	exit(exit_code % 256);
 }

@@ -5,19 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 15:10:46 by fducrot           #+#    #+#             */
-/*   Updated: 2025/12/05 10:19:41 by fducrot          ###   ########.ch       */
+/*   Created: 2026/01/12 17:44:20 by fducrot           #+#    #+#             */
+/*   Updated: 2026/01/12 17:45:13 by fducrot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_2d_array(char **tab, size_t count)
+void	ft_free_2d_array(char **tab)
 {
-	while (count > 0)
+	int	i;
+
+	i = 0;
+	while (tab[i])
 	{
-		free(tab[count - 1]);
-		count--;
+		free(tab[i]);
+		i++;
 	}
 	free(tab);
 }
@@ -64,7 +67,7 @@ char	**ft_complet_array(char **array_of_string, char c, char const *s)
 		array_of_string[y] = ft_substr(s, start, i - start);
 		if (!array_of_string[y])
 		{
-			return (ft_free_2d_array(array_of_string, y), NULL);
+			return (ft_free_2d_array(array_of_string), NULL);
 		}
 		y++;
 	}

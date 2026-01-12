@@ -1,11 +1,13 @@
 #include "../includes/minishell.h"
 
-static char	**convert_env(t_env *env)
+char	**convert_env(t_env *env)
 {
 	char	**new_env;
 	char	*tmp;
 	int		i;
 
+	if (!env)
+		return (NULL);
 	i = 0;
 	new_env = ft_calloc(ft_envsize(env) + 1, sizeof(char *));
 	while (env)
@@ -55,12 +57,12 @@ int	is_builtin(t_shell *shell, t_ast_node *node)
 		signal = exec_env(shell);
 	else if (!ft_strncmp(node->args[0], "exit", 5))
 		signal = exec_exit(shell, node->args);
-	// else if (!ft_strncmp(node->args[0], "export", 7))
-	// 	signal = exec_export();
+	else if (!ft_strncmp(node->args[0], "export", 7))
+		signal = exec_export(shell, &shell->env, node->args);
 	else if (!ft_strncmp(node->args[0], "pwd", 4))
 		signal = exec_pwd(shell);
-	//else if (!ft_strncmp(node->args[0], "unset", 5))
-		//signal = exec_unset(shell, node->args[0]);
+	else if (!ft_strncmp(node->args[0], "unset", 5))
+		signal = exec_unset(shell, node->args[1]);
 	return (signal);
 }
 
@@ -69,15 +71,13 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 	int	signal;
 	int	pid;
 	int	status;
-
+	
+	signal = is_builtin(shell, node);
+	if (signal != -1)
+		return(signal);
 	signal = check_cmd(shell, node);
 	if (signal == 0)
 	{
-		signal = is_builtin(shell, node);
-		if (signal == 0)
-			return (0);
-		if (signal > 0)
-			return (signal);
 		pid = fork();
 		if (pid < 0)
 			return (1);

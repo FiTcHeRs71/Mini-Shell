@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/07 09:13:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/01/09 15:14:22 by lgranger         ###   ########.fr       */
+/*   Created: 2026/01/12 17:45:27 by fducrot           #+#    #+#             */
+/*   Updated: 2026/01/12 17:45:27 by fducrot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
-void	ft_free_2d_array(char **tab, size_t count);
+void	ft_free_2d_array(char **tab);
 
 /* Fonction filedescriptor */
 void	ft_putchar_fd(char c, int fd);

@@ -1,45 +1,45 @@
 
 #include "../../includes/minishell.h"
 
-static void	delete_node(t_shell *shell)
+static void	delete_node(t_shell *shell, t_env *node_to_del)
 {
-	if (!shell)
-	{
+	if (!shell || !node_to_del)
 		return ;
-	}
-	shell->env->next->prev = shell->env->prev;
-	if (shell->env->key)
-	{
-		free(shell->env->key);
-	}
-	if ((shell->env->value))
-	{
-		free(shell->env->value);
-	}
-	if (shell->env)
-	{
-		free(shell->env);
-	}
+	if(node_to_del->prev)
+		node_to_del->prev->next = node_to_del->next;
+	else
+		shell->env = node_to_del->next;
+	if (node_to_del->next)
+		node_to_del->next->prev = node_to_del->prev;
+	if (node_to_del->key)
+		free(node_to_del->key);
+	if ((node_to_del->value))
+		free(node_to_del->value);
+	if (node_to_del)
+		free(node_to_del);
 }
 
-int	exec_unset(t_shell *shell, char *args)
+int	exec_unset(t_shell *shell, char *key_to_unset)
 {
+	t_env	*env;
+	int		len;
+
 	if (!shell)
-	{
 		return (1);
-	}
-	while (shell->env)
+	env = shell->env;
+	len = ft_strlen(key_to_unset);
+	while (env)
 	{
-		if (!shell)
+		if (!env)
 		{
 			return (1);
 		}
-		if (ft_strncmp(args, shell->env->key, ft_strlen(args)))
+		if (ft_strncmp(key_to_unset, env->key, len) == 0 && env->key[len] == '\0')
 		{
-			delete_node(shell);
+			delete_node(shell, env);
 			return (0);
 		}
-		shell->env = shell->env->next;
+		env = env->next;
 	}
-	return (0); // TODO : a conf
+	return (0);
 }
