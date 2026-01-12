@@ -72,4 +72,6 @@ void	init_shell(t_shell *shell, char **envp)
 		i++;
 	}
 	init_signal();
+	shell->stdout_back_up = dup(STDOUT_FILENO);
+	shell->stdin_back_up = dup(STDIN_FILENO);
 }
