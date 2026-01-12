@@ -57,7 +57,7 @@ int	exec_redir(t_shell *shell, t_ast_node *node)
 		return (open_and_dup(shell,node));
 	else if (node->redir_type == TOKEN_REDIR_OUT) // <
 	{
-		signal = open_redir_in(shell, node->right);
+		signal = open_redir_in(shell, node);
 		if (signal != 0)
 			return (signal);
 		dup2(shell->fd_in, STDIN_FILENO);

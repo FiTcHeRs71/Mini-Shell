@@ -18,7 +18,7 @@ int	open_and_dup(t_shell *shell, t_ast_node *node)
 	int	signal;
 
 	if (node->redir_type == TOKEN_REDIR_OUT)
-		signal = open_redir_out(shell, node->right);
+		signal = open_redir_out(shell, node);
 	else
 		signal = open_append(shell, node->right);
 	if (signal != 0)

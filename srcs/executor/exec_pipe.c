@@ -20,7 +20,7 @@ static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe state)
 static void child_process_r(t_shell *shell, t_ast_node *node, t_pipe state)
 {
 	close(state.pipefd[1]);
-	dup_close_child_process(state.pipefd[0], STDOUT_FILENO);
+	dup_close_child_process(state.pipefd[0], STDIN_FILENO);
 	state.code = exec_ast(shell, node->right);
 	exit(state.code);
 }
@@ -31,15 +31,15 @@ int	exec_pipe(t_shell *shell, t_ast_node *node)
 
 	pipe(state.pipefd);
 	state.pid_l = fork();
-	// if (pid < 0)
-	// 	error(); TODO : fork error
+	if (state.pid_l < 0)
+		return(1);
 	if (state.pid_l == 0)
 	{
 		child_process_l(shell, node, state);
 	}
 	state.pid_r = fork();
-	// if (pid < 0)
-	// 	error(); TODO : fork error
+	if (state.pid_r < 0)
+		return(1);
 	if (state.pid_r == 0)
 	{
 		child_process_r(shell, node, state);
