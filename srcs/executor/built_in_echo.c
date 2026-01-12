@@ -5,26 +5,19 @@ int	exec_echo(char **args)
 {
 	int	i;
 
-	if (!args)
+	i = 1;
+	if (!args[1])
 		ft_printf("\n");
-	if (ft_strncmp(args[1], "-n", ft_strlen(args[1])))
-	{
+	if (ft_strncmp(args[1], "-n", ft_strlen(args[1])) == 0)
 		i = 2;
-		while (args[i])
-		{
-			ft_printf("%s", args[i]);
-			i++;
-		}
-	}
-	else if (args[1])
+	while (args[i])
 	{
-		i = 1;
-		while (args[i])
-		{
-			ft_printf("%s", args[i]);
-			i++;
-		}
-		ft_printf("\n");
+		ft_printf("%s", args[i]);
+		if (args[i + 1])
+			ft_printf(" ");
+		i++;
 	}
+	if (ft_strncmp(args[1], "-n", ft_strlen(args[1])))
+		ft_printf("\n");
 	return (0);
 }

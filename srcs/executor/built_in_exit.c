@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-void	exec_exit(t_shell *shell, char **args)
+int	exec_exit(t_shell *shell, char **args)
 {
 	int	exit_code;
 	int	i;
