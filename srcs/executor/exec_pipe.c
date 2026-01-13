@@ -1,48 +1,56 @@
 #include "../includes/minishell.h"
-static void	dup_close_child_process(int fd, int n)
+
+/*static void	dup_close_child_process(int fd, int n)
 {
 	if (dup2(fd, n) < 0)
 	{
-		close(fd);
+		if (fd != n)
+			close(fd);
 		exit(1);
 	}
-	close(fd);
+	if (fd != n)
+		close(fd);
+}*/
+
+static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
+{
+	close(state->pipefd[0]);
+	if (dup2(state->pipefd[1], STDOUT_FILENO) < 0)
+		exit(1);
+	if (state->pipefd[1] != STDOUT_FILENO)
+		close(state->pipefd[1]);
+	exit(exec_ast(shell, node->left));
 }
 
-static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe state)
+static void child_process_r(t_shell *shell, t_ast_node *node, t_pipe *state)
 {
-	close(state.pipefd[0]);
-	dup_close_child_process(state.pipefd[1], STDOUT_FILENO);
-	state.code = exec_ast(shell, node->left);
-	exit(state.code);
-}
-
-static void child_process_r(t_shell *shell, t_ast_node *node, t_pipe state)
-{
-	close(state.pipefd[1]);
-	dup_close_child_process(state.pipefd[0], STDIN_FILENO);
-	state.code = exec_ast(shell, node->right);
-	exit(state.code);
+	close(state->pipefd[1]);
+	if (dup2(state->pipefd[0], STDIN_FILENO) < 0)
+		exit(1);
+	if (state->pipefd[0] != STDIN_FILENO)
+		close(state->pipefd[0]);
+	exit(exec_ast(shell, node->right));
 }
 
 int	exec_pipe(t_shell *shell, t_ast_node *node)
 {
 	t_pipe	state;
 
-	pipe(state.pipefd);
+	if (pipe(state.pipefd) < 0)
+		return (1);
 	state.pid_l = fork();
 	if (state.pid_l < 0)
 		return(1);
 	if (state.pid_l == 0)
 	{
-		child_process_l(shell, node, state);
+		child_process_l(shell, node, &state);
 	}
 	state.pid_r = fork();
 	if (state.pid_r < 0)
 		return(1);
 	if (state.pid_r == 0)
 	{
-		child_process_r(shell, node, state);
+		child_process_r(shell, node, &state);
 	}
 	close(state.pipefd[1]);
 	close(state.pipefd[0]);

@@ -8,9 +8,9 @@ void	tokenize(t_token **token, t_token *new, char *buffer)
 	else if (!ft_strncmp(buffer, "|", 2))
 		new->type = TOKEN_PIPE;
 	else if (!ft_strncmp(buffer, ">", 2))
-		new->type = TOKEN_REDIR_IN;
-	else if (!ft_strncmp(buffer, "<", 2))
 		new->type = TOKEN_REDIR_OUT;
+	else if (!ft_strncmp(buffer, "<", 2))
+		new->type = TOKEN_REDIR_IN;
 	else if (!ft_strncmp(buffer, ">>", 3))
 		new->type = TOKEN_APPEND;
 	else if (!ft_strncmp(buffer, "<<", 3))

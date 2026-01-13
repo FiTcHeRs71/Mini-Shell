@@ -51,25 +51,31 @@ int	exec_redir(t_shell *shell, t_ast_node *node)
 	int	signal;
 
 	signal = 0;
-	if (node->redir_type == TOKEN_REDIR_IN) // >
+	if (node->redir_type == TOKEN_REDIR_OUT) // >
 		return (open_and_dup(shell, node));
 	else if (node->redir_type == TOKEN_APPEND) // >>
 		return (open_and_dup(shell,node));
-	else if (node->redir_type == TOKEN_REDIR_OUT) // <
+	else if (node->redir_type == TOKEN_REDIR_IN) // <
 	{
 		signal = open_redir_in(shell, node);
 		if (signal != 0)
 			return (signal);
-		dup2(shell->fd_in, STDIN_FILENO);
-		close(shell->fd_in);
+		if (dup2(shell->fd_in, STDIN_FILENO) < 0)
+		{
+			close(shell->fd_in);
+			return (1);
+		}
+		if (shell->fd_in != STDIN_FILENO)
+			close(shell->fd_in);
 		return (exec_ast(shell, node->left));
 	}
 	else if (node->redir_type == TOKEN_HEREDOC)
 	{
-		shell->heredoc = true;
-		exec_heredoc(shell, node->right);
-		dup2(shell->pipehd[0], STDIN_FILENO);
-		close(shell->pipehd[0]);
+		exec_heredoc(shell, node);
+		if (dup2(shell->pipehd[0], STDIN_FILENO) < 0)
+			return (1);
+		if (shell->pipehd[0] != STDIN_FILENO)
+			close(shell->pipehd[0]);
 		return (exec_ast(shell, node->left));
 	}
 	return (1);
