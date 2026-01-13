@@ -3,28 +3,36 @@
 
 static t_env	*get_env_node(t_shell *shell, char *key)
 {
-	while (shell->env)
+	t_env	*env;
+
+	env = shell->env;
+	while (env)
 	{
-		if (ft_strncmp(shell->env->key, key, ft_strlen(shell->env->key)))
+		if (ft_strncmp(env->key, key, ft_strlen(env->key)) == 0)
 		{
-			return (shell->env);
+			return (env);
 		}
-		shell->env = shell->env->next;
+		env = env->next;
 	}
 	return (NULL);
 }
-static void	update_env(t_shell *shell, char *key)
+static void	update_env(t_shell *shell, t_env *finder, char *old_pwd, int flag)
 {
-		while (shell->env)
+	if (flag == 0)
 	{
-		if (ft_strncmp(shell->env->key, key, ft_strlen(shell->env->key)))
+		if (finder->value)
+			free(finder->value);
+		finder->value = getcwd(NULL, 0);
+		if (!finder->value)
 		{
-			if (shell->env->value)
-				free(shell->env->value);
-			shell->env->value = getcwd(NULL, 0);
-			return ;
+			ft_error(shell, MALLOC);
 		}
-		shell->env = shell->env->next;
+	}
+	else if (flag == 1)
+	{
+		if (finder->value)
+			free(finder->value);
+		finder->value = old_pwd;
 	}
 }
 
@@ -33,20 +41,20 @@ static void	helpers_update_env(t_shell *shell, t_env *finder, char *old_pwd)
 	finder = get_env_node(shell, "PWD");
 	if (finder)
 	{
-		update_env(shell, "PWD");
+		update_env(shell, finder, old_pwd, 0);
 	}
 	else if (!finder)
 	{
-		add_env_variable(shell, &shell->env, ft_strjoin("PWD=",getcwd(NULL, 0)));
+		add_env_variable(shell, &shell->env, ft_strjoin("PWD=",getcwd(NULL, 0))); // a check
 	}
 	finder = get_env_node(shell, "OLDPWD");
 	if (finder)
 	{
-		update_env(shell, "OLDPWD");
+		update_env(shell, finder, old_pwd, 1);
 	}
 	else if (!finder)
 	{
-		add_env_variable(shell, &shell->env, ft_strjoin("OLDPWD=",old_pwd));
+		add_env_variable(shell, &shell->env, ft_strjoin("OLDPWD=",old_pwd)); // a check
 	}
 }
 
@@ -112,15 +120,15 @@ int	exec_cd(t_shell *shell, char **args) //TODO :compter le nb dargs pour valide
 	old_pwd = getcwd(NULL, 0);
 	if (!old_pwd)
 		ft_error(shell, MALLOC);
-	if (!args[1])
+	if (!args[1] || ft_strncmp(args[1], "~", ft_strlen(args[1])) == 0)
 	{
 		go_to_home(shell, finder, old_pwd);
 	}
-	else if (ft_strncmp(args[1], ".", ft_strlen(args[1])))
+	else if (ft_strncmp(args[1], ".", ft_strlen(args[1])) == 0)
 	{
 		return (0);
 	}
-	else if (ft_strncmp(args[1], "..", ft_strlen(args[1])))
+	else if (ft_strncmp(args[1], "..", ft_strlen(args[1])) == 0)
 	{
 		go_back_directory(shell, finder, old_pwd);
 	}
@@ -130,19 +138,3 @@ int	exec_cd(t_shell *shell, char **args) //TODO :compter le nb dargs pour valide
 	}
 	return (0);
 }
-
-
-
-/*void	go_to_relativ_path(t_shell *shell, t_env *finder, char *old_pwd, char *path)
-{
-	int	flag;
-
-	flag = chdi(path);
-	if (flag == 0)
-	{
-		helpers_update_env(shell, finder, old_pwd);
-	}
-	else
-		ft_putstr_fd("Unable to acces at the directory\n", 2);
-
-}*/
