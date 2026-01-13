@@ -1,5 +1,20 @@
 #include "../../includes/minishell.h"
 
+static bool	is_redir_or_word(t_token *token)
+{
+	if (!token)
+	{
+		return (false);
+	}
+	if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT
+		|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC
+			|| token->type == TOKEN_WORD)
+	{
+		return (true);
+	}
+	return (false);
+}
+
 t_ast_node	*parser_redir(t_shell *shell, t_token **current)
 {
 	t_ast_node	*left;
@@ -10,7 +25,7 @@ t_ast_node	*parser_redir(t_shell *shell, t_token **current)
 	left = parser_paren(shell, current);
 	if (!current || !(*current))
 		return (left);
-	while (current && is_redirection(*current))
+	while (current && is_redir_or_word(*current))
 	{
 		redir_node = create_node(shell, NODE_REDIR);
 		redir_node->redir_type = (*current)->type;
