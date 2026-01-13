@@ -8,7 +8,7 @@ int	exec_exit(t_shell *shell, char **args)
 
 	exit_code = 0;
 	i = 0;
-	if (args[1]) // TODO : Comment il enegriste avec les quotes et simple quotes ?
+	if (args[1])
 	{
 		while (args[1][i])
 		{

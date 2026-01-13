@@ -5,7 +5,7 @@ static void	delete_node(t_shell *shell, t_env *node_to_del)
 {
 	if (!shell || !node_to_del)
 		return ;
-	if(node_to_del->prev)
+	if (node_to_del->prev)
 		node_to_del->prev->next = node_to_del->next;
 	else
 		shell->env = node_to_del->next;
@@ -34,7 +34,8 @@ int	exec_unset(t_shell *shell, char *key_to_unset)
 		{
 			return (1);
 		}
-		if (ft_strncmp(key_to_unset, env->key, len) == 0 && env->key[len] == '\0')
+		if (ft_strncmp(key_to_unset, env->key, len) == 0
+			&& env->key[len] == '\0')
 		{
 			delete_node(shell, env);
 			return (0);

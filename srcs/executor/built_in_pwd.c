@@ -3,25 +3,14 @@
 
 int	exec_pwd(t_shell *shell)
 {
-	t_env	*env;
+	char	*pwd;
 
-	if (!shell || !shell->env)
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
 	{
-		return (1);
+		ft_error(shell, MALLOC);
 	}
-	env = shell->env;
-	while (env)
-	{
-		if (!env)
-		{
-			return (1);
-		}
-		if (ft_strncmp(env->key, "PWD", 3) == 0)
-		{
-			ft_printf("%s",env->value);
-		}
-		env = env->next;
-	}
-	ft_printf("\n");
+	ft_printf("%s\n", pwd);
+	free(pwd);
 	return (0);
 }

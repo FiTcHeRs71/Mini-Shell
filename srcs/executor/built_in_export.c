@@ -29,7 +29,7 @@ static void	print_env_sorted(t_shell *shell)
 	int		j;
 	int		len;
 
-	env_array = convert_env(shell->env);
+	env_array = convert_env(shell, shell->env);
 	i = 0;
 	while (env_array[i])
 	{

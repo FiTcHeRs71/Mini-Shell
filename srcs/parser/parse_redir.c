@@ -62,7 +62,6 @@ static int	create_token_redir(t_shell *shell, t_token **current,
 static void	create_token_cmd(t_shell *shell, t_token **current,
 		t_ast_node **cmd_node, t_ast_node **root)
 {
-
 	if (*cmd_node == NULL)
 	{
 		*cmd_node = create_node(shell, NODE_CMD);

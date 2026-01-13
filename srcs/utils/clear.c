@@ -94,11 +94,11 @@ void	clean_up_fds(t_shell *shell)
 	}
 	if (shell->fd_in > 0)
 	{
-		close (shell->fd_in);
+		close(shell->fd_in);
 	}
 	if (shell->fd_out > 0)
 	{
-		close (shell->fd_out);
+		close(shell->fd_out);
 	}
 }
 

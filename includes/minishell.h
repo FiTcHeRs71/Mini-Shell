@@ -13,7 +13,7 @@
 
 extern int	g_signal;
 
-/*========================== env ==========================*/
+/*========================== env ===============================*/
 /* env_init.c */
 void		init_shell(t_shell *shell, char **envp);
 void		env_add_back(t_env **env, t_env *new);
@@ -27,6 +27,7 @@ int			exec_exit(t_shell *shell, char **args);
 int			exec_pwd(t_shell *shell);
 int			exec_unset(t_shell *shell, char *args);
 int			exec_export(t_shell *shell, t_env **env, char **args);
+int			exec_cd(t_shell *shell, char **args);
 
 /*========================== lexer ==========================*/
 /* tokenize.c */
@@ -79,8 +80,8 @@ void		check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
 
 /*========================== signal ==========================*/
 /* signal.c */
-void	update_signal(t_shell *shell);
-void	init_signal(void);
+void		update_signal(t_shell *shell);
+void		init_signal(void);
 
 /*========================== utils ==========================*/
 /* error.c */

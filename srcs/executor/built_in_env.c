@@ -16,9 +16,9 @@ int	exec_env(t_shell *shell)
 		{
 			return (1);
 		}
-		ft_printf("%s",env->key);
+		ft_printf("%s", env->key);
 		ft_printf("=");
-		ft_printf("%s\n",env->value);
+		ft_printf("%s\n", env->value);
 		env = env->next;
 	}
 	return (0);

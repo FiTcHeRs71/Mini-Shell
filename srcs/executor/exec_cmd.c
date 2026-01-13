@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-char	**convert_env(t_env *env)
+char	**convert_env(t_shell *shell, t_env *env)
 {
 	char	**new_env;
 	char	*tmp;
@@ -10,6 +10,10 @@ char	**convert_env(t_env *env)
 		return (NULL);
 	i = 0;
 	new_env = ft_calloc(ft_envsize(env) + 1, sizeof(char *));
+	if (!new_env)
+	{
+		ft_error(shell, MALLOC);
+	}
 	while (env)
 	{
 		tmp = ft_strjoin(env->key, "=");
@@ -27,8 +31,8 @@ void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
 	char	**new_env;
 
 	tmp_env = shell->env;
-	new_env = convert_env(tmp_env);
-	execve(node->cmd_path, node->args, new_env); // TODO : define error and return
+	new_env = convert_env(shell, tmp_env);
+	execve(node->cmd_path, node->args, new_env); // TODO : define error and return free new env ?
 	if (errno == ENOENT)
 		_exit(127);
 	if (errno == EACCES || errno == EISDIR || errno == ENOEXEC)
@@ -51,8 +55,8 @@ int	is_builtin(t_shell *shell, t_ast_node *node)
 	signal = -1;
 	if (!ft_strncmp(node->args[0], "echo", 5))
 		signal = exec_echo(node->args);
-	//else if(!ft_strncmp(node->args[0], "cd", 3))
-		//signal = exec_cd();
+	else if(!ft_strncmp(node->args[0], "cd", 3))
+		signal = exec_cd(shell, node->args);
 	else if (!ft_strncmp(node->args[0], "env", 4))
 		signal = exec_env(shell);
 	else if (!ft_strncmp(node->args[0], "exit", 5))

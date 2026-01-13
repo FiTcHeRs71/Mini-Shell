@@ -103,7 +103,7 @@ static void	go_to_directory(t_shell *shell, t_env *finder, char *old_pwd, char *
 }
 
 
-void	exec_cd(t_shell *shell, char **args) //TODO :compter le nb dargs pour valide chemin ?  tester chdir(..)
+int	exec_cd(t_shell *shell, char **args) //TODO :compter le nb dargs pour valide chemin ?  tester chdir(..)
 {
 	t_env	*finder;
 	char	*old_pwd;
@@ -118,7 +118,7 @@ void	exec_cd(t_shell *shell, char **args) //TODO :compter le nb dargs pour valid
 	}
 	else if (ft_strncmp(args[1], ".", ft_strlen(args[1])))
 	{
-		return ;
+		return (0);
 	}
 	else if (ft_strncmp(args[1], "..", ft_strlen(args[1])))
 	{
@@ -128,6 +128,7 @@ void	exec_cd(t_shell *shell, char **args) //TODO :compter le nb dargs pour valid
 	{
 		go_to_directory(shell, finder, old_pwd, args[1]);
 	}
+	return (0);
 }
 
 
