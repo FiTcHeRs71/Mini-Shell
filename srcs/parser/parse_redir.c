@@ -1,43 +1,104 @@
 #include "../../includes/minishell.h"
 
-static bool	is_redir_or_word(t_token *token)
+static t_ast_node	*get_farthest_left(t_ast_node *node)
 {
-	if (!token)
+	if (!node)
+		return (NULL);
+	while (node->left != NULL)
+		node = node->left;
+	return (node);
+}
+
+static void	arg_to_command(t_shell *shell, t_ast_node *cmd, char *arg)
+{
+	int		i;
+	char	**new_args;
+
+	i = 0;
+	while (cmd->args && cmd->args[i])
+		i++;
+	new_args = ft_calloc(i + 2, sizeof(char *));
+	if (!new_args)
+		ft_error(shell, MALLOC);
+	i = 0;
+	while (cmd->args && cmd->args[i])
 	{
-		return (false);
+		new_args[i] = cmd->args[i];
+		i++;
 	}
-	if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT
-		|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC
-			|| token->type == TOKEN_WORD)
+	new_args[i] = ft_strdup(arg);
+	if (!new_args[i])
 	{
-		return (true);
+		free(new_args);
+		ft_error(shell, MALLOC);
 	}
-	return (false);
+	if (cmd->args)
+		free(cmd->args);
+	cmd->args = new_args;
+}
+
+static int	create_token_redir(t_shell *shell, t_token **current,
+		t_ast_node **root)
+{
+	t_ast_node	*redir;
+
+	redir = create_node(shell, NODE_REDIR);
+	redir->redir_type = (*current)->type;
+	advance_token(current);
+	if (!*current || (*current)->type != TOKEN_WORD)
+	{
+		syntaxe_error("Redirection must be followed by a file");
+		return (1);
+	}
+	redir->file = ft_strdup((*current)->value);
+	if (!redir->file)
+		ft_error(shell, MALLOC);
+	redir->left = *root;
+	*root = redir;
+	advance_token(current);
+	return (0);
+}
+
+static void	create_token_cmd(t_shell *shell, t_token **current,
+		t_ast_node **cmd_node, t_ast_node **root)
+{
+
+	if (*cmd_node == NULL)
+	{
+		*cmd_node = create_node(shell, NODE_CMD);
+		arg_to_command(shell, *cmd_node, (*current)->value);
+		if (*root == NULL)
+			*root = *cmd_node;
+		else
+			get_farthest_left(*root)->left = *cmd_node;
+	}
+	else
+	{
+		arg_to_command(shell, *cmd_node, (*current)->value);
+	}
+	advance_token(current);
 }
 
 t_ast_node	*parser_redir(t_shell *shell, t_token **current)
 {
-	t_ast_node	*left;
-	t_ast_node	*redir_node;
+	t_ast_node	*root;
+	t_ast_node	*cmd_node;
 
 	if (!current || !(*current))
 		return (NULL);
-	left = parser_paren(shell, current);
-	if (!current || !(*current))
-		return (left);
-	while (current && is_redir_or_word(*current))
+	root = parser_paren(shell, current);
+	cmd_node = root;
+	while (current && *current && is_redir_or_word(*current))
 	{
-		redir_node = create_node(shell, NODE_REDIR);
-		redir_node->redir_type = (*current)->type;
-		advance_token(current);
-		if (!*current || (*current)->type != TOKEN_WORD)
-			syntaxe_error("Must be a file after a redirect"); // TODO : a confirmer
-		redir_node->file = ft_strdup((*current)->value);
-		if (!redir_node->file)
-			ft_error(shell, MALLOC);
-		redir_node->left = left;
-		advance_token(current);
-		left = redir_node;
+		if ((*current)->type != TOKEN_WORD)
+		{
+			if (create_token_redir(shell, current, &root) == 1)
+				return (NULL);
+		}
+		else
+		{
+			create_token_cmd(shell, current, &cmd_node, &root);
+		}
 	}
-	return (left);
+	return (root);
 }

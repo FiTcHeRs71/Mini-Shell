@@ -57,3 +57,13 @@ bool	is_operator(t_token *token)
 	}
 	return (false);
 }
+bool	is_redir_or_word(t_token *token)
+{
+	if (!token)
+		return (false);
+	if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT
+		|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC
+		|| token->type == TOKEN_WORD)
+		return (true);
+	return (false);
+}

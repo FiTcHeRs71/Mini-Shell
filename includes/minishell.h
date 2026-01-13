@@ -60,6 +60,7 @@ bool		is_redirection(t_token *token);
 bool		is_pipe(t_token *token);
 bool		is_flow_operator(t_token *token);
 bool		is_operator(t_token *token);
+bool		is_redir_or_word(t_token *token);
 
 /* parse_utils2.c */
 t_ast_node	*create_node(t_shell *shell, t_node_type type);
