@@ -98,4 +98,6 @@ void	clean_up_loop(t_shell *shell)
 {
 	free_ast(shell->tree_ast);
 	free_token(shell->token_list);
+	dup2(shell->stdout_back_up, STDOUT_FILENO);
+	dup2(shell->stdin_back_up, STDIN_FILENO);
 }
