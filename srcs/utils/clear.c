@@ -92,6 +92,14 @@ void	clean_up_fds(t_shell *shell)
 	{
 		close(shell->stdout_back_up);
 	}
+	if (shell->fd_in > 0)
+	{
+		close (shell->fd_in);
+	}
+	if (shell->fd_out > 0)
+	{
+		close (shell->fd_out);
+	}
 }
 
 void	clean_up_loop(t_shell *shell)

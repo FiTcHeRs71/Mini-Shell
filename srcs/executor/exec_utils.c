@@ -68,14 +68,14 @@ int	open_redir_out(t_shell *shell, t_ast_node *right)
 		if (errno == 2)
 		{
 			shell->fd_out = open(right->file, O_CREAT | O_WRONLY | O_TRUNC);
-			if (shell->fd_out  < 0)
+			if (shell->fd_out < 0)
 			return (1);
 		}
 	}
 	else
 	{
 		shell->fd_out = open(right->file, O_WRONLY | O_TRUNC);
-		if (shell->fd_out  < 0)
+		if (shell->fd_out < 0)
 			return (1);
 	}
 	return (0);

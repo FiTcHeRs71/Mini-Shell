@@ -103,7 +103,7 @@ static void	go_to_directory(t_shell *shell, t_env *finder, char *old_pwd, char *
 }
 
 
-void	exec_cd(t_shell *shell, char **args) //compter le nb dargs pour valide chemin ?
+void	exec_cd(t_shell *shell, char **args) //TODO :compter le nb dargs pour valide chemin ?  tester chdir(..)
 {
 	t_env	*finder;
 	char	*old_pwd;
