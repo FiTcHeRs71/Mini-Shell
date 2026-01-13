@@ -42,8 +42,8 @@ char	*ft_strjoin_slash(char const *s1, char const *s2)
 
 void	get_cmd(t_ast_node *node, char *path)
 {
-	char	*tmp;
-	int		i;
+	char *tmp;
+	int	i;
 
 	i = 0;
 	node->cmd_path = path;
@@ -76,7 +76,6 @@ int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd)
 		if (access(path, X_OK) == 0)
 		{
 			node->cmd_path = path;
-			free(path);
 			return (ft_free_2d_array(paths), 0);
 		}
 		else
@@ -86,3 +85,4 @@ int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd)
 	ft_free_2d_array(paths);
 	return (127);
 }
+

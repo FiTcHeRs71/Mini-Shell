@@ -32,7 +32,7 @@ void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
 
 	tmp_env = shell->env;
 	new_env = convert_env(shell, tmp_env);
-	execve(node->cmd_path, node->args, new_env); // TODO : define error and return free new env ?
+	execve(node->cmd_path, node->args, new_env); // TODO : define error and return
 	if (errno == ENOENT)
 		_exit(127);
 	if (errno == EACCES || errno == EISDIR || errno == ENOEXEC)
