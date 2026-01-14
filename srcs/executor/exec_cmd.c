@@ -34,16 +34,21 @@ void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
 	new_env = convert_env(shell, tmp_env);
 	execve(node->cmd_path, node->args, new_env); // TODO : define error and return
 	if (errno == ENOENT)
-		_exit(127);
+		exit(127);
 	if (errno == EACCES || errno == EISDIR || errno == ENOEXEC)
-		_exit(126);
+		exit(126);
 	exit(1);
 }
 
 int	check_cmd(t_shell *shell, t_ast_node *node)
 {
 	if (access(node->args[0], X_OK) == 0)
-		return (get_cmd(node, node->args[0]), 0);
+	{
+		node->cmd_path = ft_strdup(node->args[0]);
+		if (!node->cmd_path)
+			return (1);
+		return (0);
+	}
 	else
 		return (update_cmd(shell, node, node->args[0]));
 }

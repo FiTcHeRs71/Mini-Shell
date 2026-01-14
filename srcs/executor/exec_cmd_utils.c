@@ -40,22 +40,6 @@ char	*ft_strjoin_slash(char const *s1, char const *s2)
 	return (s12);
 }
 
-void	get_cmd(t_ast_node *node, char *path)
-{
-	char *tmp;
-	int	i;
-
-	i = 0;
-	node->cmd_path = path;
-	while (path[i])
-		i++;
-	while (path[i != '/'])
-		i--;
-	tmp = ft_substr(path, i + 1, ft_strlen(path) - i);
-	free(node->args[0]);
-	node->args[0] = tmp;
-}
-
 int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd)
 {
 	t_env	*tmp_env;

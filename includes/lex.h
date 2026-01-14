@@ -17,7 +17,6 @@ int	exec_cmd(t_shell *shell, t_ast_node *node);
 int	wait_for_children(t_pipe state);
 void	exec_heredoc(t_shell *shell, t_ast_node *node);
 char	*ft_strjoin_slash(char const *s1, char const *s2);
-void	get_cmd(t_ast_node *node, char *path);
 int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd);
 int		ft_envsize(t_env *lst);
 
