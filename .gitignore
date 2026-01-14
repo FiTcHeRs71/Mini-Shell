@@ -422,3 +422,5 @@ readline.supp
 valgrind.log
 minishell
 valgrind.log
+infile
+outfile
