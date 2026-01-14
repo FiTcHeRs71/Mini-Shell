@@ -57,6 +57,7 @@ bool	is_operator(t_token *token)
 	}
 	return (false);
 }
+
 bool	is_redir_or_word(t_token *token)
 {
 	if (!token)
