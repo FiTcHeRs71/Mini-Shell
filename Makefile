@@ -22,7 +22,7 @@ SRCS_EXPANDER = $(addprefix $(SRCDIR)/expander/, \
 	expand.c)
 
 SRCS_EXECUTOR = $(addprefix $(SRCDIR)/executor/, \
-	 exec.c exec_utils.c exec_pipe.c exec_heredoc.c \
+	exec.c exec_utils.c exec_pipe.c exec_heredoc.c \
 	exec_cmd.c exec_cmd_utils.c )
 
 SRCS_BUILTINS = $(addprefix $(SRCDIR)/builtins/, \
@@ -99,7 +99,7 @@ run: all
 valgrind: all
 	@echo "$(YELLOW)🔍 Running valgrind...$(RESET)"
 	@valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes \
-		--suppressions=readline.supp --log-file="valgrind.log"./$(NAME)
+		--suppressions=readline.supp --log-file="valgrind.log" $(PWD)/$(NAME)
 
 norm:
 	@echo "$(YELLOW)📋 Checking norminette...$(RESET)"

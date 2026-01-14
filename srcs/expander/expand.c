@@ -21,22 +21,21 @@ static char	*expanded_value(t_shell *shell, t_token *token, char *varname)
 	char	*var_value;
 	char	*buffer;
 	char	*value;
-	int		i;
-	int		j;
+	char	*res;
 
-	i = 0;
-	j = 0;
 	value = token->value;
 	buffer = ft_calloc(increment_len(token->value, '$', 0) + 1, sizeof(char));
 	if (!buffer)
 		return (NULL);
-	while (value[i] != '$' && value[i])
-		buffer[j++] = value[i++];
-	buffer[j] = '\0';
+	while (*value != '$' && *value)
+		*buffer++ = *value++;
+	*buffer = '\0';
 	var_value = get_env_varname(shell, varname);
 	if (!var_value)
 		var_value = "";
-	return (ft_strjoin(buffer, var_value));
+	res = ft_strjoin(buffer, var_value);
+	free(buffer);
+	return (res);
 }
 
 static void	process_expansion(t_shell *shell, t_token *token, char *value)

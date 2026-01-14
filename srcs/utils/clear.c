@@ -69,10 +69,10 @@ void	free_ast(t_ast_node *tree)
 		}
 		free(tree->args);
 	}
+	if (tree && tree->cmd_path)
+		free(tree->cmd_path);
 	if (tree && tree->file)
-	{
 		free(tree->file);
-	}
 	free_ast(tree->right);
 	free_ast(tree->left);
 	free(tree);
