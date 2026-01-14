@@ -17,7 +17,7 @@ static char	*expanded_value(t_token *token, char *varname)
 	while (value[i] != '$' && value[i])
 		buffer[j++] = value[i++];
 	buffer[j] = '\0';
-	var_value = getenv(varname); // TODO : VIRE MOI CETTE MERDE ET LIS MON ENV EN LISTE CHAINE CONNARD ! UTILISE GET ENV NODE (exec_cd.c)
+	var_value = getenv(varname); // TODO : VIRE MOI CETTE MERDE ET LIS MON ENV EN LISTE CHAINE CONNARD ! UTILISE GET ENV NODE (builtin_utils.c)
 	if (!var_value)
 		var_value = "";
 	return (ft_strjoin(buffer, var_value));
