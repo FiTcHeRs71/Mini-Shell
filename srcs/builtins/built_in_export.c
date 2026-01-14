@@ -38,7 +38,7 @@ static void	print_env_sorted(t_shell *shell)
 		{
 			len = ft_strlen(env_array[i]) + ft_strlen(env_array[j]);
 			if (ft_strncmp(env_array[i], env_array[j], len) < 0)
-					swap_array(&env_array[i], &env_array[j]);
+				swap_array(&env_array[i], &env_array[j]);
 			j++;
 		}
 		i++;
@@ -57,7 +57,7 @@ int	exec_export(t_shell *shell, t_env **env, char **args)
 		return (print_env_sorted(shell), 0);
 	}
 	new = ft_calloc(1, sizeof(t_env));
-	if  (!new)
+	if (!new)
 		ft_error(shell, MALLOC);
 	finder = ft_strchr(args[1], '=');
 	if (!finder)
@@ -75,4 +75,3 @@ int	exec_export(t_shell *shell, t_env **env, char **args)
 	env_add_back(env, new);
 	return (0);
 }
-
