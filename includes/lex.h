@@ -5,6 +5,7 @@
 
 int		increment_len(char *line, char c, int i);
 void	expansion(t_shell *shell);
+char	*expand_heredoc(t_shell *shell, char *line);
 
 /* exec */
 int	open_redir_out(t_shell *shell, t_ast_node *right);

@@ -4,6 +4,7 @@ void	exec_heredoc(t_shell *shell, t_ast_node *node)
 {
 	char	*line;
 	char	*limiter;
+	char	*result;
 
 	limiter = ft_strjoin(node->file, "\n");
 	pipe(shell->pipehd);
@@ -17,7 +18,11 @@ void	exec_heredoc(t_shell *shell, t_ast_node *node)
 			close(shell->pipehd[1]);
 			break ;
 		}
-		ft_putstr_fd(line, shell->pipehd[1]);
+		result = expand_heredoc(shell, line);
+		if (!result)
+			return ;
+		ft_putstr_fd(result, shell->pipehd[1]);
 		free(line);
+		free(result);
 	}
 }

@@ -27,13 +27,11 @@ char	**convert_env(t_shell *shell, t_env *env)
 
 void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
 {
-	t_env	*tmp_env;
 	char	**new_env;
 
-	tmp_env = shell->env;
-	new_env = convert_env(shell, tmp_env);
-	free_env_list(shell->env); // TODO : ON DOIT FREE AST, TOKEN LIST ET ENV DANS LES CHILD sinon ca leak ca mere la tchoin!
-	execve(node->cmd_path, node->args, new_env); // TODO : define error and return
+	new_env = convert_env(shell, shell->env);
+	execve(node->cmd_path, node->args, new_env);
+	ft_free_2d_array(new_env);
 	if (errno == ENOENT)
 		exit(127);
 	if (errno == EACCES || errno == EISDIR || errno == ENOEXEC)
@@ -84,26 +82,25 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 	
 	signal = is_builtin(shell, node);
 	if (signal != -1)
-		return(signal);
-	signal = check_cmd(shell, node);
-	if (signal == 0)
 	{
-		pid = fork();
-		if (pid < 0)
-			return (1);
-		if (pid == 0)
-		{
-			execute_ext_cmd(shell, node);
-			exit(1);
-		}
-		if (waitpid(pid, &status, 0) < 0)
-			return (1);
-		if (WIFSIGNALED(status))
-			return (128 + WTERMSIG(status));
-		else if (WIFEXITED(status))
-			return (WEXITSTATUS(status));
-		return (1);
+		if (shell->is_child)
+			exit(signal);
+		return(signal);
 	}
-	else
-		return (signal);
+	if (check_cmd(shell, node) != 0)
+		return (1);
+	if (shell->is_child)
+		execute_ext_cmd(shell, node);
+	pid = fork();
+	if (pid < 0)
+		return (1);
+	if (pid == 0)
+		execute_ext_cmd(shell, node);
+	if (waitpid(pid, &status, 0) < 0)
+		return (1);
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (1);
 }
