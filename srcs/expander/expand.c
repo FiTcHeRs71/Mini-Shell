@@ -1,6 +1,22 @@
 #include "../includes/minishell.h"
 
-static char	*expanded_value(t_token *token, char *varname)
+static char	*get_env_varname(t_shell *shell, char *key)
+{
+	t_env	*env;
+
+	env = shell->env;
+	while (env)
+	{
+		if (ft_strncmp(env->key, key, ft_strlen(env->key)) == 0)
+		{
+			return (env->value);
+		}
+		env = env->next;
+	}
+	return (NULL);	
+}
+
+static char	*expanded_value(t_shell *shell, t_token *token, char *varname)
 {
 	char	*var_value;
 	char	*buffer;
@@ -17,7 +33,7 @@ static char	*expanded_value(t_token *token, char *varname)
 	while (value[i] != '$' && value[i])
 		buffer[j++] = value[i++];
 	buffer[j] = '\0';
-	var_value = getenv(varname);
+	var_value = get_env_varname(shell, varname);
 	if (!var_value)
 		var_value = "";
 	return (ft_strjoin(buffer, var_value));
@@ -52,7 +68,7 @@ static void	process_expansion(t_shell *shell, t_token *token, char *value)
 		varname[j++] = value[i++];
 	}
 	varname[j] = '\0';
-	new_value = expanded_value(token, varname);
+	new_value = expanded_value(shell, token, varname);
 	free(varname);
 	if (!new_value)
 		return ;
