@@ -42,7 +42,8 @@ int	check_token_rparen(int paren_balance, t_shell *shell)
 	return (paren_balance);
 }
 
-void	last_token_check(t_token *last, int paren_balance, t_token *prev_token, t_shell *shell)
+void	last_token_check(t_token *last, int paren_balance, t_token *prev_token,
+	t_shell *shell)
 {
 	if (!last)
 		return ;

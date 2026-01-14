@@ -32,6 +32,7 @@ void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
 
 	tmp_env = shell->env;
 	new_env = convert_env(shell, tmp_env);
+	free_env_list(shell->env); // TODO : ON DOIT FREE AST, TOKEN LIST ET ENV DANS LES CHILD sinon ca leak ca mere la tchoin!
 	execve(node->cmd_path, node->args, new_env); // TODO : define error and return
 	if (errno == ENOENT)
 		exit(127);

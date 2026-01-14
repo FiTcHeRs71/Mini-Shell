@@ -7,6 +7,7 @@ void	syntaxe_error(char *msg)
 	if (msg)
 		ft_putendl_fd(msg, 2);
 }
+
 void	ft_error(t_shell *shell, int error)
 {
 	if (error == MALLOC)

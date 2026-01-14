@@ -1,15 +1,16 @@
+
 #define _GNU_SOURCE
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <errno.h>
-# include "../libft/include/libft.h" 
+# include "../libft/include/libft.h"
 # include "minishell_struct.h"
-# include "work.h"
 # include "lex.h"
+# include "work.h"
+# include <errno.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
 
 extern int	g_signal;
 
@@ -19,7 +20,7 @@ void		init_shell(t_shell *shell, char **envp);
 void		env_add_back(t_env **env, t_env *new);
 void		add_env_variable(t_shell *shell, t_env **env, char *envp);
 
-/*========================== executor ==========================*/
+/*========================== builtins ==========================*/
 /* built_in_X.c*/
 int			exec_echo(char **args);
 int			exec_env(t_shell *shell);
@@ -29,7 +30,15 @@ int			exec_unset(t_shell *shell, char *args);
 int			exec_export(t_shell *shell, t_env **env, char **args);
 int			exec_cd(t_shell *shell, char **args);
 
-/*========================== lexer ==========================*/
+/* built_in_utils.c */
+void	update_env(t_shell *shell, t_env *finder, char *new_value);
+t_env	*get_env_node(t_shell *shell, char *key);
+
+/*=========================== executor =========================*/
+
+
+
+/*=========================== lexer ============================*/
 /* tokenize.c */
 void		tokenize(t_token **token, t_token *new, char *buffer);
 void		tokenisation(t_shell *shell, char *line);
@@ -76,7 +85,6 @@ void		validate_syntaxe(t_token *token, t_shell *shell);
 void		check_token_and_or(t_token *token, t_token *prev_token, t_shell *shell);
 void		check_token_redir(t_token *token, t_shell *shell);
 void		check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
-
 
 /*========================== signal ==========================*/
 /* signal.c */
