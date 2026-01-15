@@ -88,7 +88,7 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 		return(signal);
 	}
 	if (check_cmd(shell, node) != 0)
-		return (1);
+		return (127);
 	if (shell->is_child)
 		execute_ext_cmd(shell, node);
 	pid = fork();
