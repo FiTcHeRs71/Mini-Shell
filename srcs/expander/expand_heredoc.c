@@ -87,7 +87,7 @@ char	*expand_heredoc(t_shell *shell, char *line)
 		if (ft_strchr(tmp, '$') && ft_strncmp(tmp, "$", 2))
 		{
 			expanded = process_expand_heredoc(shell, tmp, line);
-			res = ft_strjoin(expanded, "\n");
+			res = ft_strjoin(expanded, "\n"); // TODO :SECU MALLOC ?
 			free(expanded);
 			return (res);
 		}
