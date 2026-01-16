@@ -16,8 +16,12 @@ void	ft_error(t_shell *shell, int error)
 		clean_before_exit(shell);
 		exit(EXIT_FAILURE);
 	}
-	if (error == CD)
+	else if (error == CD)
 	{
 		ft_putstr_fd("Unable to find or acces at directory\n", 2);
+	}
+	else if (error == CD_ENTRY)
+	{
+		ft_putstr_fd("error retrieving current directory\n", 2);
 	}
 }

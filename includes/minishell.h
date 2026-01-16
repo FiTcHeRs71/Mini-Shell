@@ -25,7 +25,7 @@ void		add_env_variable(t_shell *shell, t_env **env, char *envp);
 int			exec_echo(char **args);
 int			exec_env(t_shell *shell);
 int			exec_exit(t_shell *shell, char **args);
-int			exec_pwd(t_shell *shell);
+int			exec_pwd();
 int			exec_unset(t_shell *shell, char *args);
 int			exec_export(t_shell *shell, t_env **env, char **args);
 int			exec_cd(t_shell *shell, char **args);

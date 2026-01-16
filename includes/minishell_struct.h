@@ -5,6 +5,7 @@ typedef enum e_error
 {
 	MALLOC,
 	CD,
+	CD_ENTRY,
 }						t_error;
 
 typedef enum e_token_type

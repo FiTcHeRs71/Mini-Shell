@@ -68,7 +68,7 @@ int	is_builtin(t_shell *shell, t_ast_node *node)
 	else if (!ft_strncmp(node->args[0], "export", 7))
 		signal = exec_export(shell, &shell->env, node->args);
 	else if (!ft_strncmp(node->args[0], "pwd", 4))
-		signal = exec_pwd(shell);
+		signal = exec_pwd();
 	else if (!ft_strncmp(node->args[0], "unset", 5))
 		signal = exec_unset(shell, node->args[1]);
 	return (signal);
