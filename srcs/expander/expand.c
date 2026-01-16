@@ -37,6 +37,11 @@ static char	*expanded_value(t_shell *shell, t_token *token, char *varname)
 	free(buffer);
 	return (res);
 }
+static void expand_last_status(t_shell *shell, t_token *token)
+{
+	free(token->value);
+	token->value = ft_itoa(shell->last_exit_status);
+}
 
 static void	process_expansion(t_shell *shell, t_token *token, char *value)
 {
@@ -51,26 +56,18 @@ static void	process_expansion(t_shell *shell, t_token *token, char *value)
 		i++;
 	if (value[i] == '$' && value[i + 1] == '?')
 	{
-		free(token->value);
-		token->value = ft_itoa(shell->last_exit_status);
+		expand_last_status(shell, token);
 		return ;
 	}
 	varname = ft_calloc(increment_len(value, ' ', i), sizeof(char));
 	if (!varname)
-		return ;
-	while (value[i])
-	{
-		if (value[i] == '$')
-			i++;
-		if (!value[i])
-			break ;
-		varname[j++] = value[i++];
-	}
+		ft_error(shell, MALLOC);
+	find_varname(varname, value, i, j);
 	varname[j] = '\0';
 	new_value = expanded_value(shell, token, varname);
 	free(varname);
 	if (!new_value)
-		return ;
+		ft_error(shell, MALLOC);
 	free(token->value);
 	token->value = new_value;
 }

@@ -1,17 +1,5 @@
 #include "../includes/minishell.h"
 
-/*static void	dup_close_child_process(int fd, int n)
-{
-	if (dup2(fd, n) < 0)
-	{
-		if (fd != n)
-			close(fd);
-		exit(1);
-	}
-	if (fd != n)
-		close(fd);
-}*/
-
 static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
 {
 	shell->is_child = 1;

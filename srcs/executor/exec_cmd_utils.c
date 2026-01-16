@@ -1,5 +1,41 @@
 #include "../includes/minishell.h"
 
+void	check_error(char *cmd, int error)
+{
+	if (error == ENOENT)
+	{
+		print_error("no such file or directory: ", cmd);
+		exit(127);
+	}
+	if (error == EACCES) // || errno == ENOEXEC)
+	{
+		print_error("permission denied: ", cmd);
+		exit(126);
+	}
+	if (error == EISDIR)
+	{
+		print_error("is a directory: ", cmd);
+		exit(126);
+	}
+	if (error == ENOEXEC)
+	{
+		print_error("Exec format error: ", cmd);
+		exit(126);
+	}
+}
+
+void	print_error(char *error, char *cmd)
+{
+	char	*res;
+
+	res = ft_strjoin(cmd, "\n");
+	if (!res)
+		return ;
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(error, 2);
+	ft_putstr_fd(res, 2);
+}
+
 int	ft_envsize(t_env *lst)
 {
 	int	size;
@@ -66,7 +102,6 @@ int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd)
 			free(path);
 		i++;
 	}
-	ft_free_2d_array(paths);
-	return (127);
+	return (ft_free_2d_array(paths), print_error("command not found: ", cmd), 127);
 }
 

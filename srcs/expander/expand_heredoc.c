@@ -28,7 +28,7 @@ static char	*expanded_value(t_shell *shell, char *varname, char *line)
 	value = line;
 	buffer = ft_calloc(increment_len(line, '$', 0) + 1, sizeof(char));
 	if (!buffer)
-		return (NULL);
+		ft_error(shell, MALLOC);
 	while (*value != '$' && *value)
 		buffer[i++] = *value++;
 	buffer[i] = '\0';
@@ -36,8 +36,23 @@ static char	*expanded_value(t_shell *shell, char *varname, char *line)
 	if (!var_value)
 		var_value = "";
 	res = ft_strjoin(buffer, var_value);
+	if (!res)
+		ft_error(shell, MALLOC);
 	free(buffer);
 	return (res);
+}
+
+void find_varname(char *varname, char *value, int i, int j)
+{
+	while (value[i])
+	{
+		if (value[i] == '$')
+			i++;
+		if (!value[i])
+			break ;
+		varname[j++] = value[i++];
+	}
+	varname[j] = '\0';
 }
 
 static char	*process_expand_heredoc(t_shell *shell, char *value, char *line)
@@ -59,15 +74,7 @@ static char	*process_expand_heredoc(t_shell *shell, char *value, char *line)
 	varname = ft_calloc(increment_len(value, ' ', i), sizeof(char));
 	if (!varname)
 		return (NULL);
-	while (value[i])
-	{
-		if (value[i] == '$')
-			i++;
-		if (!value[i])
-			break ;
-		varname[j++] = value[i++];
-	}
-	varname[j] = '\0';
+	find_varname(varname, value, i, j);
 	new_value = expanded_value(shell, varname, line);
 	free(varname);
 	if (!new_value)
@@ -82,16 +89,16 @@ char	*expand_heredoc(t_shell *shell, char *line)
 	char	*expanded;
 
 	tmp = line;
-	while (tmp)
+	if (ft_strchr(tmp, '$'))
 	{
-		if (ft_strchr(tmp, '$') && ft_strncmp(tmp, "$", 2))
-		{
-			expanded = process_expand_heredoc(shell, tmp, line);
-			res = ft_strjoin(expanded, "\n"); // TODO :SECU MALLOC ?
-			free(expanded);
-			return (res);
-		}
-		tmp++;
+		expanded = process_expand_heredoc(shell, tmp, line);
+		if(!expanded)
+			ft_error(shell, MALLOC);
+		res = ft_strjoin(expanded, "\n");
+		if (!res)
+			ft_error(shell, MALLOC);
+		free(expanded);
+		return (res);
 	}
 	return (NULL);
 }

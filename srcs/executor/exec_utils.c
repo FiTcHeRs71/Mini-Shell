@@ -13,25 +13,17 @@ int	wait_for_children(t_pipe state)
 	return (1);
 }
 
-int	open_and_dup(t_shell *shell, t_ast_node *node)
+int	wait_on_process(int	pid)
 {
-	int	signal;
- 
-	if (node->redir_type == TOKEN_APPEND)
-		signal = open_append(shell, node);
-	else
-		signal = open_redir_out(shell, node);
-	if (signal != 0)
-		return (signal);
- 
-	if (dup2(shell->fd_out, STDOUT_FILENO) < 0)
-	{
-		close(shell->fd_out);
+	int	status;
+
+	if (waitpid(pid, &status, 0) < 0)
 		return (1);
-	}
-	if (shell->fd_out != STDOUT_FILENO)
-		close(shell->fd_out);
-	return (exec_ast(shell, node->left));
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	else if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (1);
 }
 
 int	open_append(t_shell *shell, t_ast_node *right)

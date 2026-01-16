@@ -6,6 +6,7 @@
 int		increment_len(char *line, char c, int i);
 void	expansion(t_shell *shell);
 char	*expand_heredoc(t_shell *shell, char *line);
+void find_varname(char *varname, char *value, int i, int j);
 
 /* exec */
 int	open_redir_out(t_shell *shell, t_ast_node *right);
@@ -20,5 +21,9 @@ void	exec_heredoc(t_shell *shell, t_ast_node *node);
 char	*ft_strjoin_slash(char const *s1, char const *s2);
 int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd);
 int		ft_envsize(t_env *lst);
+int	wait_on_process(int	pid);
+int	exec_redir(t_shell *shell, t_ast_node *node);
+void	check_error(char *cmd, int error);
+void	print_error(char *error, char *cmd);
 
 #endif

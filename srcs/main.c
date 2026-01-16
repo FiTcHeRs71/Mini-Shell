@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			tokenisation(&shell, line);
 			parse(shell.token_list, &shell);
-			exec_ast(&shell, shell.tree_ast);
+			g_signal = exec_ast(&shell, shell.tree_ast);
 		}
 		clean_up_loop(&shell);
 	}

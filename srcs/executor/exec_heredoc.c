@@ -19,9 +19,10 @@ void	exec_heredoc(t_shell *shell, t_ast_node *node)
 			break ;
 		}
 		result = expand_heredoc(shell, line);
-		if (!result)
-			return ;
-		ft_putstr_fd(result, shell->pipehd[1]);
+		if (result)
+			ft_putstr_fd(result, shell->pipehd[1]);
+		else
+			ft_putstr_fd(line, shell->pipehd[1]);
 		free(line);
 		free(result);
 	}

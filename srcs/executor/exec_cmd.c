@@ -17,7 +17,11 @@ char	**convert_env(t_shell *shell, t_env *env)
 	while (env)
 	{
 		tmp = ft_strjoin(env->key, "=");
+		if (!tmp)
+			ft_error(shell, MALLOC);
 		new_env[i] = ft_strjoin(tmp, env->value);
+		if (!new_env[i])
+			ft_error(shell, MALLOC);
 		free(tmp);
 		env = env->next;
 		i++;
@@ -32,18 +36,17 @@ void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
 	new_env = convert_env(shell, shell->env);
 	execve(node->cmd_path, node->args, new_env);
 	ft_free_2d_array(new_env);
-	if (errno == ENOENT)
-		exit(127);
-	if (errno == EACCES || errno == EISDIR || errno == ENOEXEC)
-		exit(126);
+	check_error(node->args[0], errno);
 	exit(1);
 }
 
 int	check_cmd(t_shell *shell, t_ast_node *node)
 {
-	if (access(node->args[0], X_OK) == 0)
+	if (access(node->args[0], X_OK) == 0 || ft_strrchr(node->args[0], '/'))
 	{
 		node->cmd_path = ft_strdup(node->args[0]);
+		if (!node->cmd_path)
+			ft_error(shell, MALLOC);
 		if (!node->cmd_path)
 			return (1);
 		return (0);
@@ -78,7 +81,6 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 {
 	int	signal;
 	int	pid;
-	int	status;
 	
 	signal = is_builtin(shell, node);
 	if (signal != -1)
@@ -96,11 +98,5 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 		return (1);
 	if (pid == 0)
 		execute_ext_cmd(shell, node);
-	if (waitpid(pid, &status, 0) < 0)
-		return (1);
-	if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (1);
+	return (wait_on_process(pid));
 }

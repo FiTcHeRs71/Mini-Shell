@@ -24,61 +24,19 @@ int	exec_or(t_shell *shell, t_ast_node *node)
 int	exec_sub(t_shell *shell, t_ast_node *node)
 {
 	int	pid;
-	int	status;
 	int	code;
 
 	if (shell->is_child)
 		return (exec_ast(shell, node->left));
 	pid = fork();
-	// if (pid < 0)
-	// 	ft_error(); TODO : fork error
+	if (pid < 0)
+		return (1);
 	if (pid == 0)
 	{
 		code = exec_ast(shell, node->left);
 		exit(code);
 	}
-	if (waitpid(pid, &status, 0) < 0)
-		return (1);
-	if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	else if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (1);
-}
-
-int	exec_redir(t_shell *shell, t_ast_node *node)
-{
-	int	signal;
-
-	signal = 0;
-	if (node->redir_type == TOKEN_REDIR_OUT) // >
-		return (open_and_dup(shell, node));
-	else if (node->redir_type == TOKEN_APPEND) // >>
-		return (open_and_dup(shell,node));
-	else if (node->redir_type == TOKEN_REDIR_IN) // <
-	{
-		signal = open_redir_in(shell, node);
-		if (signal != 0)
-			return (signal);
-		if (dup2(shell->fd_in, STDIN_FILENO) < 0)
-		{
-			close(shell->fd_in);
-			return (1);
-		}
-		if (shell->fd_in != STDIN_FILENO)
-			close(shell->fd_in);
-		return (exec_ast(shell, node->left));
-	}
-	else if (node->redir_type == TOKEN_HEREDOC)
-	{
-		exec_heredoc(shell, node);
-		if (dup2(shell->pipehd[0], STDIN_FILENO) < 0)
-			return (1);
-		if (shell->pipehd[0] != STDIN_FILENO)
-			close(shell->pipehd[0]);
-		return (exec_ast(shell, node->left));
-	}
-	return (1);
+	return (wait_on_process(pid));
 }
 
 int	exec_ast(t_shell *shell, t_ast_node *node)
@@ -99,10 +57,3 @@ int	exec_ast(t_shell *shell, t_ast_node *node)
 		return (exec_sub(shell, node));
 	return (1);
 }
-
-// exec(node):
-//   if AND/OR: exec(left) then maybe exec(right)
-//   if PIPE: exec(left) and exec(right) with pipe wiring
-//   if REDIR: apply redir then exec(left)
-//   if SUBSHELL: fork then exec(left)
-//   if CMD: run
