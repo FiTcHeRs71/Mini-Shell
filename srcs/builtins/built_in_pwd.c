@@ -8,10 +8,15 @@ int	exec_pwd()
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		ft_putstr_fd("error retrieving current directory", 2);
-		return (2);
+		perror("pwd");
+		return (1);
 	}
-	ft_printf("%s\n", pwd);
+	if(printf("%s\n", pwd) < 0)
+	{
+		perror("pwd: write error");
+		free(pwd);
+		return (1);
+	}
 	free(pwd);
 	return (0);
 }

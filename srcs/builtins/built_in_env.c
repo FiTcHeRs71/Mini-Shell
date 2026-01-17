@@ -16,9 +16,11 @@ int	exec_env(t_shell *shell)
 		{
 			return (1);
 		}
-		ft_printf("%s", env->key);
-		ft_printf("=");
-		ft_printf("%s\n", env->value);
+		if (printf("%s=%s\n", env->key, env->value) < 0)
+		{
+			perror("env : write error");
+			return (1);
+		}
 		env = env->next;
 	}
 	return (0);

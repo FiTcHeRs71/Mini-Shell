@@ -1,29 +1,6 @@
 
 #include "../../includes/minishell.h"
 
-int	checking_valid_name(char *key)
-{
-	int	i;
-
-	i = 0;
-	if (!ft_isalpha(key[0]) && key[0] != '_')
-	{
-		ft_putstr_fd("Invalid KEY\n", 2);
-		return (1);
-	}
-	i++;
-	while (key[i] && key[i] != '=')
-	{
-		if (!ft_isalnum(key[i]) && key[i] != '_')
-		{
-			ft_putstr_fd("Invalid KEY\n", 2);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 static void	print_2d_array(char **array)
 {
 	int	i;

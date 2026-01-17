@@ -31,8 +31,11 @@ int			exec_export(t_shell *shell, t_env **env, char **args);
 int			exec_cd(t_shell *shell, char **args);
 
 /* built_in_utils.c */
-void	update_env(t_shell *shell, t_env *finder, char *new_value);
-t_env	*get_env_node(t_shell *shell, char *key);
+void		update_env(t_shell *shell, t_env *finder, char *new_value);
+t_env		*get_env_node(t_shell *shell, char *key);
+int			checking_valid_name(char *key);
+int			array_calculator(char **array);
+int			ft_putstr_fd_checked(char *s, int fd);
 
 /*=========================== executor =========================*/
 

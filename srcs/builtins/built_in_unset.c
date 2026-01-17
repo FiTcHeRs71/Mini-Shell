@@ -28,6 +28,8 @@ int	exec_unset(t_shell *shell, char *key_to_unset)
 		return (1);
 	env = shell->env;
 	len = ft_strlen(key_to_unset);
+	if (checking_valid_name(key_to_unset) == 1)
+		return (1);
 	while (env)
 	{
 		if (!env)
