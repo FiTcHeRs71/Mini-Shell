@@ -2,7 +2,6 @@
 
 void	tokenize(t_token **token, t_token *new, char *buffer)
 {
-	new->value = ft_strdup(buffer);
 	if (ft_isprint(*buffer))
 		new->type = TOKEN_WORD;
 	else if (!ft_strncmp(buffer, "|", 2))
@@ -56,11 +55,15 @@ void	tokenisation(t_shell *shell, char *line)
 	i = 0;
 	while (line[i])
 	{
-		new_tok = new_token(shell);
-		while (line[i] == ' ' && line[i])
+		while ((line[i] == 32 || (line[i] >= 9 && line[i] <= 12)) && line[i])
 			i++;
-		if (!line[i])
+		if (!line[i] || ((line[i] == ':' || line[i] == '!') && !shell->token_list))
+		{
+			if (line[i] == '!')
+				g_signal = 1;
 			break ;
+		}
+		new_tok = new_token(shell);
 		i += set_quote_type(new_tok, line, i);
 		i = redirect_all(shell, new_tok, line, i);
 		i++;

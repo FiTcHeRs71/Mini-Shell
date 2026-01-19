@@ -6,6 +6,7 @@ void	syntaxe_error(char *msg)
 	ft_putstr_fd("Minishell : syntax error near unexpected token ", 2);
 	if (msg)
 		ft_putendl_fd(msg, 2);
+	g_signal = 2;
 }
 
 void	ft_error(t_shell *shell, int error)

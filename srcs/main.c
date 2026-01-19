@@ -13,6 +13,17 @@ static void	reset_var(t_shell *shell, int argc, char **argv)
 	errno = 0;
 }
 
+static void	tokenise_parse_exec(t_shell *shell, char *line)
+{
+	tokenisation(shell, line);
+	if (!g_signal)
+	{
+		parse(shell->token_list, shell);
+		if (!g_signal)
+			g_signal = exec_ast(shell, shell->tree_ast);
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -32,9 +43,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(line);
 		if (line)
 		{
-			tokenisation(&shell, line);
-			parse(shell.token_list, &shell);
-			g_signal = exec_ast(&shell, shell.tree_ast);
+			tokenise_parse_exec(&shell, line);
 		}
 		clean_up_loop(&shell);
 	}

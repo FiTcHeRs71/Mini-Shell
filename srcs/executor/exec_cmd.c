@@ -34,15 +34,17 @@ void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
 	char	**new_env;
 
 	new_env = convert_env(shell, shell->env);
-	execve(node->cmd_path, node->args, new_env);
-	ft_free_2d_array(new_env);
-	check_error(node->args[0], errno);
-	exit(1);
+	if (execve(node->cmd_path, node->args, new_env) < 0)
+	{
+		ft_free_2d_array(new_env);
+		check_error(shell, node->args[0], errno);
+		exit(1);
+	}
 }
 
 int	check_cmd(t_shell *shell, t_ast_node *node)
 {
-	if (access(node->args[0], X_OK) == 0 || ft_strrchr(node->args[0], '/'))
+	if (access(node->args[0], X_OK) == 0)
 	{
 		node->cmd_path = ft_strdup(node->args[0]);
 		if (!node->cmd_path)
@@ -79,6 +81,7 @@ int	is_builtin(t_shell *shell, t_ast_node *node)
 
 int	exec_cmd(t_shell *shell, t_ast_node *node)
 {
+	int	check;
 	int	signal;
 	int	pid;
 	
@@ -89,14 +92,18 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 			exit(signal);
 		return(signal);
 	}
-	if (check_cmd(shell, node) != 0)
-		return (127);
+	check = check_cmd(shell, node);
+	if (check != 0)
+		return (check);
 	if (shell->is_child)
 		execute_ext_cmd(shell, node);
 	pid = fork();
 	if (pid < 0)
 		return (1);
 	if (pid == 0)
+	{
+		shell->is_child = true;
 		execute_ext_cmd(shell, node);
+	}
 	return (wait_on_process(pid));
 }

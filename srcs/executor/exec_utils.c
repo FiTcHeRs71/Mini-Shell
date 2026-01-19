@@ -23,7 +23,7 @@ int	wait_on_process(int	pid)
 		return (128 + WTERMSIG(status));
 	else if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	return (1);
+	return (0);
 }
 
 int	open_append(t_shell *shell, t_ast_node *right)

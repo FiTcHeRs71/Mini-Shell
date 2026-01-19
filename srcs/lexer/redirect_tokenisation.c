@@ -20,6 +20,9 @@ int	tokenize_double_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 		}
 		if (line[i] != '"')
 			syntaxe_error("");
+		new_tok->value = ft_strdup(buffer);
+		if (!new_tok->value)
+			ft_error(shell, MALLOC);
 		tokenize(&shell->token_list, new_tok, buffer);
 	}
 	free(buffer);
@@ -46,6 +49,9 @@ int	tokenize_single_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 		}
 		if (line[i] != '\'')
 			syntaxe_error("A DEF"); // TODO : MSG
+		new_tok->value = ft_strdup(buffer);
+		if (!new_tok->value)
+			ft_error(shell, MALLOC);
 		tokenize(&shell->token_list, new_tok, buffer);
 	}
 	free(buffer);
@@ -62,6 +68,9 @@ void	tokenize_parenthesis(t_shell *shell, t_token *new_tok, char c)
 		ft_error(shell, MALLOC);
 	buf_i = 0;
 	buffer[buf_i] = c;
+	new_tok->value = ft_strdup(buffer);
+	if (!new_tok->value)
+		ft_error(shell, MALLOC);
 	tokenize(&shell->token_list, new_tok, buffer);
 	free(buffer);
 }
@@ -86,6 +95,9 @@ int	tokenize_no_quotes(t_shell *shell, t_token *new_tok, char *line, int i)
 		buffer[buf_i++] = c;
 		i++;
 	}
+	new_tok->value = ft_strdup(buffer);
+	if (!new_tok->value)
+		ft_error(shell, MALLOC);
 	tokenize(&shell->token_list, new_tok, buffer);
 	i -= 1;
 	free(buffer);

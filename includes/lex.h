@@ -23,7 +23,7 @@ int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd);
 int		ft_envsize(t_env *lst);
 int	wait_on_process(int	pid);
 int	exec_redir(t_shell *shell, t_ast_node *node);
-void	check_error(char *cmd, int error);
-void	print_error(char *error, char *cmd);
+int	check_error(t_shell *shell, char *cmd, int error);
+void	print_error(t_shell *shell, char *error, char *cmd);
 
 #endif
