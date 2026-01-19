@@ -4,7 +4,10 @@ static void	child_process_error(t_shell *shell, char *cmd, int error)
 {
 	if (error == ENOENT)
 	{
-		print_error(shell, "no such file or directory: ", cmd);
+		if (ft_strrchr(cmd, '/'))
+			print_error(shell, "no such file or directory: ", cmd);
+		else
+			print_error(shell, "command not found: ", cmd);
 		exit(127);
 	}
 	else if (error == EACCES)
@@ -31,21 +34,18 @@ int	check_error(t_shell *shell, char *cmd, int error)
 	{
 		if (error == ENOENT)
 			{
-				print_error(shell, "no such file or directory: ", cmd);
+				if (ft_strrchr(cmd, '/'))
+					print_error(shell, "no such file or directory: ", cmd);
+				else
+					print_error(shell, "command not found: ", cmd);
 				return(127);
 			}
 		else if (error == EACCES)
-		{
 			print_error(shell, "permission denied: ", cmd);
-		}
 		else if (error == EISDIR)
-		{
 			print_error(shell, "is a directory: ", cmd);
-		}
 		else if (error == ENOEXEC)
-		{
 			print_error(shell, "Exec format error: ", cmd);
-		}
 		return (126);
 	}
 	return (0);

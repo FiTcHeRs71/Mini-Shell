@@ -63,7 +63,6 @@ static void	process_expansion(t_shell *shell, t_token *token, char *value)
 	if (!varname)
 		ft_error(shell, MALLOC);
 	find_varname(varname, value, i, j);
-	varname[j] = '\0';
 	new_value = expanded_value(shell, token, varname);
 	free(varname);
 	if (!new_value)
