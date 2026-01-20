@@ -26,6 +26,6 @@ int	exec_redir(t_shell *shell, t_ast_node *node);
 int	check_error(t_shell *shell, char *cmd, int error);
 void	print_error(t_shell *shell, char *error, char *cmd);
 
-void	add_token(t_token *current, t_token *new)
+void	add_token(t_token *current, t_token *new);
 
 #endif

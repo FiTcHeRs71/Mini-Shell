@@ -2,8 +2,6 @@
 
 void	add_token(t_token *current, t_token *new)
 {
-	t_token	*next;
-
 	if (!new || !current)
 	{
 		return ;
