@@ -125,6 +125,8 @@ int	redirect_all(t_shell *shell, t_token *new_tok, char *line, int i)
 	{
 		new_tok->expand = true;
 		i = tokenize_no_quotes(shell, new_tok, line, i);
+		if (ft_strrchr(new_tok->value, '*'))
+			new_tok->wc = true;
 	}
 	return (i);
 }

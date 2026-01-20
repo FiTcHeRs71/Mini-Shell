@@ -41,8 +41,10 @@ typedef struct s_token
 {
 	t_token_type		type;
 	t_quote_type		quote;
+	t_wildcards			*wildcards;
 	char				*value;
 	bool				expand;
+	bool				wc;
 	struct s_token		*next;
 }						t_token;
 
@@ -55,6 +57,23 @@ typedef struct s_pipe
 	int					status_r;
 	int					code;
 }						t_pipe;
+
+typedef enum e_pattern_type
+{
+	EVERYTHING,
+	START_WITH,
+	END_WITH,
+	ANYTHING_CONTAINING,
+	ANYTHING_IN_BETWEEN,
+	WRONG_PATTERN,
+}						t_pattern_type;
+
+typedef struct s_wildcards
+{
+	t_pattern_type		pattern;
+	char				*start;
+	char				*end;
+}						t_wildcards;
 
 typedef enum e_node_type
 {

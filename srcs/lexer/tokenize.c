@@ -1,5 +1,17 @@
 #include "../../includes/minishell.h"
 
+void	add_token(t_token *current, t_token *new)
+{
+	t_token	*next;
+
+	if (!new || !current)
+	{
+		return ;
+	}
+	new->next = current->next;
+	current->next = new;
+}
+
 void	tokenize(t_token **token, t_token *new, char *buffer)
 {
 	if (ft_isprint(*buffer))
