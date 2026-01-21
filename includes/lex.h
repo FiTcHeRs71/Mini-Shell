@@ -32,13 +32,12 @@ void	add_token(t_shell *shell, t_token *current, t_token *new);
 void	wildcards(t_shell *shell);
 int	strcmp_end(char *value, char *end);
 int	strcmp_start(char *value, char *end);
-void	pattern_start_with_asterisk(t_shell *shell, t_token *token);
 int	find_asterisk(char *str, int i);
 t_token	*everything_pattern(t_shell *shell, DIR *dir);
 t_token	*start_with_pattern(t_shell *shell, t_token *token, DIR *dir);
 t_token	*end_with_pattern(t_shell *shell, t_token *token, DIR *dir);
 t_token	*anything_containing_pattern(t_shell *shell, t_token *token, DIR *dir);
 t_token	*in_between_pattern(t_shell *shell, t_token *token, DIR *dir);
-t_token	*process_wildcards(t_shell *shell, t_token *token);
+void	add_wildcards_token(t_shell *shell, struct dirent *entry, t_token **new_list);
 
 #endif

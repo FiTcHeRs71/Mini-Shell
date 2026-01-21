@@ -6,7 +6,6 @@ t_token	*everything_pattern(t_shell *shell, DIR *dir)
 {
 	struct dirent	*entry;
 	t_token	*new_list;
-	t_token	*new;
 
 	new_list = new_token(shell);
 	while ((entry = readdir(dir)) != NULL)
@@ -15,11 +14,7 @@ t_token	*everything_pattern(t_shell *shell, DIR *dir)
 			ft_error(shell, MALLOC);
 		if (!ft_strncmp(entry->d_name, ".", 1) || !ft_strncmp(entry->d_name, "..", 2))
 			continue ;
-		new = new_token(shell);
-		new->value = ft_strdup(entry->d_name);
-		new->type = TOKEN_WORD;
-		new->wc = true;
-		add_back_token(&new_list, new);
+		add_wildcards_token(shell, entry, &new_list);
 	}
 	return(new_list);
 }
@@ -27,7 +22,6 @@ t_token	*everything_pattern(t_shell *shell, DIR *dir)
 t_token	*start_with_pattern(t_shell *shell, t_token *token, DIR *dir)
 {
 	struct dirent	*entry;
-	t_token			*new;
 	t_token			*new_list;
 	char			*cmp;
 	int				len;
@@ -40,13 +34,7 @@ t_token	*start_with_pattern(t_shell *shell, t_token *token, DIR *dir)
 		if(!entry)
 			ft_error(shell, MALLOC);
 		if (!ft_strncmp(entry->d_name, cmp, len))
-		{
-			new = new_token(shell);
-			new->value = ft_strdup(entry->d_name);
-			new->type = TOKEN_WORD;
-			new->wc = true;
-			add_back_token(&new_list, new);
-		}
+			add_wildcards_token(shell, entry, &new_list);
 	}
 	return (new_list);
 }
@@ -55,7 +43,6 @@ t_token	*end_with_pattern(t_shell *shell, t_token *token, DIR *dir)
 {
 	struct dirent	*entry;
 	t_token			*new_list;
-	t_token			*new;
 	char			*cmp;
 	int				len_end;
 
@@ -67,13 +54,7 @@ t_token	*end_with_pattern(t_shell *shell, t_token *token, DIR *dir)
 		if(!entry)
 			ft_error(shell, MALLOC);
 		if (!ft_strncmp(entry->d_name + ft_strlen(entry->d_name) - len_end, cmp, len_end + 1))
-		{
-			new = new_token(shell);
-			new->value = ft_strdup(entry->d_name);
-			new->type = TOKEN_WORD;
-			new->wc = true;
-			add_back_token(&new_list, new);
-		}
+			add_wildcards_token(shell, entry, &new_list);
 	}
 	return (new_list);
 }
@@ -82,7 +63,6 @@ t_token	*anything_containing_pattern(t_shell *shell, t_token *token, DIR *dir)
 {
 	struct dirent	*entry;
 	t_token			*new_list;
-	t_token			*new;
 	char			*cmp;
 	int				len;
 
@@ -96,13 +76,7 @@ t_token	*anything_containing_pattern(t_shell *shell, t_token *token, DIR *dir)
 			continue ;
 		len = ft_strlen(entry->d_name);
 		if (ft_strnstr(entry->d_name, cmp, len))
-		{
-			new = new_token(shell);
-			new->value = ft_strdup(entry->d_name);
-			new->type = TOKEN_WORD;
-			new->wc = true;
-			add_back_token(&new_list, new);
-		}
+			add_wildcards_token(shell, entry, &new_list);
 	}
 	return (new_list);
 }
@@ -111,7 +85,6 @@ t_token	*in_between_pattern(t_shell *shell, t_token *token, DIR *dir)
 {
 	struct dirent	*entry;
 	t_token			*new_list;
-	t_token			*new;
 	char			*cmp_start;
 	char			*cmp_end;
 
@@ -123,13 +96,7 @@ t_token	*in_between_pattern(t_shell *shell, t_token *token, DIR *dir)
 		if(!entry)
 			ft_error(shell, MALLOC);
 		if (!strcmp_start(entry->d_name, cmp_start) && !strcmp_end(entry->d_name, cmp_end))
-		{
-			new = new_token(shell);
-			new->value = ft_strdup(entry->d_name);
-			new->type = TOKEN_WORD;
-			new->wc = true;
-			add_back_token(&new_list, new);
-		}
+			add_wildcards_token(shell, entry, &new_list);
 	}
 	return (new_list);
 }

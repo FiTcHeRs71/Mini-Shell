@@ -2,7 +2,28 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-void	find_wildcard_pattern(t_shell *shell, t_token *token)
+static void	pattern_start_without_asterisk(t_shell *shell, t_token *token)
+{
+	int	i;
+	int	j;
+
+	i = find_asterisk(token->value, 0);
+	token->wildcards.start = ft_substr(token->value, 0, i);
+	if (!token->wildcards.start)
+		ft_error(shell, MALLOC);
+	if (token->value[i + 1])
+	{
+		j = find_asterisk(token->value, i + 1);
+		token->wildcards.end = ft_substr(token->value, i + 1, j);
+		token->wildcards.pattern = ANYTHING_IN_BETWEEN;
+		if (token->value[j])
+			token->wildcards.pattern = WRONG_PATTERN;
+	}
+	else
+		token->wildcards.pattern = START_WITH;
+}
+
+static void	find_wildcard_pattern(t_shell *shell, t_token *token)
 {
 	int	i;
 
@@ -11,7 +32,7 @@ void	find_wildcard_pattern(t_shell *shell, t_token *token)
 		token->wildcards.pattern = EVERYTHING;
 	else if (token->value[0] != '*')
 	{
-		pattern_start_with_asterisk(shell, token);
+		pattern_start_without_asterisk(shell, token);
 	}
 	else if (token->value[0] == '*')
 	{
@@ -24,6 +45,28 @@ void	find_wildcard_pattern(t_shell *shell, t_token *token)
 		else
 			token->wildcards.pattern = END_WITH;
 	}
+}
+
+static t_token	*process_wildcards(t_shell *shell, t_token *token)
+{
+	DIR	*dir;
+	t_token	*new_list;
+
+	dir = opendir(".");
+	if (!dir)
+		ft_error(shell, MALLOC);
+	if (token->wildcards.pattern == EVERYTHING)
+		new_list = everything_pattern(shell, dir);
+	else if (token->wildcards.pattern == START_WITH)
+		new_list = start_with_pattern(shell, token, dir);
+	else if (token->wildcards.pattern == END_WITH)
+		new_list = end_with_pattern(shell, token, dir);
+	else if (token->wildcards.pattern == ANYTHING_CONTAINING)
+		new_list = anything_containing_pattern(shell, token, dir);
+	else if (token->wildcards.pattern == ANYTHING_IN_BETWEEN)
+		new_list = in_between_pattern(shell, token, dir);
+	closedir(dir);
+	return (new_list);
 }
 
 void	wildcards(t_shell *shell)
@@ -56,27 +99,6 @@ void	wildcards(t_shell *shell)
 	}
 }
 
-t_token	*process_wildcards(t_shell *shell, t_token *token)
-{
-	DIR	*dir;
-	t_token	*new_list;
-
-	dir = opendir(".");
-	if (!dir)
-		ft_error(shell, MALLOC);
-	if (token->wildcards.pattern == EVERYTHING)
-		new_list = everything_pattern(shell, dir);
-	else if (token->wildcards.pattern == START_WITH)
-		new_list = start_with_pattern(shell, token, dir);
-	else if (token->wildcards.pattern == END_WITH)
-		new_list = end_with_pattern(shell, token, dir);
-	else if (token->wildcards.pattern == ANYTHING_CONTAINING)
-		new_list = anything_containing_pattern(shell, token, dir);
-	else if (token->wildcards.pattern == ANYTHING_IN_BETWEEN)
-		new_list = in_between_pattern(shell, token, dir);
-	closedir(dir);
-	return (new_list);
-}
 
 // 1. add flag wildcard if NO_QUOTES && strrchr * dans tokenisation
 // 2. quand expansion, si flag == true opendir, readdir et strcmp avec le .xyz ou whatever

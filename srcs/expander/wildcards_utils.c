@@ -2,6 +2,17 @@
 #include <sys/types.h>
 #include <dirent.h>
 
+void	add_wildcards_token(t_shell *shell, struct dirent *entry, t_token **new_list)
+{
+	t_token	*new;
+
+	new = new_token(shell);
+	new->value = ft_strdup(entry->d_name);
+	new->type = TOKEN_WORD;
+	new->wc = true;
+	add_back_token(new_list, new);
+}
+
 int	find_asterisk(char *str, int i)
 {
 	while (str[i] != '*' && str[i])
@@ -9,27 +20,6 @@ int	find_asterisk(char *str, int i)
 		i++;
 	}
 	return (i);
-}
-
-void	pattern_start_with_asterisk(t_shell *shell, t_token *token)
-{
-	int	i;
-	int	j;
-
-	i = find_asterisk(token->value, 0);
-	token->wildcards.start = ft_substr(token->value, 0, i);
-	if (!token->wildcards.start)
-		ft_error(shell, MALLOC);
-	if (token->value[i + 1])
-	{
-		j = find_asterisk(token->value, i + 1);
-		token->wildcards.end = ft_substr(token->value, i + 1, j);
-		token->wildcards.pattern = ANYTHING_IN_BETWEEN;
-		if (token->value[j])
-			token->wildcards.pattern = WRONG_PATTERN;
-	}
-	else
-		token->wildcards.pattern = START_WITH;
 }
 
 int	strcmp_start(char *value, char *start)
