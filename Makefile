@@ -19,7 +19,8 @@ SRCS_PARSER = $(addprefix $(SRCDIR)/parser/, \
 	parse_and.c parse_or.c parse_paren.c parse_utils2.c)
 
 SRCS_EXPANDER = $(addprefix $(SRCDIR)/expander/, \
-	expand.c expand_heredoc.c)
+	expand.c expand_heredoc.c wildcards.c wildcards_utils.c \
+	wildcards_patterns.c )
 
 SRCS_EXECUTOR = $(addprefix $(SRCDIR)/executor/, \
 	exec.c exec_utils.c exec_pipe.c exec_heredoc.c \

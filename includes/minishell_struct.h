@@ -58,7 +58,7 @@ typedef struct s_token
 {
 	t_token_type		type;
 	t_quote_type		quote;
-	t_wildcards			*wildcards;
+	t_wildcards			wildcards;
 	char				*value;
 	bool				expand;
 	bool				wc;

@@ -1,13 +1,21 @@
 #include "../../includes/minishell.h"
 
-void	add_token(t_token *current, t_token *new)
+void	add_token(t_shell *shell, t_token *current, t_token *new)
 {
-	if (!new || !current)
-	{
+	t_token	*last;
+	t_token	*next;
+	t_token	*tmp;
+
+	tmp = shell->token_list;
+	if (!new || !current || !shell)
 		return ;
-	}
-	new->next = current->next;
-	current->next = new;
+	next = current->next;
+	while (tmp->next != current)
+		tmp = tmp->next;
+	free(current);
+	tmp->next = new;
+	last = last_token(new);
+	last->next = next;
 }
 
 void	tokenize(t_token **token, t_token *new, char *buffer)
@@ -79,4 +87,5 @@ void	tokenisation(t_shell *shell, char *line)
 		i++;
 	}
 	expansion(shell);
+	wildcards(shell);
 }
