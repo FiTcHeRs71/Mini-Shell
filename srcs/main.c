@@ -11,6 +11,7 @@ static void	reset_var(t_shell *shell, int argc, char **argv)
 	shell->token_list = NULL;
 	shell->last_exit_status = 0;
 	errno = 0;
+	//handle_sigint(NULL);
 }
 
 static void	tokenise_parse_exec(t_shell *shell, char *line)

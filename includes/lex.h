@@ -3,4 +3,6 @@
 
 #include "minishell.h"
 
+void	handle_sigint(int sig);
+
 #endif

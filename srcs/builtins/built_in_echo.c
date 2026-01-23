@@ -26,6 +26,11 @@ int	exec_echo(char **args)
 	n_flag = check_n_flag(args[1], &i);
 	while (args[i])
 	{
+		if (ft_strncmp(args[i], "-n", ft_strlen(args[i])) != 0)
+		{
+			i++;
+			continue ;
+		}
 		if (ft_putstr_fd_checked(args[i], 1) == -1)
 			return (perror("echo : write error"), 1);
 		if (args[i + 1] && ft_putstr_fd_checked(" ", 1) == -1)
