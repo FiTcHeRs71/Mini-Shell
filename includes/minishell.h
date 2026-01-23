@@ -129,8 +129,8 @@ void		wildcards(t_shell *shell);
 int			strcmp_end(char *value, char *end);
 int			strcmp_start(char *value, char *end);
 int			find_asterisk(char *str, int i);
-void		add_wildcards_token(t_shell *shell, struct dirent *entry, t_token **new_list);
-int		strncmp_with_maj(const char *s1, const char *s2, int n);
+void		add_wildcards_token(t_shell *shell, char *filename, t_token **new_list);
+int			strncmp_with_maj(const char *s1, const char *s2, int n);
 
 /* wildcards_patterns.c*/
 t_token		*everything_pattern(t_shell *shell, DIR *dir);

@@ -54,6 +54,7 @@ void	add_back_token(t_token **token, t_token *new)
 	}
 	if (new->wc == true && !(*token)->value)
 	{
+		free(*token);
 		*token = new;
 		return ;
 	}

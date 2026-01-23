@@ -103,6 +103,7 @@ void	wildcards(t_shell *shell)
 			new_list = process_wildcards(shell, tmp);
 			if (!new_list->value)
 			{
+				free(new_list);
 				tmp = tmp->next;
 				continue ;
 			}

@@ -24,12 +24,14 @@ int	strncmp_with_maj(const char *s1, const char *s2, int n)
 	return (0);
 }
 
-void	add_wildcards_token(t_shell *shell, struct dirent *entry, t_token **new_list)
+void	add_wildcards_token(t_shell *shell, char *filename, t_token **new_list)
 {
 	t_token	*new;
 
+	if (!shell || !filename || !(*new_list))
+		return ;
 	new = new_token(shell);
-	new->value = ft_strdup(entry->d_name);
+	new->value = ft_strdup(filename);
 	new->type = TOKEN_WORD;
 	new->wc = true;
 	add_back_token(new_list, new);

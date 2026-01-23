@@ -14,7 +14,7 @@ t_token	*everything_pattern(t_shell *shell, DIR *dir)
 			ft_error(shell, MALLOC);
 		if (!ft_strncmp(entry->d_name, ".", 1) || !ft_strncmp(entry->d_name, "..", 2))
 			continue ;
-		add_wildcards_token(shell, entry, &new_list);
+		add_wildcards_token(shell, entry->d_name, &new_list);
 	}
 	return(new_list);
 }
@@ -34,7 +34,7 @@ t_token	*start_with_pattern(t_shell *shell, t_token *token, DIR *dir)
 		if(!entry)
 			ft_error(shell, MALLOC);
 		if (!ft_strncmp(entry->d_name, cmp, len))
-			add_wildcards_token(shell, entry, &new_list);
+			add_wildcards_token(shell, entry->d_name, &new_list);
 	}
 	return (new_list);
 }
@@ -53,8 +53,10 @@ t_token	*end_with_pattern(t_shell *shell, t_token *token, DIR *dir)
 	{
 		if(!entry)
 			ft_error(shell, MALLOC);
-		if (!ft_strncmp(entry->d_name + ft_strlen(entry->d_name) - len_end, cmp, len_end + 1))
-			add_wildcards_token(shell, entry, &new_list);
+		if (!ft_strncmp(cmp, "/", 2) && entry->d_type == DT_DIR && !ft_strrchr(entry->d_name, '.'))
+			add_wildcards_token(shell, ft_strjoin(entry->d_name, "/"), &new_list);
+		else if (!ft_strncmp(entry->d_name + ft_strlen(entry->d_name) - len_end, cmp, len_end + 1))
+			add_wildcards_token(shell, entry->d_name, &new_list);
 	}
 	return (new_list);
 }
@@ -76,7 +78,7 @@ t_token	*anything_containing_pattern(t_shell *shell, t_token *token, DIR *dir)
 			continue ;
 		len = ft_strlen(entry->d_name);
 		if (ft_strnstr(entry->d_name, cmp, len))
-			add_wildcards_token(shell, entry, &new_list);
+			add_wildcards_token(shell, entry->d_name, &new_list);
 	}
 	return (new_list);
 }
@@ -96,7 +98,7 @@ t_token	*in_between_pattern(t_shell *shell, t_token *token, DIR *dir)
 		if(!entry)
 			ft_error(shell, MALLOC);
 		if (!strcmp_start(entry->d_name, cmp_start) && !strcmp_end(entry->d_name, cmp_end))
-			add_wildcards_token(shell, entry, &new_list);
+			add_wildcards_token(shell, entry->d_name, &new_list);
 	}
 	return (new_list);
 }

@@ -40,13 +40,13 @@ void	free_token(t_token *token)
 	{
 		temp = token->next;
 		if (token && token->value)
-		{
 			free(token->value);
-		}
+		if (token && token->wildcards.start)
+			free(token->wildcards.start);
+		if (token && token->wildcards.end)
+			free(token->wildcards.end);
 		if (token)
-		{
 			free(token);
-		}
 		token = temp;
 	}
 }
