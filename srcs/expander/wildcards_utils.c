@@ -2,6 +2,28 @@
 #include <sys/types.h>
 #include <dirent.h>
 
+int	strncmp_with_maj(const char *s1, const char *s2, int n)
+{
+	unsigned char	*tmp1;
+	unsigned char	*tmp2;
+	int				lower_1;
+	int				lower_2;
+
+	tmp1 = (unsigned char *)s1;
+	tmp2 = (unsigned char *)s2;
+	while ((*tmp1 || *tmp2) && (n > 0))
+	{
+		lower_1 = ft_tolower(*tmp1);
+		lower_2 = ft_tolower(*tmp2);
+		if (lower_1 != lower_2)
+			return (lower_1 - lower_2);
+		tmp1++;
+		tmp2++;
+		n--;
+	}
+	return (0);
+}
+
 void	add_wildcards_token(t_shell *shell, struct dirent *entry, t_token **new_list)
 {
 	t_token	*new;

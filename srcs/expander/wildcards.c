@@ -69,6 +69,25 @@ static t_token	*process_wildcards(t_shell *shell, t_token *token)
 	return (new_list);
 }
 
+static void	sort_token(t_token **list)
+{
+	t_token	**head;
+	int		len;
+
+	head = list;
+	while (*list && (*list)->next)
+	{
+		len = ft_strlen((*list)->value);
+		if (strncmp_with_maj((*list)->value, (*list)->next->value, len) > 0)
+		{
+			swap_token(list);
+			return (sort_token(head));
+		}
+		else
+			list = &(*list)->next;
+	}
+}
+
 void	wildcards(t_shell *shell)
 {
 	t_token	*last;
@@ -81,19 +100,16 @@ void	wildcards(t_shell *shell)
 		if (tmp->wc == true)
 		{
 			find_wildcard_pattern(shell, tmp);
-			if (tmp->wildcards.pattern != WRONG_PATTERN)
+			new_list = process_wildcards(shell, tmp);
+			if (!new_list->value)
 			{
-				new_list = process_wildcards(shell, tmp);
-				if (!new_list->value)
-				{
-					tmp = tmp->next;
-					continue ;
-				}
-				// trier liste alphabet
-				last = last_token(new_list);
-				add_token(shell, tmp, new_list);
-				tmp = last;
+				tmp = tmp->next;
+				continue ;
 			}
+			sort_token(&new_list);
+			last = last_token(new_list);
+			add_token(shell, tmp, new_list);
+			tmp = last;
 		}
 		tmp = tmp->next;
 	}

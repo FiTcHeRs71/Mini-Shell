@@ -41,33 +41,34 @@ int			ft_putstr_fd_checked(char *s, int fd);
 
 /*=========================== executor =========================*/
 /* exec_cmd.c and exec_cmd_utils.c */
-char	*ft_strjoin_slash(char const *s1, char const *s2);
-char	**convert_env(t_shell *shell, t_env *env);
-int		update_cmd(t_shell *shell, t_ast_node *node, char *cmd);
-int		ft_envsize(t_env *lst);
-int		exec_cmd(t_shell *shell, t_ast_node *node);
+char		*ft_strjoin_slash(char const *s1, char const *s2);
+char		**convert_env(t_shell *shell, t_env *env);
+int			update_cmd(t_shell *shell, t_ast_node *node, char *cmd);
+int			ft_envsize(t_env *lst);
+int			exec_cmd(t_shell *shell, t_ast_node *node);
 
 /* exec_X.c */
-int		exec_ast(t_shell *shell, t_ast_node *node);
-int		exec_pipe(t_shell *shell, t_ast_node *node);
-int		exec_redir(t_shell *shell, t_ast_node *node);
-int		check_error(t_shell *shell, char *cmd, int error);
-int		open_and_dup(t_shell *shell, t_ast_node *node);
-void	exec_heredoc(t_shell *shell, t_ast_node *node);
-void	print_error(t_shell *shell, char *error, char *cmd);
+int			exec_ast(t_shell *shell, t_ast_node *node);
+int			exec_pipe(t_shell *shell, t_ast_node *node);
+int			exec_redir(t_shell *shell, t_ast_node *node);
+int			check_error(t_shell *shell, char *cmd, int error);
+int				open_and_dup(t_shell *shell, t_ast_node *node);
+void		exec_heredoc(t_shell *shell, t_ast_node *node);
+void		print_error(t_shell *shell, char *error, char *cmd);
 
 /* exec_utils.c */
-int		open_redir_out(t_shell *shell, t_ast_node *right);
-int		open_redir_in(t_shell *shell, t_ast_node *right);
-int		open_append(t_shell *shell, t_ast_node *right);
-int		wait_for_children(t_pipe state);
-int		wait_on_process(int	pid);
+int			open_redir_out(t_shell *shell, t_ast_node *right);
+int			open_redir_in(t_shell *shell, t_ast_node *right);
+int			open_append(t_shell *shell, t_ast_node *right);
+int			wait_for_children(t_pipe state);
+int			wait_on_process(int	pid);
 
 /*=========================== lexer ============================*/
 /* tokenize.c */
 void		tokenize(t_token **token, t_token *new, char *buffer);
 void		tokenisation(t_shell *shell, char *line);
 void		add_token(t_shell *shell, t_token *current, t_token *new);
+void		swap_token(t_token **a);
 
 /* tokenize_utils.c*/
 t_token		*new_token(t_shell *shell);
@@ -129,6 +130,7 @@ int			strcmp_end(char *value, char *end);
 int			strcmp_start(char *value, char *end);
 int			find_asterisk(char *str, int i);
 void		add_wildcards_token(t_shell *shell, struct dirent *entry, t_token **new_list);
+int		strncmp_with_maj(const char *s1, const char *s2, int n);
 
 /* wildcards_patterns.c*/
 t_token		*everything_pattern(t_shell *shell, DIR *dir);

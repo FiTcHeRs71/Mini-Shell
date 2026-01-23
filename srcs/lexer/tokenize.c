@@ -1,5 +1,19 @@
 #include "../../includes/minishell.h"
 
+void	swap_token(t_token **a)
+{
+	t_token	*tmp_a;
+	t_token	*b;
+
+	if (!a || !*a || !(*a)->next)
+		return ;
+	tmp_a = *a;
+	b = tmp_a->next;
+	tmp_a->next = b->next;
+	b->next = tmp_a;
+	*a = b;
+}
+
 void	add_token(t_shell *shell, t_token *current, t_token *new)
 {
 	t_token	*last;
