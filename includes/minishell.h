@@ -11,6 +11,8 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+#include <sys/types.h>
+# include <dirent.h>
 
 extern int	g_signal;
 
@@ -38,19 +40,41 @@ int			array_calculator(char **array);
 int			ft_putstr_fd_checked(char *s, int fd);
 
 /*=========================== executor =========================*/
+/* exec_cmd.c and exec_cmd_utils.c */
+char	*ft_strjoin_slash(char const *s1, char const *s2);
+char	**convert_env(t_shell *shell, t_env *env);
+int		update_cmd(t_shell *shell, t_ast_node *node, char *cmd);
+int		ft_envsize(t_env *lst);
+int		exec_cmd(t_shell *shell, t_ast_node *node);
 
+/* exec_X.c */
+int		exec_ast(t_shell *shell, t_ast_node *node);
+int		exec_pipe(t_shell *shell, t_ast_node *node);
+int		exec_redir(t_shell *shell, t_ast_node *node);
+int		check_error(t_shell *shell, char *cmd, int error);
+int		open_and_dup(t_shell *shell, t_ast_node *node);
+void	exec_heredoc(t_shell *shell, t_ast_node *node);
+void	print_error(t_shell *shell, char *error, char *cmd);
 
+/* exec_utils.c */
+int		open_redir_out(t_shell *shell, t_ast_node *right);
+int		open_redir_in(t_shell *shell, t_ast_node *right);
+int		open_append(t_shell *shell, t_ast_node *right);
+int		wait_for_children(t_pipe state);
+int		wait_on_process(int	pid);
 
 /*=========================== lexer ============================*/
 /* tokenize.c */
 void		tokenize(t_token **token, t_token *new, char *buffer);
 void		tokenisation(t_shell *shell, char *line);
+void		add_token(t_shell *shell, t_token *current, t_token *new);
 
 /* tokenize_utils.c*/
 t_token		*new_token(t_shell *shell);
 t_token		*last_token(t_token *token);
 void		add_back_token(t_token **token, t_token *new);
 int			find_word_length(t_token *new_tok, char *line, int i);
+int			increment_len(char *line, char c, int i);
 
 /* redirect_tokenisation.c */
 void		tokenize_parenthesis(t_shell *shell, t_token *new_tok, char c);
@@ -88,6 +112,30 @@ void		validate_syntaxe(t_token *token, t_shell *shell);
 void		check_token_and_or(t_token *token, t_token *prev_token, t_shell *shell);
 void		check_token_redir(t_token *token, t_shell *shell);
 void		check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
+
+/*========================== expansion ==========================*/
+/* expand.c */
+void		expansion(t_shell *shell);
+
+/* expand_heredoc.c */
+char		*expand_heredoc(t_shell *shell, char *line);
+void		find_varname(char *varname, char *value, int i, int j);
+
+/* wildcards.c */
+void		wildcards(t_shell *shell);
+
+/* wildcards_utils.c */
+int			strcmp_end(char *value, char *end);
+int			strcmp_start(char *value, char *end);
+int			find_asterisk(char *str, int i);
+void		add_wildcards_token(t_shell *shell, struct dirent *entry, t_token **new_list);
+
+/* wildcards_patterns.c*/
+t_token		*everything_pattern(t_shell *shell, DIR *dir);
+t_token		*start_with_pattern(t_shell *shell, t_token *token, DIR *dir);
+t_token		*end_with_pattern(t_shell *shell, t_token *token, DIR *dir);
+t_token		*anything_containing_pattern(t_shell *shell, t_token *token, DIR *dir);
+t_token		*in_between_pattern(t_shell *shell, t_token *token, DIR *dir);
 
 /*========================== signal ==========================*/
 /* signal.c */

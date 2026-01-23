@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-int	exec_and(t_shell *shell, t_ast_node *node)
+static int	exec_and(t_shell *shell, t_ast_node *node)
 {
 	int	signal;
 
@@ -11,7 +11,7 @@ int	exec_and(t_shell *shell, t_ast_node *node)
 		return (signal);
 }
 
-int	exec_or(t_shell *shell, t_ast_node *node)
+static int	exec_or(t_shell *shell, t_ast_node *node)
 {
 	int	signal;
 

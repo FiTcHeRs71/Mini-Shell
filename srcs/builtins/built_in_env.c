@@ -16,7 +16,7 @@ int	exec_env(t_shell *shell)
 		{
 			return (1);
 		}
-		if (printf("%s=%s\n", env->key, env->value) < 0)
+		if (ft_printf("%s=%s\n", env->key, env->value) < 0)
 		{
 			perror("env : write error");
 			return (1);

@@ -98,10 +98,3 @@ void	wildcards(t_shell *shell)
 		tmp = tmp->next;
 	}
 }
-
-
-// 1. add flag wildcard if NO_QUOTES && strrchr * dans tokenisation
-// 2. quand expansion, si flag == true opendir, readdir et strcmp avec le .xyz ou whatever
-// 3. collect les matchs dans une liste
-// 4. quick sort les args par ordre alphabetiques (sauf le premier)
-// 5. remplace la token_list avec une nouvelle contenant les wildcards

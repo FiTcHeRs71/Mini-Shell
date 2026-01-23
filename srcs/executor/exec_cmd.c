@@ -29,7 +29,7 @@ char	**convert_env(t_shell *shell, t_env *env)
 	return (new_env);
 }
 
-void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
+static void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
 {
 	char	**new_env;
 
@@ -42,7 +42,7 @@ void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
 	}
 }
 
-int	check_cmd(t_shell *shell, t_ast_node *node)
+static int	check_cmd(t_shell *shell, t_ast_node *node)
 {
 	if (access(node->args[0], X_OK) == 0)
 	{
@@ -57,7 +57,7 @@ int	check_cmd(t_shell *shell, t_ast_node *node)
 		return (update_cmd(shell, node, node->args[0]));
 }
 
-int	is_builtin(t_shell *shell, t_ast_node *node)
+static int	is_builtin(t_shell *shell, t_ast_node *node)
 {
 	int	signal;
 
