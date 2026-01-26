@@ -117,10 +117,11 @@ void		check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
 /*========================== expansion ==========================*/
 /* expand.c */
 void		expansion(t_shell *shell);
+char		*get_env_varname(t_shell *shell, char *key);
 
 /* expand_heredoc.c */
 char		*expand_heredoc(t_shell *shell, char *line);
-void		find_varname(char *varname, char *value, int i, int j);
+char		*find_varname(t_shell *shell, char *value, int i);
 
 /* wildcards.c */
 void		wildcards(t_shell *shell);

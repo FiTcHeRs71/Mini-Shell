@@ -89,7 +89,10 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 	if (signal != -1)
 	{
 		if (shell->is_child)
+		{
+			clean_without_exit(shell);
 			exit(signal);
+		}
 		return(signal);
 	}
 	check = check_cmd(shell, node);
