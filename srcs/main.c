@@ -3,6 +3,12 @@
 
 int			g_signal;
 
+static void handle_ctrl_c(t_shell *shell)
+{
+	shell->last_exit_status = g_signal;
+	g_signal = 0;
+}
+
 static void	reset_var(t_shell *shell, int argc, char **argv)
 {
 	(void)argc;
@@ -38,13 +44,13 @@ int	main(int argc, char **argv, char **envp)
 		if (g_signal != 0)
 			update_signal(&shell);
 		line = readline("Minishell > ");
+		if (g_signal != 0)
+			handle_ctrl_c(&shell);
 		if (!line)
-			break ;
+		break ;
 		add_history(line);
 		if (line)
-		{
 			tokenise_parse_exec(&shell, line);
-		}
 		clean_up_loop(&shell);
 	}
 	clean_before_exit(&shell);

@@ -1,20 +1,56 @@
 
 #include "../../includes/minishell.h"
 
-static bool check_n_flag(char *arg, int *i)
+static bool	check_multi_n_flag(char *line)
 {
-	if (ft_strncmp(arg, "-n", ft_strlen(arg)) == 0)
+	int i;
+
+	i = 0;
+	if(line[i] == '-')
 	{
-		(*i) = 2;
-		return (true);
+		i++;
 	}
-	return (false);
+	else
+	{
+		return (false);
+	}
+	while(line[i])
+	{
+		if (line[i] != 'n')
+		{
+			return (false);
+		}
+		else
+		{
+			i++;
+		}
+	}
+	return (true);
 }
 
-int	exec_echo(char **args)
+static bool	check_n_flag(char **array, int *i)
 {
-	int	i;
+	int flag;
+
+	flag = false;
+	while (array[(*i)])
+	{
+		if (ft_strncmp(array[(*i)], "-n", ft_strlen(array[(*i)])) == 0)
+			flag = true;
+		if (check_multi_n_flag(array[(*i)]))
+			(*i)++;
+		else 
+		{
+			break;
+		}
+	}
+	return (flag);
+}
+
+int	exec_echo(char **args , int i)
+{
 	int	n_flag;
+	int	saver_i;
 
 	if (!(*args) || !args || !args[1])
 	{
@@ -22,8 +58,8 @@ int	exec_echo(char **args)
 			return (perror("echo : write error"), 1);
 		return(0);
 	}
-	i = 1;
-	n_flag = check_n_flag(args[1], &i);
+	n_flag = check_n_flag(args, &i);
+	saver_i = i;
 	while (args[i])
 	{
 		if (ft_putstr_fd_checked(args[i], 1) == -1)
@@ -32,7 +68,7 @@ int	exec_echo(char **args)
 			return (perror("echo : write error"), 1);
 		i++;
 	}
-	if (!n_flag)
+	if (!n_flag && i > saver_i)
 	{
 		if(ft_putstr_fd_checked("\n", 1) == -1)
 			return (perror("echo : write error"), 1);

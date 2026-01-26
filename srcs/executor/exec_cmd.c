@@ -63,7 +63,7 @@ static int	is_builtin(t_shell *shell, t_ast_node *node)
 
 	signal = -1;
 	if (!ft_strncmp(node->args[0], "echo", 5))
-		signal = exec_echo(node->args);
+		signal = exec_echo(node->args, 1);
 	else if(!ft_strncmp(node->args[0], "cd", 3))
 		signal = exec_cd(shell, node->args);
 	else if (!ft_strncmp(node->args[0], "env", 4))
