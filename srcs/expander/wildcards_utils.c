@@ -2,6 +2,17 @@
 #include <sys/types.h>
 #include <dirent.h>
 
+void	is_directory(t_shell *shell, struct dirent *entry, t_token **new_list)
+{
+	char	*joined;
+
+	joined = ft_strjoin(entry->d_name, "/");
+	if (!joined)
+		ft_error(shell, MALLOC);
+	add_wildcards_token(shell, joined, new_list);
+	free(joined);
+}
+
 int	strncmp_with_maj(const char *s1, const char *s2, int n)
 {
 	unsigned char	*tmp1;
@@ -28,7 +39,7 @@ void	add_wildcards_token(t_shell *shell, char *filename, t_token **new_list)
 {
 	t_token	*new;
 
-	if (!shell || !filename || !(*new_list))
+	if (!shell || !filename)
 		return ;
 	new = new_token(shell);
 	new->value = ft_strdup(filename);
@@ -44,16 +55,6 @@ int	find_asterisk(char *str, int i)
 		i++;
 	}
 	return (i);
-}
-
-int	strcmp_start(char *value, char *start)
-{
-	int	len;
-
-	len = ft_strlen(start);
-	if (!ft_strncmp(value, start, len))
-		return (0);
-	return (1);
 }
 
 int	strcmp_end(char *value, char *end)
