@@ -24,7 +24,7 @@ void		add_env_variable(t_shell *shell, t_env **env, char *envp);
 
 /*========================== builtins ==========================*/
 /* built_in_X.c*/
-int			exec_echo(char **args);
+int			exec_echo(char **args , int i);
 int			exec_env(t_shell *shell);
 int			exec_exit(t_shell *shell, char **args);
 int			exec_pwd();
