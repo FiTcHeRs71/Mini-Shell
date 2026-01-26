@@ -26,7 +26,8 @@ void	add_token(t_shell *shell, t_token *current, t_token *new)
 	next = current->next;
 	while (tmp->next != current)
 		tmp = tmp->next;
-	free(current);
+	current->next = NULL;
+	free_token(current);
 	tmp->next = new;
 	last = last_token(new);
 	last->next = next;

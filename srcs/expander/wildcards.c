@@ -101,8 +101,9 @@ void	wildcards(t_shell *shell)
 		{
 			find_wildcard_pattern(shell, tmp);
 			new_list = process_wildcards(shell, tmp);
-			if (!new_list->value)
+			if (!new_list)
 			{
+				free(new_list);
 				tmp = tmp->next;
 				continue ;
 			}
