@@ -140,12 +140,13 @@ t_token		*end_with_pattern(t_shell *shell, t_token *token, DIR *dir);
 t_token		*anything_containing_pattern(t_shell *shell, t_token *token, DIR *dir);
 t_token		*in_between_pattern(t_shell *shell, t_token *token, DIR *dir);
 
-/*========================== signal ==========================*/
+/*=========================== signal =============================*/
 /* signal.c */
 void		update_signal(t_shell *shell);
 void		init_signal(void);
+void		init_signal_exec(void);
 
-/*========================== utils ==========================*/
+/*============================ utils =============================*/
 /* error.c */
 void		syntaxe_error(char *msg);
 void		ft_error(t_shell *shell, int error);

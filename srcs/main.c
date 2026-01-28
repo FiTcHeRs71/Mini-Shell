@@ -26,7 +26,11 @@ static void	tokenise_parse_exec(t_shell *shell, char *line)
 	{
 		parse(shell->token_list, shell);
 		if (!g_signal)
+		{
+			init_signal_exec();
 			g_signal = exec_ast(shell, shell->tree_ast);
+			init_signal();
+		}
 	}
 }
 
