@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 17:54:57 by fducrot           #+#    #+#             */
-/*   Updated: 2025/12/12 17:54:57 by fducrot          ###   ########.ch       */
+/*   Created: 2026/01/29 16:33:51 by fducrot           #+#    #+#             */
+/*   Updated: 2026/01/29 16:34:53 by fducrot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
+	if (!str)
+	{
+		return (0);
+	}
 	while (str[i])
 	{
 		i++;

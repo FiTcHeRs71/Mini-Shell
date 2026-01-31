@@ -47,6 +47,17 @@ static void	print_env_sorted(t_shell *shell)
 	ft_free_2d_array(env_array);
 }
 
+static void	export_without_value(char *key, t_env *new, t_env **env, t_shell *shell)
+{
+	new->key = ft_strdup(key);
+	new->value = ft_strdup("''");
+	if (!new->key || !new->value)
+	{
+		ft_error(shell, MALLOC);
+	}
+	env_add_back(env, new);
+}
+
 int	exec_export(t_shell *shell, t_env **env, char **args)
 {
 	char	*finder;
@@ -62,7 +73,7 @@ int	exec_export(t_shell *shell, t_env **env, char **args)
 	finder = ft_strchr(args[1], '=');
 	if (!finder)
 	{
-		free(new);
+		export_without_value(args[1], new, env, shell);
 		return (0);
 	}
 	new->key = ft_substr(args[1], 0, finder - args[1]);

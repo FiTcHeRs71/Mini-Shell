@@ -51,7 +51,7 @@ int	main(int argc, char **argv, char **envp)
 		if (g_signal != 0)
 			handle_ctrl_c(&shell);
 		if (!line)
-		break ;
+			break ;
 		add_history(line);
 		if (line)
 			tokenise_parse_exec(&shell, line);
