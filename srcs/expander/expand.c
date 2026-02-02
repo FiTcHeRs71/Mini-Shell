@@ -51,7 +51,7 @@ static char	*fill_buffer(char *buffer, char *value, char *var_value, char *varna
 	return (buffer);
 }
 
-static char	*expanded_value(t_shell *shell, char *value, char *varname)
+char	*expanded_value(t_shell *shell, char *value, char *varname)
 {
 	char	*var_value;
 	char	*buffer;
@@ -91,7 +91,6 @@ char	*find_varname(t_shell *shell, char *value, int i)
 
 char	*process_expansion(t_shell *shell, char *value)
 {
-	char	*varname;
 	char	*new_value;
 	int		i;
 
@@ -107,15 +106,7 @@ char	*process_expansion(t_shell *shell, char *value)
 	}
 	else if (value[i] == '$' && value[i + 1])
 	{
-		varname = find_varname(shell, value, i + 1);
-		if (!varname)
-			return (NULL);
-		new_value = expanded_value(shell, value, varname);
-		free(varname);
-		if (!new_value)
-			return (NULL);
-		free(value);
-		value = new_value;
+		value = common_expansion(shell, value, i);
 		return (process_expansion(shell, value));
 	}
 	return (value);

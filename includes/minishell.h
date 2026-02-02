@@ -120,9 +120,6 @@ void		check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
 char		*process_expansion(t_shell *shell, char *value);
 char		*find_varname(t_shell *shell, char *value, int i);
 
-/* expand_utils.c */
-char		*get_env_varname(t_shell *shell, char *key);
-
 /* wildcards.c */
 void		wildcards(t_shell *shell);
 

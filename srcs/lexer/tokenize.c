@@ -60,6 +60,26 @@ void	tokenize(t_token **token, t_token *new, char *buffer)
 	add_back_token(token, new);
 }
 
+static int	set_quote_type(t_token *new_tok, char *line, int i)
+{
+	if (line[i] == '\'')
+	{
+		new_tok->quote = SINGLE_QUOTE;
+		i++;
+	}
+	else if (line[i] == '"')
+	{
+		new_tok->quote = DOUBLE_QUOTE;
+		i++;
+	}
+	else
+	{
+		new_tok->quote = NO_QUOTE;
+		return (0);
+	}
+	return (1);
+}
+
 void	tokenisation(t_shell *shell, char *line)
 {
 	t_token	*new_tok;
