@@ -60,24 +60,30 @@ void	tokenize(t_token **token, t_token *new, char *buffer)
 	add_back_token(token, new);
 }
 
-static int	set_quote_type(t_token *new_tok, char *line, int i)
+static int	extract_word(t_shell *shell, t_token *new_tok, char *line, int i)
 {
-	if (line[i] == '\'')
+	t_state_data	data;
+
+	data.state = NO_QUOTE;
+	data.word_i = 0;
+	data.phrase = NULL;
+	data.word = NULL;
+	data.done = false;
+	while (line[i] && !data.done)
 	{
-		new_tok->quote = SINGLE_QUOTE;
-		i++;
+		if ((data.state == SINGLE_QUOTE || data.state == DOUBLE_QUOTE) && line[i] == '*')
+			new_tok->wc = false;
+		i = quote_handling(shell, &data, line, i);
 	}
-	else if (line[i] == '"')
-	{
-		new_tok->quote = DOUBLE_QUOTE;
-		i++;
-	}
-	else
-	{
-		new_tok->quote = NO_QUOTE;
-		return (0);
-	}
-	return (1);
+	if (!line[i] && data.word_i != 0)
+		add_word_to_phrase(&data.phrase, data.word);
+	if (data.state != NO_QUOTE)
+		syntaxe_error("");
+	new_tok->value = expand_phrase(shell, data.phrase);
+	if (!new_tok->value)
+		ft_error(shell, MALLOC);
+	tokenize(&shell->token_list, new_tok, new_tok->value);
+	return (i);
 }
 
 void	tokenisation(t_shell *shell, char *line)
