@@ -60,10 +60,26 @@ typedef struct s_token
 	t_quote_type		quote;
 	t_wildcards			wildcards;
 	char				*value;
-	bool				expand;
 	bool				wc;
 	struct s_token		*next;
 }						t_token;
+
+
+typedef struct s_segments
+{
+	bool				expand;
+	char				*buffer;
+	struct s_segments	*next;
+}						t_segments;
+
+typedef struct s_state_data
+{
+	t_quote_type		state;
+	t_segments			*phrase;
+	t_segments			*word;
+	int					word_i;
+	bool				done;
+}						t_state_data;
 
 typedef struct s_pipe
 {
@@ -105,7 +121,6 @@ typedef struct s_shell
 	bool				is_child;
 	bool				heredoc;
 	int					pipehd[2];
-	int					pipefd[2];
 	int					fd_in;
 	int					fd_out;
 	int					stdin_back_up;

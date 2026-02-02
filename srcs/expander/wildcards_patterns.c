@@ -56,8 +56,7 @@ t_token	*end_with_pattern(t_shell *shell, t_token *token, DIR *dir)
 		if (!ft_strncmp(cmp, "/", 2) && entry->d_type == DT_DIR 
 			&& !ft_strrchr(entry->d_name, '.'))
 			is_directory(shell, entry, &new_list);
-		else if (!ft_strncmp(entry->d_name + ft_strlen(entry->d_name) - len_end, cmp, len_end + 1) 
-			&& !ft_strrchr(entry->d_name, '.'))
+		else if (!ft_strncmp(entry->d_name + ft_strlen(entry->d_name) - len_end, cmp, len_end + 1))
 			add_wildcards_token(shell, entry->d_name, &new_list);
 	}
 	return (new_list);
@@ -96,6 +95,8 @@ t_token	*in_between_pattern(t_shell *shell, t_token *token, DIR *dir)
 	new_list = NULL;
 	cmp_start = token->wildcards.start;
 	start_len = ft_strlen(cmp_start);
+	if (!start_len)
+		return (NULL);
 	cmp_end = token->wildcards.end;
 	while ((entry = readdir(dir)) != NULL)
 	{
