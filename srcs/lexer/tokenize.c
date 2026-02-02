@@ -64,11 +64,8 @@ static int	extract_word(t_shell *shell, t_token *new_tok, char *line, int i)
 {
 	t_state_data	data;
 
-	data.state = NO_QUOTE;
-	data.word_i = 0;
-	data.phrase = NULL;
-	data.word = NULL;
-	data.done = false;
+	ft_memset(&data, 0, sizeof(t_state_data));
+	data.word = new_word(shell, line);
 	while (line[i] && !data.done)
 	{
 		if ((data.state == SINGLE_QUOTE || data.state == DOUBLE_QUOTE) && line[i] == '*')
@@ -80,6 +77,7 @@ static int	extract_word(t_shell *shell, t_token *new_tok, char *line, int i)
 	if (data.state != NO_QUOTE)
 		syntaxe_error("");
 	new_tok->value = expand_phrase(shell, data.phrase);
+	free_segments(&data);
 	if (!new_tok->value)
 		ft_error(shell, MALLOC);
 	tokenize(&shell->token_list, new_tok, new_tok->value);

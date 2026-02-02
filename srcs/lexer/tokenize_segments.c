@@ -10,6 +10,8 @@ t_segments	*new_word(t_shell *shell, char *line)
 	new_ele->buffer = ft_calloc(ft_strlen(line) + 1, sizeof(char));
 	if (!new_ele->buffer)
 		ft_error(shell,MALLOC);
+	new_ele->exist = true;
+	new_ele->expand = true;
 	return (new_ele);
 }
 
