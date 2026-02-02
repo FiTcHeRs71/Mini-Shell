@@ -77,39 +77,13 @@ static int	handle_double_quotes(t_shell *shell, t_state_data *data, char *line, 
 	return (i);
 }
 
-int	extract_word(t_shell *shell, t_token *new_tok, char *line, int i)
+int	quote_handling(t_shell *shell, t_state_data *data, char *line, int i)
 {
-	t_state_data	data;
-
-	data.state = NO_QUOTE;
-	data.word_i = 0;
-	data.phrase = NULL;
-	data.word = NULL;
-	data.done = false;
-	while (line[i] && !data.done)
-	{
-		if (data.state == NO_QUOTE)
-			i = handle_no_quotes(shell, &data, line, i);
-		else if (data.state == SINGLE_QUOTE)
-		{
-			if (line[i] == '*')
-				new_tok->wc = false;
-			i = handle_single_quotes(shell, &data, line, i);
-		}
-		else if (data.state == DOUBLE_QUOTE)
-		{
-			if (line[i] == '*')
-				new_tok->wc = false;
-			i = handle_double_quotes(shell, &data, line, i);
-		}
-	}
-	if (!line[i] && data.word_i != 0)
-		add_word_to_phrase(&data.phrase, data.word);
-	if (data.state != NO_QUOTE)
-		syntaxe_error("");
-	new_tok->value = expand_phrase(shell, data.phrase);
-	if (!new_tok->value)
-		ft_error(shell, MALLOC);
-	tokenize(&shell->token_list, new_tok, new_tok->value);
+	if (data->state == NO_QUOTE)
+		i = handle_no_quotes(shell, data, line, i);
+	else if (data->state == SINGLE_QUOTE)
+		i = handle_single_quotes(shell, data, line, i);
+	else if (data->state == DOUBLE_QUOTE)
+		i = handle_double_quotes(shell, data, line, i);
 	return (i);
 }

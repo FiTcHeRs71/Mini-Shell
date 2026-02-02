@@ -78,7 +78,7 @@ int			find_word_length(t_token *new_tok, char *line, int i);
 int			increment_len(char *line, char c, int i);
 
 /* tokenize_redirection.c */
-int			extract_word(t_shell *shell, t_token *new_tok, char *line, int i);
+int			quote_handling(t_shell *shell, t_state_data *data, char *line, int i);
 
 /* tokenize_segments.c */
 char		*expand_phrase(t_shell *shell, t_segments *phrase);
@@ -119,9 +119,11 @@ void		check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
 /* expand.c */
 char		*process_expansion(t_shell *shell, char *value);
 char		*find_varname(t_shell *shell, char *value, int i);
+char		*expanded_value(t_shell *shell, char *value, char *varname);
 
 /* expand_utils.c */
 char		*get_env_varname(t_shell *shell, char *key);
+char		*common_expansion(t_shell *shell, char *value, int i);
 
 /* wildcards.c */
 void		wildcards(t_shell *shell);
