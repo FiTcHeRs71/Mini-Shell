@@ -1,6 +1,30 @@
 
 #include "../../includes/minishell.h"
 
+static int	ft_strncmp_echo(const char *s1, const char *s2, size_t n)
+{
+	unsigned char	*tmp1;
+	unsigned char	*tmp2;
+
+	tmp1 = (unsigned char *)s1;
+	tmp2 = (unsigned char *)s2;
+	if (n == 0)
+	{
+		return (-1);
+	}
+	while ((*tmp1 || *tmp2) && (n > 0))
+	{
+		if (*tmp1 != *tmp2)
+		{
+			return (*tmp1 - *tmp2);
+		}
+		tmp1++;
+		tmp2++;
+		n--;
+	}
+	return (0);
+}
+
 static bool	check_multi_n_flag(char *line)
 {
 	int i;
@@ -35,14 +59,12 @@ static bool	check_n_flag(char **array, int *i)
 	flag = false;
 	while (array[(*i)])
 	{
-		if (ft_strncmp(array[(*i)], "-n", ft_strlen(array[(*i)])) == 0)
+		if (ft_strncmp_echo(array[(*i)], "-n", ft_strlen(array[(*i)])) == 0)
 			flag = true;
 		if (check_multi_n_flag(array[(*i)]))
 			(*i)++;
 		else 
-		{
 			break;
-		}
 	}
 	return (flag);
 }
