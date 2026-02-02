@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/27 10:43:35 by fducrot           #+#    #+#             */
-/*   Updated: 2025/12/27 10:43:35 by fducrot          ###   ########.ch       */
+/*   Created: 2026/02/02 19:37:27 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/02 19:37:27 by fducrot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1
 # endif
 
 # ifndef MAX_FD
