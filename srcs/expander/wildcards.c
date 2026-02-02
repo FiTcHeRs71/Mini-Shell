@@ -97,7 +97,7 @@ void	wildcards(t_shell *shell)
 	tmp = shell->token_list;
 	while (tmp)
 	{
-		if (tmp->wc == true)
+		if (tmp->wc == true && ft_strrchr(tmp->value, '*'))
 		{
 			find_wildcard_pattern(shell, tmp);
 			new_list = process_wildcards(shell, tmp);

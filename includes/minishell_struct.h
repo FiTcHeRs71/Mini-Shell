@@ -68,6 +68,7 @@ typedef struct s_token
 typedef struct s_segments
 {
 	bool				expand;
+	bool				exist;
 	char				*buffer;
 	struct s_segments	*next;
 }						t_segments;

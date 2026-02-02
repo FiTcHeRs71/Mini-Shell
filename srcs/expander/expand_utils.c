@@ -31,3 +31,18 @@ char	*common_expansion(t_shell *shell, char *value, int i)
 	free(value);
 	return (new_value);
 }
+
+void	free_segments(t_state_data *data)
+{
+	t_segments	*tmp;
+
+	while (data->phrase)
+	{
+		tmp = data->phrase->next;
+		if (data->phrase && data->phrase->buffer)
+			free(data->phrase->buffer);
+		if (data->phrase)
+			free(data->phrase);
+		data->phrase = tmp;
+	}
+}
