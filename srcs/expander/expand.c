@@ -1,54 +1,6 @@
 #include "../includes/minishell.h"
 
-char	*get_env_varname(t_shell *shell, char *key)
-{
-	t_env	*env;
-
-	env = shell->env;
-	while (env)
-	{
-		if (ft_strncmp(env->key, key, ft_strlen(env->key)) == 0)
-		{
-			return (env->value);
-		}
-		env = env->next;
-	}
-	return (NULL);	
-}
-
-static char	*expanded_value(t_shell *shell, t_token *token, char *varname)
-{
-	char	*var_value;
-	char	*buffer;
-	char	*value;
-	int		i;
-
-	var_value = get_env_varname(shell, varname);
-	if (!var_value)
-		var_value = "";
-	i = ft_strlen(var_value) + increment_len(token->value, ' ', 0);
-	buffer = ft_calloc(i + 1, sizeof(char));
-	if (!buffer)
-		ft_error(shell, MALLOC);
-	value = token->value;
-	i = 0;
-	while (*value)
-	{
-		if (*value == '$' && *var_value)
-		{
-			while (*var_value != '$' && *var_value)
-			{
-				buffer[i++] = *var_value++;
-			}
-			value += ft_strlen(varname) + 1;
-		}
-		buffer[i++] = *value++;
-	}
-	buffer[i] = '\0';
-	return (buffer);
-}
-
-static void expand_last_status(t_shell *shell, t_token *token, char *value)
+static char	*expand_last_status(t_shell *shell, char *value)
 {
 	char	*expand;
 	char	*res;
@@ -70,13 +22,74 @@ static void expand_last_status(t_shell *shell, t_token *token, char *value)
 	value += 2;
 	while (*value)
 		res[i++] = *value++;
-	free(token->value);
-	token->value = ft_strdup(res);
 	free(expand);
-	free(res);
+	return (res);
 }
 
-static void	process_expansion(t_shell *shell, t_token *token, char *value)
+static char	*fill_buffer(char *buffer, char *value, char *var_value, char *varname)
+{
+	bool	filled;
+	int		i;
+
+	i = 0;
+	filled = false;
+	while (*value)
+	{
+		if (*value == '$' && !*var_value && filled == false)
+			value += ft_strlen(varname) + 1;
+		else if (*value == '$' && *var_value)
+		{
+			while (*var_value != '$' && *var_value)
+				buffer[i++] = *var_value++;
+			value += ft_strlen(varname) + 1;
+			filled = true;
+		}
+		else
+			buffer[i++] = *value++;
+	}
+	buffer[i] = '\0';
+	return (buffer);
+}
+
+static char	*expanded_value(t_shell *shell, char *value, char *varname)
+{
+	char	*var_value;
+	char	*buffer;
+	int		i;
+
+	var_value = get_env_varname(shell, varname);
+	if (!var_value)
+	{
+		buffer = ft_substr(value, 0, increment_len(value, '$', 0));
+		return (buffer);
+	}
+	i = ft_strlen(var_value) + increment_len(value, ' ', 0);
+	buffer = ft_calloc(i + 1, sizeof(char));
+	if (!buffer)
+		ft_error(shell, MALLOC);
+	return (fill_buffer(buffer, value, var_value, varname));
+}
+
+char	*find_varname(t_shell *shell, char *value, int i)
+{
+	char	*varname;
+	int		j;
+
+	j = 0;
+	varname = ft_calloc(increment_len(value, '$', i) + 1, sizeof(char));
+	if (!varname)
+		ft_error(shell, MALLOC);
+	while (value[i])
+	{
+		if (!value[i] || value[i] == '$' || value[i] == ' ' || value[i] == '-' || value[i] == '\'')
+			break ;
+		varname[j++] = value[i++];
+	}
+	varname[j] = '\0';
+	return (varname);
+}
+
+char	*process_expansion(t_shell *shell, char *value)
 {
 	char	*varname;
 	char	*new_value;
@@ -84,57 +97,26 @@ static void	process_expansion(t_shell *shell, t_token *token, char *value)
 
 	i = 0;
 	while (value[i] != '$' && value[i])
-	{
 		i++;
-	}
 	if (value[i] == '$' && value[i + 1] == '?')
 	{
-		expand_last_status(shell, token, token->value);
-		return (process_expansion(shell, token, token->value));
+		new_value = expand_last_status(shell, value);
+		free(value);
+		value = new_value;
+		return (process_expansion(shell, value));
 	}
-	else if (value[i] == '$')
+	else if (value[i] == '$' && value[i + 1])
 	{
 		varname = find_varname(shell, value, i + 1);
 		if (!varname)
-			return ;
-		new_value = expanded_value(shell, token, varname);
+			return (NULL);
+		new_value = expanded_value(shell, value, varname);
 		free(varname);
 		if (!new_value)
-			ft_error(shell, MALLOC);
-		free(token->value);
-		token->value = new_value;
-		return (process_expansion(shell, token, token->value));
+			return (NULL);
+		free(value);
+		value = new_value;
+		return (process_expansion(shell, value));
 	}
+	return (value);
 }
-
-void	expansion(t_shell *shell)
-{
-	t_token	*tmp;
-
-	tmp = shell->token_list;
-	while (tmp)
-	{
-		if (tmp->expand == true)
-		{
-			if (ft_strchr(tmp->value, '$') && ft_strncmp(tmp->value, "$", 2))
-				process_expansion(shell, tmp, tmp->value);
-		}
-		tmp = tmp->next;
-	}
-}
-
-
-/*
-char *buffer;
-
-while (value[i])
-{
-	buffer = ft_calloc(increment_len(token->value, '$', i), sizeof(char));
-	while()
-	if (value[i] == '$' && value[i + 1] == '?')
-	{
-		expand_last_status(shell, token, token->value);
-		return (process_expansion(shell, token, token->value));
-	}
-}
-*/

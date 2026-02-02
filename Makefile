@@ -12,14 +12,14 @@ SRCS_MAIN = $(addprefix $(SRCDIR)/, \
 	main.c)
 
 SRCS_LEXER = $(addprefix $(SRCDIR)/lexer/, \
-	tokenize.c tokenize_utils.c redirect_tokenisation.c)
+	tokenize.c tokenize_utils.c tokenize_redirection.c tokenize_segments.c)
 
 SRCS_PARSER = $(addprefix $(SRCDIR)/parser/, \
 	parse.c parse_command.c parse_pipe.c parse_redir.c parse_utils.c \
 	parse_and.c parse_or.c parse_paren.c parse_utils2.c)
 
 SRCS_EXPANDER = $(addprefix $(SRCDIR)/expander/, \
-	expand.c expand_heredoc.c wildcards.c wildcards_utils.c \
+	expand.c expand_utils.c wildcards.c wildcards_utils.c \
 	wildcards_patterns.c )
 
 SRCS_EXECUTOR = $(addprefix $(SRCDIR)/executor/, \
@@ -41,8 +41,8 @@ SRCS_UTILS = $(addprefix $(SRCDIR)/utils/, \
 
 # Combine all sources
 SRCS = $(SRCS_MAIN) $(SRCS_LEXER) $(SRCS_PARSER) $(SRCS_EXPANDER) \
-       $(SRCS_EXECUTOR) $(SRCS_BUILTINS) $(SRCS_SIGNALS) $(SRCS_ENV) \
-       $(SRCS_UTILS)
+		$(SRCS_EXECUTOR) $(SRCS_BUILTINS) $(SRCS_SIGNALS) $(SRCS_ENV) \
+		$(SRCS_UTILS)
 
 # Object files
 OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)

@@ -52,7 +52,7 @@ int			exec_ast(t_shell *shell, t_ast_node *node);
 int			exec_pipe(t_shell *shell, t_ast_node *node);
 int			exec_redir(t_shell *shell, t_ast_node *node);
 int			check_error(t_shell *shell, char *cmd, int error);
-int				open_and_dup(t_shell *shell, t_ast_node *node);
+int			open_and_dup(t_shell *shell, t_ast_node *node);
 void		exec_heredoc(t_shell *shell, t_ast_node *node);
 void		print_error(t_shell *shell, char *error, char *cmd);
 
@@ -77,12 +77,13 @@ void		add_back_token(t_token **token, t_token *new);
 int			find_word_length(t_token *new_tok, char *line, int i);
 int			increment_len(char *line, char c, int i);
 
-/* redirect_tokenisation.c */
-void		tokenize_parenthesis(t_shell *shell, t_token *new_tok, char c);
-int			tokenize_double_quotes(t_shell *shell, t_token *new_tok, char *line, int i);
-int			tokenize_single_quotes(t_shell *shell, t_token *new_tok, char *line, int i);
-int			tokenize_no_quotes(t_shell *shell, t_token *new_tok, char *line, int i);
-int			redirect_all(t_shell *shell, t_token *new_tok, char *line, int i);
+/* tokenize_redirection.c */
+int			extract_word(t_shell *shell, t_token *new_tok, char *line, int i);
+
+/* tokenize_segments.c */
+char		*expand_phrase(t_shell *shell, t_segments *phrase);
+void		add_word_to_phrase(t_segments **phrase, t_segments *new);
+t_segments	*new_word(t_shell *shell, char *line);
 
 /*========================== parser ==========================*/
 /* parse_X.c */
@@ -116,12 +117,11 @@ void		check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
 
 /*========================== expansion ==========================*/
 /* expand.c */
-void		expansion(t_shell *shell);
-char		*get_env_varname(t_shell *shell, char *key);
-
-/* expand_heredoc.c */
-char		*expand_heredoc(t_shell *shell, char *line);
+char		*process_expansion(t_shell *shell, char *value);
 char		*find_varname(t_shell *shell, char *value, int i);
+
+/* expand_utils.c */
+char		*get_env_varname(t_shell *shell, char *key);
 
 /* wildcards.c */
 void		wildcards(t_shell *shell);

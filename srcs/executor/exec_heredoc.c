@@ -18,7 +18,8 @@ void	exec_heredoc(t_shell *shell, t_ast_node *node)
 			close(shell->pipehd[1]);
 			break ;
 		}
-		result = expand_heredoc(shell, line);
+		line = process_expansion(shell, ft_substr(line, 0, ft_strlen(line) - 1));
+		result = ft_strjoin(line, "\n");
 		if (result)
 			ft_putstr_fd(result, shell->pipehd[1]);
 		else
