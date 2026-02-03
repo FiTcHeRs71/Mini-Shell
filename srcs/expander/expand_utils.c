@@ -36,6 +36,13 @@ void	free_segments(t_state_data *data)
 {
 	t_segments	*tmp;
 
+	if (!data->phrase)
+	{
+		if (data->word && data->word->buffer)
+			free(data->word->buffer);
+		if (data->word)
+			free(data->word);
+	}
 	while (data->phrase)
 	{
 		tmp = data->phrase->next;

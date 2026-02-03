@@ -79,6 +79,7 @@ typedef struct s_state_data
 	t_segments			*phrase;
 	t_segments			*word;
 	int					word_i;
+	int					quote;
 	bool				done;
 }						t_state_data;
 

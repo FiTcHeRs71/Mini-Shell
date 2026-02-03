@@ -5,6 +5,8 @@ static void	reinitialise_buffer(t_state_data *data)
 	data->word->buffer[data->word_i] = '\0';
 	add_word_to_phrase(&data->phrase, data->word);
 	data->word->exist = false;
+	if (data->state == SINGLE_QUOTE || data->state == DOUBLE_QUOTE)
+		data->quote = 0;
 	data->word_i = 0;
 }
 
@@ -14,6 +16,7 @@ static int	handle_no_quotes(t_shell *shell, t_state_data *data, char *line, int 
 		data->word = new_word(shell, line);
 	if (line[i] == '\'' || line[i] == '"')
 	{
+		data->quote += 1;
 		if (data->word_i != 0)
 		{
 			data->word->expand = true;
@@ -27,8 +30,7 @@ static int	handle_no_quotes(t_shell *shell, t_state_data *data, char *line, int 
 	}
 	else if (line[i] == ' ')
 	{
-		data->word->buffer[data->word_i] = '\0';
-		add_word_to_phrase(&data->phrase, data->word);
+		reinitialise_buffer(data);
 		data->done = true;
 		i++;
 	}
@@ -43,7 +45,8 @@ static int	handle_single_quotes(t_shell *shell, t_state_data *data, char *line, 
 		data->word = new_word(shell, line);
 	if (line[i] == '\'')
 	{
-		if (data->word_i != 0)
+		data->quote += 1;
+		if (data->quote > 1)
 		{
 			data->word->expand = false;
 			reinitialise_buffer(data);
@@ -65,7 +68,8 @@ static int	handle_double_quotes(t_shell *shell, t_state_data *data, char *line, 
 	}
 	if (line[i] == '"')
 	{
-		if (data->word_i != 0)
+		data->quote += 1;
+		if (data->quote > 1)
 		{
 			data->word->expand = true;
 			reinitialise_buffer(data);

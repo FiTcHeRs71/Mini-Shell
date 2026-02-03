@@ -50,9 +50,9 @@ static char	*convert_segment(t_shell *shell, t_segments *phrase)
 	char	*word;
 	char	*joined;
 
-	if (!phrase)
-		return (ft_strdup(""));
 	word = ft_strdup("");
+	if (!phrase)
+		return (word);
 	if (!word)
 		ft_error(shell, MALLOC);
 	while (phrase)
