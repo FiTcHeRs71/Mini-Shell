@@ -6,14 +6,6 @@ static int	prepare_heredocs(t_shell *shell, t_ast_node *node)
 	{
 		return (0);
 	}
-	if (prepare_heredocs(shell, node->left) == 130)
-	{
-		return (130);
-	}
-	if (prepare_heredocs(shell, node->right) == 130)
-	{
-		return (130);
-	}
 	if(node->type == NODE_REDIR && node->redir_type == TOKEN_HEREDOC)
 	{
 		node->heredoc_fd = exec_heredoc(shell, node);
@@ -21,6 +13,14 @@ static int	prepare_heredocs(t_shell *shell, t_ast_node *node)
 		{
 			return (130);
 		}
+	}
+	if (prepare_heredocs(shell, node->left) == 130)
+	{
+		return (130);
+	}
+	if (prepare_heredocs(shell, node->right) == 130)
+	{
+		return (130);
 	}
 	return (0);
 }

@@ -40,7 +40,7 @@ static void	arg_to_command(t_shell *shell, t_ast_node *cmd, char *arg)
 static int	create_token_redir(t_shell *shell, t_token **current, t_ast_node **root)
 {
 	t_ast_node	*redir;
-	t_ast_node	*last;
+	t_ast_node	*curr;
 
 	redir = create_node(shell, NODE_REDIR);
 	redir->redir_type = (*current)->type;
@@ -55,10 +55,18 @@ static int	create_token_redir(t_shell *shell, t_token **current, t_ast_node **ro
 		ft_error(shell, MALLOC);
 	if (*root == NULL)
 		*root = redir;
+	else if ((*root)->type == NODE_CMD)
+	{
+		redir->left = *root;
+		*root = redir;
+	}
 	else
 	{
-		last = get_farthest_left(*root);
-		last->left = redir;
+		curr = *root;
+		while (curr->left && curr->left->type == NODE_REDIR)
+			curr = curr->left;
+		redir->left = curr->left;
+		curr->left = redir;
 	}
 	advance_token(current);
 	return (0);
