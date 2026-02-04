@@ -37,10 +37,10 @@ static void	arg_to_command(t_shell *shell, t_ast_node *cmd, char *arg)
 	cmd->args = new_args;
 }
 
-static int	create_token_redir(t_shell *shell, t_token **current,
-		t_ast_node **root)
+static int	create_token_redir(t_shell *shell, t_token **current, t_ast_node **root)
 {
 	t_ast_node	*redir;
+	t_ast_node	*last;
 
 	redir = create_node(shell, NODE_REDIR);
 	redir->redir_type = (*current)->type;
@@ -53,8 +53,13 @@ static int	create_token_redir(t_shell *shell, t_token **current,
 	redir->file = ft_strdup((*current)->value);
 	if (!redir->file)
 		ft_error(shell, MALLOC);
-	redir->left = *root;
-	*root = redir;
+	if (*root == NULL)
+		*root = redir;
+	else
+	{
+		last = get_farthest_left(*root);
+		last->left = redir;
+	}
 	advance_token(current);
 	return (0);
 }
