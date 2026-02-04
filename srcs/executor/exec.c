@@ -68,9 +68,9 @@ int	exec_ast(t_shell *shell, t_ast_node *node)
 {
 	if (!node)
 		return (0);
-	if (node == shell->tree_ast) // ou une condition similaire
+	if (node == shell->tree_ast)
 	{
-    	if (prepare_heredocs(shell, node) == 130)
+		if (prepare_heredocs(shell, node) == 130)
 			return (130);
 	}
 	if (node->type == NODE_CMD)
