@@ -113,12 +113,13 @@ typedef enum e_node_type
 typedef struct s_ast_node
 {
 	t_node_type			type;
+	t_token_type		redir_type;
 	char				**args;
 	char				*cmd_path;
+	char				*file;
+	int					heredoc_fd;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
-	char				*file;
-	t_token_type		redir_type;
 }						t_ast_node;
 
 typedef struct s_shell

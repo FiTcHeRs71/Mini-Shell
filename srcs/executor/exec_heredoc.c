@@ -20,7 +20,7 @@ static bool	loop_break(char *line, t_heredoc_data *data)
 	return (false);
 }
 
-static bool	write_line(t_shell *shell, char *line, t_heredoc_data *data)
+/*static bool	write_line(t_shell *shell, char *line, t_heredoc_data *data)
 {
 	if (loop_break(line, data) == true)
 	{
@@ -32,33 +32,38 @@ static bool	write_line(t_shell *shell, char *line, t_heredoc_data *data)
 	ft_putstr_fd("\n", shell->pipehd[1]);
 	free(line);
 	return (true);
-}
+}*/
 
 int	exec_heredoc(t_shell *shell, t_ast_node *node)
 {
-	char				*line;
-	t_heredoc_data		data;
+	char			*line;
+	t_heredoc_data	data;
+	int				pipefd[2];
 
 	ft_memset(&data, 0, sizeof(t_heredoc_data));
 	g_signal = 0;
 	set_hd_signal(&data);
 	data.limiter = ft_strdup(node->file);
-	if (!data.limiter)
-		ft_error(shell, MALLOC);
-	pipe(shell->pipehd);
+	if (pipe(pipefd) == -1)
+		return (-1);
 	while (1)
 	{
 		line = readline("> ");
-		if (!write_line(shell, line, &data))
+		if (loop_break(line, &data)) // Adapté selon votre loop_break existant
+		{
+			free(line);
 			break ;
+		}
+		line = process_expansion(shell, line);
+		ft_putendl_fd(line, pipefd[1]);
+		free(line);
 	}
-	close(shell->pipehd[1]);
-	free(data.limiter);
+	close(pipefd[1]);
 	restore_signals(&data);
 	if (g_signal || data.interrupted)
 	{
-		close(shell->pipehd[0]);
+		close(pipefd[0]);
 		return (130);
 	}
-	return (0);
+	return (pipefd[0]); // Retourne le fd de lecture
 }

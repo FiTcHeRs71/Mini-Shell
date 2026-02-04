@@ -1,5 +1,30 @@
 #include "../includes/minishell.h"
 
+static int	prepare_heredocs(t_shell *shell, t_ast_node *node)
+{
+	if(!node)
+	{
+		return (0);
+	}
+	if(node->type == NODE_REDIR && node->redir_type == TOKEN_HEREDOC)
+	{
+		node->heredoc_fd = exec_heredoc(shell, node);
+		if (node->heredoc_fd == 130)
+		{
+			return (130);
+		}
+	}
+	if (prepare_heredocs(shell, node->left) == 130)
+	{
+		return (130);
+	}
+	if (prepare_heredocs(shell, node->right) == 130)
+	{
+		return (130);
+	}
+	return (0);
+}
+
 static int	exec_and(t_shell *shell, t_ast_node *node)
 {
 	int	signal;
@@ -43,6 +68,11 @@ int	exec_ast(t_shell *shell, t_ast_node *node)
 {
 	if (!node)
 		return (0);
+	if (node == shell->tree_ast) // ou une condition similaire
+	{
+    	if (prepare_heredocs(shell, node) == 130)
+			return (130);
+	}
 	if (node->type == NODE_CMD)
 		return (exec_cmd(shell, node));
 	else if (node->type == NODE_PIPE)
