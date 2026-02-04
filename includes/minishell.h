@@ -54,7 +54,7 @@ int			exec_redir(t_shell *shell, t_ast_node *node);
 int			check_error(t_shell *shell, char *cmd, int error);
 int			open_and_dup(t_shell *shell, t_ast_node *node);
 int			open_and_dup(t_shell *shell, t_ast_node *node);
-void		exec_heredoc(t_shell *shell, t_ast_node *node);
+int			exec_heredoc(t_shell *shell, t_ast_node *node);
 void		print_error(t_shell *shell, char *error, char *cmd);
 
 /* exec_utils.c */
@@ -149,6 +149,10 @@ t_token		*in_between_pattern(t_shell *shell, t_token *token, DIR *dir);
 void		update_signal(t_shell *shell);
 void		init_signal(void);
 void		init_signal_exec(void);
+
+/* heredoc_signal.c */
+void	set_hd_signal(t_heredoc_data *data);
+void	restore_signals(t_heredoc_data *data);
 
 /*============================ utils =============================*/
 /* error.c */

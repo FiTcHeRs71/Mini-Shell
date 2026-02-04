@@ -64,6 +64,13 @@ typedef struct s_token
 	struct s_token		*next;
 }						t_token;
 
+typedef struct s_heredoc_data
+{
+	int					interrupted;
+	char				*limiter;
+	struct sigaction	old_int;
+	struct sigaction	old_quit;
+}						t_heredoc_data;
 
 typedef struct s_segments
 {

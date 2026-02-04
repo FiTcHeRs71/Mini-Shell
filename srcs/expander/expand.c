@@ -81,7 +81,7 @@ char	*find_varname(t_shell *shell, char *value, int i)
 		ft_error(shell, MALLOC);
 	while (value[i])
 	{
-		if (!value[i] || value[i] == '$' || value[i] == ' ' || value[i] == '-' || value[i] == '\'')
+		if (!value[i] || value[i] == '$' || value[i] == ' ' || value[i] == '-' || value[i] == '\'' || value[i] == '"')
 			break ;
 		varname[j++] = value[i++];
 	}

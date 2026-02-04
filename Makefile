@@ -31,7 +31,7 @@ SRCS_BUILTINS = $(addprefix $(SRCDIR)/builtins/, \
 	built_in_pwd.c built_in_unset.c built_in_utils.c)
 
 SRCS_SIGNALS = $(addprefix $(SRCDIR)/signal/, \
-	signal.c)
+	signal.c heredoc_signal.c)
 
 SRCS_ENV = $(addprefix $(SRCDIR)/env/, \
 	env_init.c)
