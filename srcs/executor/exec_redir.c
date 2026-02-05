@@ -5,6 +5,8 @@ static int	exec_with_redir(t_shell *shell, t_ast_node *node, int target, int sou
 	int	saver;
 	int	ret;
 
+	if (source < 0)
+		return (1);
 	saver = dup(target);
 	if (saver == -1)
 	{
@@ -61,8 +63,8 @@ int	exec_redir(t_shell *shell, t_ast_node *node)
 		return (exec_redir_in(shell, node));
 	else if (node->redir_type == TOKEN_HEREDOC)
 	{
-		if (node->heredoc_fd == -1)
-			return (1);
+		if (node->heredoc_fd <= 2) 
+			return (1); 
 		return (exec_with_redir(shell, node, STDIN_FILENO, node->heredoc_fd));
 	}
 	return (1);

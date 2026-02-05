@@ -19,6 +19,7 @@ t_ast_node	*create_node(t_shell *shell, t_node_type type)
 		ft_error(shell, MALLOC);
 	}
 	new_node->type = type;
+	new_node->heredoc_fd = -1;
 	return (new_node);
 }
 
