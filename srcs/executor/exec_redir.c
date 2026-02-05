@@ -1,5 +1,33 @@
 #include "../includes/minishell.h"
 
+static int	exec_with_redir(t_shell *shell, t_ast_node *node, int target, int source)
+{
+	int	saver;
+	int	ret;
+
+	saver = dup(target);
+	if (saver == -1)
+	{
+		if (source != -1)
+			close(source);
+		return (1);
+	}
+	if (dup2(source, target) < 0)
+	{
+		close(source);
+		close(saver);
+		return (1);
+	}
+	close(source);
+	ret = exec_ast(shell, node->left);
+	if (dup2(saver, target) < 0)
+	{
+		ret = 1;
+	}
+	close(saver);
+	return (ret);
+}
+
 int	open_and_dup(t_shell *shell, t_ast_node *node)
 {
 	int	signal;
@@ -10,14 +38,7 @@ int	open_and_dup(t_shell *shell, t_ast_node *node)
 		signal = open_redir_out(shell, node);
 	if (signal != 0)
 		return (signal);
-	if (dup2(shell->fd_out, STDOUT_FILENO) < 0)
-	{
-		close(shell->fd_out);
-		return (1);
-	}
-	if (shell->fd_out != STDOUT_FILENO)
-		close(shell->fd_out);
-	return (exec_ast(shell, node->left));
+	return (exec_with_redir(shell, node, STDOUT_FILENO, shell->fd_out));
 }
 
 static int	exec_redir_in(t_shell *shell, t_ast_node *node)
@@ -27,14 +48,7 @@ static int	exec_redir_in(t_shell *shell, t_ast_node *node)
 	signal = open_redir_in(shell, node);
 	if (signal != 0)
 		return (signal);
-	if (dup2(shell->fd_in, STDIN_FILENO) < 0)
-	{
-		close(shell->fd_in);
-		return (1);
-	}
-	if (shell->fd_in != STDIN_FILENO)
-	close(shell->fd_in);
-	return (exec_ast(shell, node->left));
+	return (exec_with_redir(shell, node, STDIN_FILENO, shell->fd_in));
 }
 
 int	exec_redir(t_shell *shell, t_ast_node *node)
@@ -49,13 +63,7 @@ int	exec_redir(t_shell *shell, t_ast_node *node)
 	{
 		if (node->heredoc_fd == -1)
 			return (1);
-		if (dup2(node->heredoc_fd, STDIN_FILENO) < 0)
-		{
-			close(node->heredoc_fd);
-			return (1);
-		}
-		close(node->heredoc_fd);
-		return (exec_ast(shell, node->left));
+		return (exec_with_redir(shell, node, STDIN_FILENO, node->heredoc_fd));
 	}
 	return (1);
 }
