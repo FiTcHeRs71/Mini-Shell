@@ -59,5 +59,7 @@ int	exec_pipe(t_shell *shell, t_ast_node *node)
 		close_heredoc_fds(node);
 	close(state.pipefd[1]);
 	close(state.pipefd[0]);
+	if (shell->is_child)
+		clean_without_exit(shell);
 	return (wait_for_children(state));
 }
