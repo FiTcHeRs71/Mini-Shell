@@ -88,18 +88,11 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 	exit_code = execute_is_builtin(shell, node);
 	if (exit_code != -1)
 	{
-		if (shell->is_child)
-		{
-			clean_without_exit(shell);
-			exit(exit_code);
-		}
 		return(exit_code);
 	}
 	check = check_cmd(shell, node);
 	if (check != 0)
 		return (check);
-	if (shell->is_child)
-		execute_ext_cmd(shell, node);
 	pid = fork();
 	if (pid < 0)
 		return (1);
