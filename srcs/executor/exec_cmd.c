@@ -57,7 +57,7 @@ static int	check_cmd(t_shell *shell, t_ast_node *node)
 		return (update_cmd(shell, node, node->args[0]));
 }
 
-static int	is_builtin(t_shell *shell, t_ast_node *node)
+static int	execute_is_builtin(t_shell *shell, t_ast_node *node)
 {
 	int	signal;
 
@@ -85,7 +85,7 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 	int	exit_code;
 	int	pid;
 	
-	exit_code = is_builtin(shell, node);
+	exit_code = execute_is_builtin(shell, node);
 	if (exit_code != -1)
 	{
 		if (shell->is_child)

@@ -13,25 +13,11 @@ int	increment_len(char *line, char c, int i)
 	return (len);
 }
 
-int	find_word_length(t_token *new_tok, char *line, int i)
+int	is_special_char(int c)
 {
-	char	c;
-
-	if (new_tok->quote == SINGLE_QUOTE)
-	{
-		c = '\'';
-		return (increment_len(line, c, i));
-	}
-	else if (new_tok->quote == DOUBLE_QUOTE)
-	{
-		c = '"';
-		return (increment_len(line, c, i));
-	}
-	else
-	{
-		c = ' ';
-		return (increment_len(line, c, i));
-	}
+	if (c == '|' || c == '<' || c == '&' || c == '>' || c == ')' || c == '(')
+		return (1);
+	return (0);
 }
 
 t_token	*new_token(t_shell *shell)

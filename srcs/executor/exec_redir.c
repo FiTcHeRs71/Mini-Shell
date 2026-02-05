@@ -39,8 +39,6 @@ static int	exec_redir_in(t_shell *shell, t_ast_node *node)
 
 int	exec_redir(t_shell *shell, t_ast_node *node)
 {
-	//int	signal;
-
 	if (node->redir_type == TOKEN_REDIR_OUT) // >
 		return (open_and_dup(shell, node));
 	else if (node->redir_type == TOKEN_APPEND) // >>

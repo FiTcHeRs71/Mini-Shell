@@ -48,6 +48,7 @@ static int	create_token_redir(t_shell *shell, t_token **current, t_ast_node **ro
 	if (!*current || (*current)->type != TOKEN_WORD)
 	{
 		syntaxe_error("Redirection must be followed by a file");
+		free(redir);
 		return (1);
 	}
 	redir->file = ft_strdup((*current)->value);
@@ -105,7 +106,11 @@ t_ast_node	*parser_redir(t_shell *shell, t_token **current)
 		if ((*current)->type != TOKEN_WORD)
 		{
 			if (create_token_redir(shell, current, &root) == 1)
+			{
+				ft_free_2d_array(root->args);
+				free(root);
 				return (NULL);
+			}
 		}
 		else
 		{

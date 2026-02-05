@@ -66,7 +66,7 @@ int			wait_on_process(int	pid);
 
 /*=========================== lexer ============================*/
 /* tokenize.c */
-void		tokenize(t_token **token, t_token *new, char *buffer);
+void		tokenize(t_token **token, t_token *new, char *buffer, t_state_data *data);
 void		tokenisation(t_shell *shell, char *line);
 void		add_token(t_shell *shell, t_token *current, t_token *new);
 void		swap_token(t_token **a);
@@ -75,8 +75,8 @@ void		swap_token(t_token **a);
 t_token		*new_token(t_shell *shell);
 t_token		*last_token(t_token *token);
 void		add_back_token(t_token **token, t_token *new);
-int			find_word_length(t_token *new_tok, char *line, int i);
 int			increment_len(char *line, char c, int i);
+int			is_special_char(int c);
 
 /* tokenize_redirection.c */
 int			quote_handling(t_shell *shell, t_state_data *data, char *line, int i);
@@ -84,7 +84,7 @@ int			quote_handling(t_shell *shell, t_state_data *data, char *line, int i);
 /* tokenize_segments.c */
 char		*expand_phrase(t_shell *shell, t_segments *phrase);
 void		add_word_to_phrase(t_segments **phrase, t_segments *new);
-t_segments	*new_word(t_shell *shell, char *line);
+t_segments	*new_word(t_shell *shell, char *line, int i);
 
 /*========================== parser ==========================*/
 /* parse_X.c */

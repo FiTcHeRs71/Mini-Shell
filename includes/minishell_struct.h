@@ -76,6 +76,8 @@ typedef struct s_segments
 {
 	bool				expand;
 	bool				exist;
+	bool				is_word;
+	bool				spec_char;
 	char				*buffer;
 	struct s_segments	*next;
 }						t_segments;
@@ -130,12 +132,12 @@ typedef struct s_shell
 	bool				syntax_flag;
 	bool				is_child;
 	bool				heredoc;
-	int					pipehd[2];
 	int					fd_in;
 	int					fd_out;
 	int					stdin_back_up;
 	int					stdout_back_up;
 	int					last_exit_status;
+	char				*syntax;
 }						t_shell;
 
 #endif

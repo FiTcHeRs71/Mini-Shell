@@ -13,7 +13,7 @@ static void	reinitialise_buffer(t_state_data *data)
 static int	handle_no_quotes(t_shell *shell, t_state_data *data, char *line, int i)
 {
 	if (data->word_i == 0 && data->word->exist == false)
-		data->word = new_word(shell, line);
+		data->word = new_word(shell, line, i);
 	if (line[i] == '\'' || line[i] == '"')
 	{
 		data->quote += 1;
@@ -28,10 +28,12 @@ static int	handle_no_quotes(t_shell *shell, t_state_data *data, char *line, int 
 			data->state = DOUBLE_QUOTE;
 		i++;
 	}
-	else if (line[i] == ' ')
+	else if (line[i] == ' ' || (data->word->spec_char == true && !is_special_char(line[i])))
 	{
 		reinitialise_buffer(data);
 		data->done = true;
+		if (data->word->spec_char == true && !is_special_char(line[i]))
+			return (i);
 		i++;
 	}
 	else
@@ -42,7 +44,10 @@ static int	handle_no_quotes(t_shell *shell, t_state_data *data, char *line, int 
 static int	handle_single_quotes(t_shell *shell, t_state_data *data, char *line, int i)
 {
 	if (data->word_i == 0 && data->word->exist == false)
-		data->word = new_word(shell, line);
+	{
+		data->word = new_word(shell, line, i);
+	}
+	data->word->is_word = true;
 	if (line[i] == '\'')
 	{
 		data->quote += 1;
@@ -63,9 +68,10 @@ static int	handle_double_quotes(t_shell *shell, t_state_data *data, char *line, 
 {
 	if (data->word_i == 0 && data->word->exist == false)
 	{
-		data->word = new_word(shell, line);
+		data->word = new_word(shell, line, i);
 		data->word->expand = true;
 	}
+	data->word->is_word = true;
 	if (line[i] == '"')
 	{
 		data->quote += 1;
@@ -84,11 +90,19 @@ static int	handle_double_quotes(t_shell *shell, t_state_data *data, char *line, 
 
 int	quote_handling(t_shell *shell, t_state_data *data, char *line, int i)
 {
+	t_token	*last;
+
+	last = last_token(shell->token_list);
 	if (data->state == NO_QUOTE)
 		i = handle_no_quotes(shell, data, line, i);
 	else if (data->state == SINGLE_QUOTE)
 		i = handle_single_quotes(shell, data, line, i);
 	else if (data->state == DOUBLE_QUOTE)
 		i = handle_double_quotes(shell, data, line, i);
+	if (last)
+	{
+		if (last->type == TOKEN_HEREDOC)
+			data->word->expand = false;
+	}
 	return (i);
 }

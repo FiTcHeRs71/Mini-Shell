@@ -50,11 +50,13 @@ void	last_token_check(t_token *last, int paren_balance, t_token *prev_token,
 	if (last->type == TOKEN_PIPE && prev_token->type == TOKEN_WORD)
 	{
 		shell->syntax_flag = true;
+		shell->syntax = last->value;
 		return ;
 	}
 	if (is_flow_operator(last) || is_redirection(last))
 	{
 		shell->syntax_flag = true;
+		shell->syntax = last->value;
 		return ;
 	}
 	if (paren_balance != 0)

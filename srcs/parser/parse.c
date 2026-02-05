@@ -6,11 +6,13 @@ void	check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell)
 	if (is_flow_operator(prev_token))
 	{
 		shell->syntax_flag = true;
+		shell->syntax = prev_token->value;
 		return ;
 	}
 	if (token->next && is_operator(token->next))
 	{
 		shell->syntax_flag = true;
+		shell->syntax = token->next->value;
 		return ;
 	}
 }
@@ -20,11 +22,13 @@ void	check_token_redir(t_token *token, t_shell *shell)
 	if (!token->next)
 	{
 		shell->syntax_flag = true;
+		shell->syntax = token->value;
 		return ;
 	}
 	if (token->next->type != TOKEN_WORD)
 	{
 		shell->syntax_flag = true;
+		shell->syntax = token->next->value;
 		return ;
 	}
 }
@@ -34,11 +38,13 @@ void	check_token_and_or(t_token *token, t_token *prev_token, t_shell *shell)
 	if (is_operator(prev_token))
 	{
 		shell->syntax_flag = true;
+		shell->syntax = prev_token->value;
 		return ;
 	}
 	if (is_operator(token->next))
 	{
 		shell->syntax_flag = true;
+		shell->syntax = token->next->value;
 		return ;
 	}
 }
@@ -80,7 +86,10 @@ void	parse(t_token *token, t_shell *shell)
 	validate_syntaxe(token, shell);
 	if (shell->syntax_flag == true)
 	{
-		syntaxe_error("");
+		if (shell->syntax)
+			syntaxe_error(shell->syntax);
+		else
+			syntaxe_error(") or (");
 		shell->last_exit_status = 2;
 		return ;
 	}

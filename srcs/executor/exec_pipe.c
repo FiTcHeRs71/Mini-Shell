@@ -1,5 +1,16 @@
 #include "../includes/minishell.h"
 
+static void	close_heredoc_fds(t_ast_node *node)
+{
+	if(!node)
+		return ;
+	close(node->heredoc_fd);
+	if (node->left)
+		return (close_heredoc_fds(node->left));
+	if (node->right)
+		return (close_heredoc_fds(node->right));
+}
+
 static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
 {
 	shell->is_child = 1;
@@ -44,6 +55,8 @@ int	exec_pipe(t_shell *shell, t_ast_node *node)
 	{
 		child_process_r(shell, node, &state);
 	}
+	if (shell->heredoc == true)
+		close_heredoc_fds(node);
 	close(state.pipefd[1]);
 	close(state.pipefd[0]);
 	return (wait_for_children(state));

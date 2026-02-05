@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-t_segments	*new_word(t_shell *shell, char *line)
+t_segments	*new_word(t_shell *shell, char *line, int i)
 {
 	t_segments	*new_ele;
 
@@ -12,6 +12,8 @@ t_segments	*new_word(t_shell *shell, char *line)
 		ft_error(shell,MALLOC);
 	new_ele->exist = true;
 	new_ele->expand = true;
+	if (is_special_char(line[i]))
+		new_ele->spec_char = true;
 	return (new_ele);
 }
 

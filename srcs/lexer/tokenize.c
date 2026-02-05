@@ -33,30 +33,30 @@ void	add_token(t_shell *shell, t_token *current, t_token *new)
 	last->next = next;
 }
 
-void	tokenize(t_token **token, t_token *new, char *buffer)
+void	tokenize(t_token **token, t_token *new, char *buffer, t_state_data *data)
 {
-	if (ft_isprint(*buffer) || !*buffer)
-		new->type = TOKEN_WORD;
-	else if (!ft_strncmp(buffer, "|", 2))
+	if (!ft_strncmp(buffer, "|", 2)  && data->phrase->is_word == false)
 		new->type = TOKEN_PIPE;
-	else if (!ft_strncmp(buffer, ">", 2))
+	else if (!ft_strncmp(buffer, ">", 2) && data->phrase->is_word == false)
 		new->type = TOKEN_REDIR_OUT;
-	else if (!ft_strncmp(buffer, "<", 2))
+	else if (!ft_strncmp(buffer, "<", 2) && data->phrase->is_word == false)
 		new->type = TOKEN_REDIR_IN;
-	else if (!ft_strncmp(buffer, ">>", 3))
+	else if (!ft_strncmp(buffer, ">>", 3) && data->phrase->is_word == false)
 		new->type = TOKEN_APPEND;
-	else if (!ft_strncmp(buffer, "<<", 3))
+	else if (!ft_strncmp(buffer, "<<", 3) && data->phrase->is_word == false)
 		new->type = TOKEN_HEREDOC;
-	else if (!ft_strncmp(buffer, "&&", 3))
+	else if (!ft_strncmp(buffer, "&&", 3) && data->phrase->is_word == false)
 		new->type = TOKEN_AND;
-	else if (!ft_strncmp(buffer, "||", 3))
+	else if (!ft_strncmp(buffer, "||", 3) && data->phrase->is_word == false)
 		new->type = TOKEN_OR;
-	else if (!ft_strncmp(buffer, "(", 2))
+	else if (!ft_strncmp(buffer, "(", 2) && data->phrase->is_word == false)
 		new->type = TOKEN_LPAREN;
-	else if (!ft_strncmp(buffer, ")", 2))
+	else if (!ft_strncmp(buffer, ")", 2) && data->phrase->is_word == false)
 		new->type = TOKEN_RPAREN;
+	else if (data->phrase->is_word == true || !*buffer || ft_isprint(*buffer))
+		new->type = TOKEN_WORD;
 	else
-		syntaxe_error("");
+		syntaxe_error(buffer);
 	add_back_token(token, new);
 }
 
@@ -65,7 +65,7 @@ static int	extract_word(t_shell *shell, t_token *new_tok, char *line, int i)
 	t_state_data	data;
 
 	ft_memset(&data, 0, sizeof(t_state_data));
-	data.word = new_word(shell, line);
+	data.word = new_word(shell, line, i);
 	while (line[i] && !data.done)
 	{
 		if ((data.state == SINGLE_QUOTE || data.state == DOUBLE_QUOTE) && line[i] == '*')
@@ -75,12 +75,12 @@ static int	extract_word(t_shell *shell, t_token *new_tok, char *line, int i)
 	if (!line[i] && data.word_i != 0)
 		add_word_to_phrase(&data.phrase, data.word);
 	if (data.state != NO_QUOTE)
-		syntaxe_error("");
+		syntaxe_error("' or '\"'");
 	new_tok->value = expand_phrase(shell, data.phrase);
-	free_segments(&data);
 	if (!new_tok->value)
-		ft_error(shell, MALLOC);
-	tokenize(&shell->token_list, new_tok, new_tok->value);
+	ft_error(shell, MALLOC);
+	tokenize(&shell->token_list, new_tok, new_tok->value, &data);
+	free_segments(&data);
 	return (i);
 }
 
