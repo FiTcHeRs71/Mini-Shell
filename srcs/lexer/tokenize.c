@@ -74,11 +74,13 @@ static int	extract_word(t_shell *shell, t_token *new_tok, char *line, int i)
 	}
 	if (!line[i] && data.word_i != 0)
 		add_word_to_phrase(&data.phrase, data.word);
+	else if (!line[i] && !data.phrase)
+		add_word_to_phrase(&data.phrase, data.word);
 	if (data.state != NO_QUOTE)
 		syntaxe_error("' or '\"'");
 	new_tok->value = expand_phrase(shell, data.phrase);
 	if (!new_tok->value)
-	ft_error(shell, MALLOC);
+		ft_error(shell, MALLOC);
 	tokenize(&shell->token_list, new_tok, new_tok->value, &data);
 	free_segments(&data);
 	return (i);

@@ -28,11 +28,23 @@ static int	handle_no_quotes(t_shell *shell, t_state_data *data, char *line, int 
 			data->state = DOUBLE_QUOTE;
 		i++;
 	}
-	else if (line[i] == ' ' || (data->word->spec_char == true && !is_special_char(line[i])) || (data->word->spec_char == false && is_special_char(line[i])))
+	else if (line[i] == '(' || line[i] == ')')
+	{
+		if (data->word_i != 0)
+		{
+			reinitialise_buffer(data);
+			data->done = true;
+			return (i);
+		}
+		data->word->buffer[data->word_i++] = line[i++];
+		reinitialise_buffer(data);
+		data->done = true;
+	}
+	else if (line[i] == ' ' || line[i] == ')' || (data->word->spec_char == true && !is_special_char(line[i])) || (data->word->spec_char == false && is_special_char(line[i])))
 	{
 		reinitialise_buffer(data);
 		data->done = true;
-		if ((data->word->spec_char == true && !is_special_char(line[i])) || (data->word->spec_char == false && is_special_char(line[i])))
+		if ((data->word->spec_char == true && !is_special_char(line[i])) || (data->word->spec_char == false && is_special_char(line[i])) || line[i] == ')')
 			return (i);
 		i++;
 	}
@@ -75,7 +87,7 @@ static int	handle_double_quotes(t_shell *shell, t_state_data *data, char *line, 
 	if (line[i] == '"')
 	{
 		data->quote += 1;
-		if (data->quote > 1)
+		if (data->quote > 1 && data->word_i != 0)
 		{
 			data->word->expand = true;
 			reinitialise_buffer(data);

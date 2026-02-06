@@ -58,4 +58,3 @@ int	open_redir_out(t_shell *shell, t_ast_node *right)
 	}
 	return (0);
 }
-
