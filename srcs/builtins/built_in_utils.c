@@ -33,6 +33,10 @@ int	checking_valid_name(char *key)
 	int	i;
 
 	i = 0;
+	if (!key)
+		return(ft_putstr_fd_checked("Invalid KEY\n", 2), 1);
+	if (ft_strlen(key) <= 0)
+		return(ft_putstr_fd_checked("Invalid KEY\n", 2), 1);
 	if (!ft_isalpha(key[0]) && key[0] != '_')
 	{
 		ft_putstr_fd("Invalid KEY\n", 2);

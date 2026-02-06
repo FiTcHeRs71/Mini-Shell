@@ -9,7 +9,7 @@ t_ast_node	*parser_paren(t_shell *shell, t_token **current)
 	if (*current && (*current)->type == TOKEN_LPAREN)
 	{
 		advance_token(current);
-		content = parser_or(shell, current);
+		content = parser_logic(shell, current);
 		if (!*current || (*current)->type != TOKEN_RPAREN)
 		{
 			syntaxe_error("Expected ')'"); // TODO : a confirmer

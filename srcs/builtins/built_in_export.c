@@ -62,11 +62,12 @@ int	exec_export(t_shell *shell, t_env **env, char **args)
 {
 	char	*finder;
 	t_env	*new;
-	int		signal;
+	//int		signal;
 
 	if (!args[1])
 		return (print_env_sorted(shell), 0);
-	signal = checking_valid_name(args[1]);
+	if (checking_valid_name(args[1]) > 0)
+		return (1);
 	new = ft_calloc(1, sizeof(t_env));
 	if (!new)
 		ft_error(shell, MALLOC);
@@ -84,5 +85,5 @@ int	exec_export(t_shell *shell, t_env **env, char **args)
 		ft_error(shell, MALLOC);
 	}
 	env_add_back(env, new);
-	return (signal);
+	return (0);
 }
