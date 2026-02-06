@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-t_ast_node	*parser_and(t_shell *shell, t_token **current)
+/*t_ast_node	*parser_and(t_shell *shell, t_token **current)
 {
 	t_ast_node	*left;
 	t_ast_node	*and_node;
@@ -23,4 +23,4 @@ t_ast_node	*parser_and(t_shell *shell, t_token **current)
 		left = and_node;
 	}
 	return (left);
-}
+}*/

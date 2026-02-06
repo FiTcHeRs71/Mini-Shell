@@ -93,7 +93,7 @@ void	parse(t_token *token, t_shell *shell)
 		shell->last_exit_status = 2;
 		return ;
 	}
-	shell->tree_ast = parser_or(shell, &token);
+	shell->tree_ast = parser_logic(shell, &token);
 	if (!shell->tree_ast)
 	{
 		return ;

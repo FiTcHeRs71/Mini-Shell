@@ -88,6 +88,7 @@ t_segments	*new_word(t_shell *shell, char *line, int i);
 
 /*========================== parser ==========================*/
 /* parse_X.c */
+t_ast_node	*parser_logic(t_shell *shell, t_token **current);
 t_ast_node	*parser_and(t_shell *shell, t_token **current);
 t_ast_node	*parser_command(t_shell *shell, t_token **current);
 t_ast_node	*parser_or(t_shell *shell, t_token **current);
