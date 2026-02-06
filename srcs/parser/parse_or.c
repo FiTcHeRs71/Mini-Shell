@@ -11,7 +11,7 @@ t_ast_node	*parser_or(t_shell *shell, t_token **current)
 	left = parser_and(shell, current);
 	if (!current || !(*current))
 		return (left);
-	while (current && (*current)->type == TOKEN_OR)
+	while (*current && (*current)->type == TOKEN_OR)
 	{
 		or_node = create_node(shell, NODE_OR);
 		advance_token(current);

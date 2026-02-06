@@ -12,7 +12,7 @@ t_ast_node	*parser_pipe(t_shell *shell, t_token **current)
 	{
 		return (left);
 	}
-	if (current && (*current)->type == TOKEN_PIPE)
+	if (*current && (*current)->type == TOKEN_PIPE)
 	{
 		pipe_node = create_node(shell, NODE_PIPE);
 		advance_token(current);
