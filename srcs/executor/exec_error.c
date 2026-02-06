@@ -26,7 +26,7 @@ static void	child_process_error(t_shell *shell, char *cmd, int error)
 	exit(126);
 }
 
-int	check_error(t_shell *shell, t_ast_node *node, char *cmd, int error)
+int	check_error(t_shell *shell, char *cmd, int error)
 {
 	if (shell->is_child == true)
 		child_process_error(shell, cmd, error);
@@ -34,7 +34,7 @@ int	check_error(t_shell *shell, t_ast_node *node, char *cmd, int error)
 	{
 		if (error == ENOENT)
 			{
-				if (ft_strrchr(cmd, '/') || node->type == NODE_REDIR)
+				if (ft_strrchr(cmd, '/'))
 					print_error(shell, "no such file or directory: ", cmd);
 				else
 					print_error(shell, "command not found: ", cmd);

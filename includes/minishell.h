@@ -51,7 +51,7 @@ int			exec_cmd(t_shell *shell, t_ast_node *node);
 int			exec_ast(t_shell *shell, t_ast_node *node);
 int			exec_pipe(t_shell *shell, t_ast_node *node);
 int			exec_redir(t_shell *shell, t_ast_node *node);
-int			check_error(t_shell *shell, t_ast_node *node, char *cmd, int error);
+int			check_error(t_shell *shell, char *cmd, int error);
 int			open_and_dup(t_shell *shell, t_ast_node *node);
 int			open_and_dup(t_shell *shell, t_ast_node *node);
 int			exec_heredoc(t_shell *shell, t_ast_node *node);

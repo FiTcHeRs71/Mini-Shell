@@ -66,6 +66,6 @@ int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd)
 			free(path);
 		i++;
 	}
-	return (ft_free_2d_array(paths), check_error(shell, node, cmd, errno));
+	return (ft_free_2d_array(paths), check_error(shell, cmd, errno));
 }
 
