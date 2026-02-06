@@ -24,11 +24,10 @@ char	*common_expansion(t_shell *shell, char *value, int i)
 	varname = find_varname(shell, value, i + 1);
 	if (!varname)
 		return (NULL);
-	new_value = expanded_value(shell, value, varname);
+	new_value = expanded_value(shell, value, varname, i);
 	free(varname);
 	if (!new_value)
 		return (NULL);
-	free(value);
 	return (new_value);
 }
 

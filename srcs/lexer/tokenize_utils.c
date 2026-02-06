@@ -5,6 +5,11 @@ int	increment_len(char *line, char c, int i)
 	int	len;
 
 	len = 0;
+	if (line[i] == c)
+	{
+		len++;
+		i++;
+	}
 	while (line[i] != c && line[i])
 	{
 		len++;

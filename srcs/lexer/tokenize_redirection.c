@@ -28,6 +28,11 @@ static int	handle_no_quotes(t_shell *shell, t_state_data *data, char *line, int 
 			data->state = DOUBLE_QUOTE;
 		i++;
 	}
+	else if (line[i] == '$' && data->word_i != 0)
+	{
+		reinitialise_buffer(data);
+		return (i);
+	}
 	else if (line[i] == '(' || line[i] == ')')
 	{
 		if (data->word_i != 0)
