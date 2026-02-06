@@ -13,26 +13,32 @@ static void	close_heredoc_fds(t_ast_node *node)
 
 static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
 {
-	shell->is_child = 1;
+	int	status;
 
+	shell->is_child = 1;
 	close(state->pipefd[0]);
 	if (dup2(state->pipefd[1], STDOUT_FILENO) < 0)
 		exit(1);
 	if (state->pipefd[1] != STDOUT_FILENO)
 		close(state->pipefd[1]);
-	exit(exec_ast(shell, node->left));
+	status = exec_ast(shell, node->left);
+	clean_without_exit(shell);
+	exit(status);
 }
 
 static void child_process_r(t_shell *shell, t_ast_node *node, t_pipe *state)
 {
-	shell->is_child = 1;
+	int	status;
 
+	shell->is_child = 1;
 	close(state->pipefd[1]);
 	if (dup2(state->pipefd[0], STDIN_FILENO) < 0)
 		exit(1);
 	if (state->pipefd[0] != STDIN_FILENO)
 		close(state->pipefd[0]);
-	exit(exec_ast(shell, node->right));
+	status = exec_ast(shell, node->right);
+	clean_without_exit(shell);
+	exit(status);
 }
 
 int	exec_pipe(t_shell *shell, t_ast_node *node)

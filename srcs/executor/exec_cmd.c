@@ -37,7 +37,8 @@ static void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
 	if (execve(node->cmd_path, node->args, new_env) < 0)
 	{
 		ft_free_2d_array(new_env);
-		check_error(shell, node->args[0], errno);
+		clean_without_exit(shell);
+		check_error(shell, node, node->args[0], errno);
 		exit(1);
 	}
 }

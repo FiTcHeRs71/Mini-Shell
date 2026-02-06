@@ -27,23 +27,23 @@ static int	prepare_heredocs(t_shell *shell, t_ast_node *node)
 
 static int	exec_and(t_shell *shell, t_ast_node *node)
 {
-	int	signal;
+	int	status;
 
-	signal = exec_ast(shell, node->left);
-	if (signal == 0)
+	status = exec_ast(shell, node->left);
+	if (status == 0)
 		return (exec_ast(shell, node->right));
 	else
-		return (signal);
+		return (status);
 }
 
 static int	exec_or(t_shell *shell, t_ast_node *node)
 {
-	int	signal;
+	int	status;
 
-	signal = exec_ast(shell, node->left);
-	if (signal != 0)
+	status = exec_ast(shell, node->left);
+	if (status != 0)
 		return (exec_ast(shell, node->right));
-	return (signal);
+	return (status);
 }
 
 int	exec_sub(t_shell *shell, t_ast_node *node)
@@ -51,14 +51,13 @@ int	exec_sub(t_shell *shell, t_ast_node *node)
 	int	pid;
 	int	code;
 
-	if (shell->is_child)
-		return (exec_ast(shell, node->left));
 	pid = fork();
 	if (pid < 0)
 		return (1);
 	if (pid == 0)
 	{
 		code = exec_ast(shell, node->left);
+		clean_without_exit(shell);
 		exit(code);
 	}
 	return (wait_on_process(pid));
