@@ -15,6 +15,8 @@ static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
 {
 	int	status;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	shell->is_child = 1;
 	close(state->pipefd[0]);
 	if (dup2(state->pipefd[1], STDOUT_FILENO) < 0)
@@ -30,6 +32,8 @@ static void child_process_r(t_shell *shell, t_ast_node *node, t_pipe *state)
 {
 	int	status;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	shell->is_child = 1;
 	close(state->pipefd[1]);
 	if (dup2(state->pipefd[0], STDIN_FILENO) < 0)
