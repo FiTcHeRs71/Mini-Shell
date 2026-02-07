@@ -57,7 +57,7 @@ int	exec_sub(t_shell *shell, t_ast_node *node)
 	if (pid == 0)
 	{
 		code = exec_ast(shell, node->left);
-		clean_without_exit(shell);
+		clean_all(shell);
 		exit(code);
 	}
 	return (wait_on_process(pid));

@@ -166,7 +166,7 @@ void		free_ast(t_ast_node *tree);
 void		free_token(t_token *token);
 void		free_env_list(t_env *env);
 void		clean_up_loop(t_shell *shell);
-
+void		clean_all(t_shell *shell);
 /* exit.c */
 void		clean_before_exit(t_shell *shell);
 void		clean_without_exit(t_shell *shell);

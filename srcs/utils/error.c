@@ -15,7 +15,7 @@ void	ft_error(t_shell *shell, int error)
 	{
 		ft_putstr_fd("Memory allocation failed\n", 2);
 		clean_before_exit(shell);
-		exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE); // TODO: A changer
 	}
 	else if (error == CD)
 	{

@@ -60,6 +60,8 @@ void	free_ast(t_ast_node *tree)
 	{
 		return ;
 	}
+	free_ast(tree->right);
+	free_ast(tree->left);
 	if (tree && tree->args)
 	{
 		while (tree->args[i])
@@ -73,8 +75,6 @@ void	free_ast(t_ast_node *tree)
 		free(tree->cmd_path);
 	if (tree && tree->file)
 		free(tree->file);
-	free_ast(tree->right);
-	free_ast(tree->left);
 	free(tree);
 }
 
@@ -84,28 +84,50 @@ void	clean_up_fds(t_shell *shell)
 	{
 		return ;
 	}
-	if (shell->stdin_back_up > 0)
+	if (shell->stdin_back_up > 2)
 	{
 		close(shell->stdin_back_up);
 	}
-	if (shell->stdout_back_up > 0)
+	if (shell->stdout_back_up > 2)
 	{
 		close(shell->stdout_back_up);
 	}
-	if (shell->fd_in > 0)
+	if (shell->fd_in > 2)
 	{
 		close(shell->fd_in);
 	}
-	if (shell->fd_out > 0)
+	if (shell->fd_out > 2)
 	{
 		close(shell->fd_out);
 	}
+	shell->stdin_back_up = -1;
+	shell->stdout_back_up = -1;
+	shell->fd_in = -1;
+	shell->fd_out = -1;
 }
 
 void	clean_up_loop(t_shell *shell)
 {
 	free_ast(shell->tree_ast);
+	shell->tree_ast = NULL;
 	free_token(shell->token_list);
+	shell->token_list = NULL;
 	dup2(shell->stdout_back_up, STDOUT_FILENO);
 	dup2(shell->stdin_back_up, STDIN_FILENO);
+}
+
+void	clean_all(t_shell *shell)
+{
+	if (!shell)
+	{
+		return ;
+	}
+	free_ast(shell->tree_ast);
+	shell->tree_ast = NULL;
+	free_token(shell->token_list);
+	shell->token_list = NULL;
+	free_env_list(shell->env);
+	shell->env = NULL;
+	clean_up_fds(shell);
+	//rl_clear_history();
 }
