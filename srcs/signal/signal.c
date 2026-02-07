@@ -12,6 +12,7 @@ void	handle_sigint(int sig)
 void	handle_sigint_exec(int sig)
 {
 	(void)sig;
+	write(1, "\n", 1);
 	g_signal = 130;
 }
 

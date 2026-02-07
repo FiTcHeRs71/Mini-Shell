@@ -3,11 +3,12 @@
 
 int			g_signal;
 
-/*static void handle_ctrl_c(t_shell *shell)
+static void handle_ctrl_c(t_shell *shell)
 {
 	shell->last_exit_status = g_signal;
 	g_signal = 0;
-}*/
+	clean_without_exit(shell);
+}
 
 static void	reset_var(t_shell *shell, int argc, char **argv)
 {
@@ -29,8 +30,6 @@ static void	tokenise_parse_exec(t_shell *shell, char *line)
 		{
 			init_signal_exec();
 			g_signal = exec_ast(shell, shell->tree_ast);
-			if (g_signal == 130)
-				write(1, "\n", 1);
 			init_signal();
 		}
 	}
@@ -52,8 +51,7 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("Minishell > ");
 		if (g_signal != 0)
 		{
-			shell.last_exit_status = g_signal;
-			g_signal = 0;
+			handle_ctrl_c(&shell);
 		}
 		if (!line)
 			break ;
