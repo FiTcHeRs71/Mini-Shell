@@ -8,7 +8,7 @@ static void	handle_ctrl_c(t_shell *shell)
 	shell->last_exit_status = g_signal;
 	g_signal = 0;
 	clean_all(shell);
-	write(1, "\n", 1);
+	//write(1, "\n", 1);
 }
 
 static void	reset_var(t_shell *shell, int argc, char **argv)
