@@ -28,7 +28,7 @@ static bool	write_line(t_shell *shell, char *line, t_heredoc_data *data, int *pi
 		free(data->limiter);
 		return (false);
 	}
-	line = process_expansion(shell, line);
+	line = expand_heredoc(shell, line);
 	ft_putendl_fd(line, pipefd[1]);
 	free(line);
 	return (true);

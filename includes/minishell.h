@@ -128,6 +128,9 @@ char		*get_env_varname(t_shell *shell, char *key);
 char		*common_expansion(t_shell *shell, char *value, int i);
 void		free_segments(t_state_data *data);
 
+/* expand_heredoc.c */
+char		*expand_heredoc(t_shell *shell, char *line);
+
 /* wildcards.c */
 void		wildcards(t_shell *shell);
 
