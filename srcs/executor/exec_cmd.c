@@ -91,7 +91,7 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 	{
 		if (shell->is_child)
 		{
-			clean_without_exit(shell);
+			clean_all(shell);
 			exit(exit_code);
 		}
 		return(exit_code);

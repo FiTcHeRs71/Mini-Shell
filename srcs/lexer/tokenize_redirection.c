@@ -35,7 +35,7 @@ static int	handle_no_quotes(t_shell *shell, t_state_data *data, char *line, int 
 	}
 	else if (line[i] == '(' || line[i] == ')')
 	{
-		if (data->word_i != 0)
+		if (data->word_i != 0 || data->phrase)
 		{
 			reinitialise_buffer(data);
 			data->done = true;

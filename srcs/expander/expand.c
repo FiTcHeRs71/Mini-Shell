@@ -26,31 +26,6 @@ static char	*expand_last_status(t_shell *shell, char *value)
 	return (res);
 }
 
-// static char	*fill_buffer(char *buffer, char *value, char *var_value, char *varname)
-// {
-// 	bool	filled;
-// 	int		i;
-
-// 	i = 0;
-// 	filled = false;
-// 	while (*value)
-// 	{
-// 		if (*value == '$' && !*var_value && filled == false)
-// 			value += ft_strlen(varname) + 1;
-// 		else if (*value == '$' && *var_value)
-// 		{
-// 			while (*var_value != '$' && *var_value)
-// 				buffer[i++] = *var_value++;
-// 			value += ft_strlen(varname) + 1;
-// 			filled = true;
-// 		}
-// 		else
-// 			buffer[i++] = *value++;
-// 	}
-// 	buffer[i] = '\0';
-// 	return (buffer);
-// }
-
 char	*expanded_value(t_shell *shell, char *value, char *varname, int index)
 {
 	char	*var_value;

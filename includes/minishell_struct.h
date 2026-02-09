@@ -130,13 +130,15 @@ typedef struct s_shell
 	t_token				*token_list;
 	t_ast_node			*tree_ast;
 	bool				syntax_flag;
-	bool				is_child;
 	bool				heredoc;
+	int					is_child;
+	int					is_subshell;
 	int					fd_in;
 	int					fd_out;
 	int					stdin_back_up;
 	int					stdout_back_up;
 	int					last_exit_status;
+	int					pipe_depth;
 	char				*syntax;
 }						t_shell;
 

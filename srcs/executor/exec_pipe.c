@@ -17,7 +17,7 @@ static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	shell->is_child = 1;
+	shell->is_child++;
 	close(state->pipefd[0]);
 	if (dup2(state->pipefd[1], STDOUT_FILENO) < 0)
 	{
@@ -37,7 +37,7 @@ static void child_process_r(t_shell *shell, t_ast_node *node, t_pipe *state)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	shell->is_child = 1;
+	shell->is_child++;
 	close(state->pipefd[1]);
 	if (dup2(state->pipefd[0], STDIN_FILENO) < 0)
 	{
@@ -54,7 +54,9 @@ static void child_process_r(t_shell *shell, t_ast_node *node, t_pipe *state)
 int	exec_pipe(t_shell *shell, t_ast_node *node)
 {
 	t_pipe	state;
+	int		status;
 
+	shell->pipe_depth++;
 	if (pipe(state.pipefd) < 0)
 		return (1);
 	state.pid_l = fork();
@@ -75,7 +77,9 @@ int	exec_pipe(t_shell *shell, t_ast_node *node)
 		close_heredoc_fds(node);
 	close(state.pipefd[1]);
 	close(state.pipefd[0]);
-	if (shell->is_child)
-		clean_without_exit(shell);
-	return (wait_for_children(state));
+	status = wait_for_children(state);
+	shell->pipe_depth--;
+	if (shell->is_child || shell->is_subshell)
+		clean_all(shell);
+	return (status);
 }

@@ -49,7 +49,7 @@ int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd)
 
 	i = 0;
 	tmp_env = shell->env;
-	while (ft_strncmp(tmp_env->key, "PATH", 4) != 0 && tmp_env)
+	while (ft_strncmp(tmp_env->key, "PATH", 5) != 0 && tmp_env)
 		tmp_env = tmp_env->next;
 	if (!tmp_env)
 		return (127);

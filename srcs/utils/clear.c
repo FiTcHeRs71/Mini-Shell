@@ -112,6 +112,8 @@ void	clean_up_loop(t_shell *shell)
 	shell->tree_ast = NULL;
 	free_token(shell->token_list);
 	shell->token_list = NULL;
+	shell->is_child = 0;
+	shell->is_subshell = 0;
 	dup2(shell->stdout_back_up, STDOUT_FILENO);
 	dup2(shell->stdin_back_up, STDIN_FILENO);
 }
@@ -122,6 +124,8 @@ void	clean_all(t_shell *shell)
 	{
 		return ;
 	}
+	if (shell->pipe_depth == 0 && shell->is_child == 0 && shell->is_subshell == 0)
+		return ;
 	free_ast(shell->tree_ast);
 	shell->tree_ast = NULL;
 	free_token(shell->token_list);
@@ -129,5 +133,7 @@ void	clean_all(t_shell *shell)
 	free_env_list(shell->env);
 	shell->env = NULL;
 	clean_up_fds(shell);
+	shell->is_child--;
+	shell->is_subshell--;
 	//rl_clear_history();
 }

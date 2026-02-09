@@ -51,6 +51,7 @@ int	exec_sub(t_shell *shell, t_ast_node *node)
 	int	pid;
 	int	code;
 
+	shell->is_subshell++;
 	pid = fork();
 	if (pid < 0)
 		return (1);
