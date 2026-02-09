@@ -5,6 +5,7 @@ int			g_signal;
 
 static void handle_ctrl_c(t_shell *shell)
 {
+	write(1, "\n", 1);
 	shell->last_exit_status = g_signal;
 	g_signal = 0;
 	clean_without_exit(shell);
