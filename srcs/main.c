@@ -3,7 +3,7 @@
 
 int			g_signal;
 
-static void handle_ctrl_c(t_shell *shell)
+static void	handle_ctrl_c(t_shell *shell)
 {
 	shell->last_exit_status = g_signal;
 	g_signal = 0;

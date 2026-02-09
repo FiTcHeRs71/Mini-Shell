@@ -33,13 +33,13 @@ int	check_error(t_shell *shell, t_ast_node *node, char *cmd, int error)
 	else
 	{
 		if (error == ENOENT)
-			{
-				if (ft_strrchr(cmd, '/') || node->type == NODE_REDIR)
-					print_error(shell, "no such file or directory: ", cmd);
-				else
-					print_error(shell, "command not found: ", cmd);
-				return(127);
-			}
+		{
+			if (ft_strrchr(cmd, '/') || node->type == NODE_REDIR)
+				print_error(shell, "no such file or directory: ", cmd);
+			else
+				print_error(shell, "command not found: ", cmd);
+			return (127);
+		}
 		else if (error == EACCES)
 			print_error(shell, "permission denied: ", cmd);
 		else if (error == EISDIR)
@@ -58,8 +58,8 @@ void	print_error(t_shell *shell, char *error, char *cmd)
 	res = ft_strjoin(cmd, "\n");
 	if (!res)
 		ft_error(shell, MALLOC);
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(error, 2);
-	ft_putstr_fd(res, 2);
+	ft_putstr_fd_checked("minishell: ", 2);
+	ft_putstr_fd_checked(error, 2);
+	ft_putstr_fd_checked(res, 2);
 	free(res);
 }

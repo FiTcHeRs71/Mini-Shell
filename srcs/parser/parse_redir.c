@@ -37,7 +37,8 @@ static void	arg_to_command(t_shell *shell, t_ast_node *cmd, char *arg)
 	cmd->args = new_args;
 }
 
-static int	create_token_redir(t_shell *shell, t_token **current, t_ast_node **root)
+static int	create_token_redir(t_shell *shell, t_token **current,
+		t_ast_node **root)
 {
 	t_ast_node	*redir;
 	t_ast_node	*curr;

@@ -1,6 +1,31 @@
 
 #include "../../includes/minishell.h"
 
+static void	update_shell_lvl(t_shell *shell)
+{
+	t_env	*node_shell_lvl;
+	int		value;
+
+	if (!shell->env)
+	{
+		return ;
+	}
+	value = 0;
+	node_shell_lvl = get_env_node(shell, "SHLVL");
+	if (node_shell_lvl == NULL)
+	{
+		node_shell_lvl = ft_calloc(1, sizeof(t_env));
+		node_shell_lvl->key = ft_strdup("SHLVL");
+		node_shell_lvl->value = ft_strdup("1");
+		env_add_back(&shell->env, node_shell_lvl);
+		return ;
+	}
+	value = ft_atoi(node_shell_lvl->value);
+	value++;
+	free(node_shell_lvl->value);
+	node_shell_lvl->value = ft_itoa(value);
+}
+
 static t_env	*env_last(t_env *env)
 {
 	if (!env)
@@ -72,6 +97,7 @@ void	init_shell(t_shell *shell, char **envp)
 		i++;
 	}
 	init_signal();
+	update_shell_lvl(shell);
 	shell->stdout_back_up = dup(STDOUT_FILENO);
 	shell->stdin_back_up = dup(STDIN_FILENO);
 }

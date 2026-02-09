@@ -27,10 +27,10 @@ static int	ft_strncmp_echo(const char *s1, const char *s2, size_t n)
 
 static bool	check_multi_n_flag(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(line[i] == '-')
+	if (line[i] == '-')
 	{
 		i++;
 	}
@@ -38,7 +38,7 @@ static bool	check_multi_n_flag(char *line)
 	{
 		return (false);
 	}
-	while(line[i])
+	while (line[i])
 	{
 		if (line[i] != 'n')
 		{
@@ -54,7 +54,7 @@ static bool	check_multi_n_flag(char *line)
 
 static bool	check_n_flag(char **array, int *i)
 {
-	int flag;
+	int	flag;
 
 	flag = false;
 	while (array[(*i)])
@@ -63,13 +63,13 @@ static bool	check_n_flag(char **array, int *i)
 			flag = true;
 		if (check_multi_n_flag(array[(*i)]))
 			(*i)++;
-		else 
-			break;
+		else
+			break ;
 	}
 	return (flag);
 }
 
-int	exec_echo(char **args , int i)
+int	exec_echo(char **args, int i)
 {
 	int	n_flag;
 	int	saver_i;
@@ -78,7 +78,7 @@ int	exec_echo(char **args , int i)
 	{
 		if (ft_putstr_fd_checked("\n", 1) == -1)
 			return (perror("echo : write error"), 1);
-		return(0);
+		return (0);
 	}
 	n_flag = check_n_flag(args, &i);
 	saver_i = i;
@@ -92,7 +92,7 @@ int	exec_echo(char **args , int i)
 	}
 	if (!n_flag && i > saver_i)
 	{
-		if(ft_putstr_fd_checked("\n", 1) == -1)
+		if (ft_putstr_fd_checked("\n", 1) == -1)
 			return (perror("echo : write error"), 1);
 	}
 	return (0);

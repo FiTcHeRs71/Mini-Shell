@@ -34,7 +34,8 @@ t_ast_node	*parser_logic(t_shell *shell, t_token **current)
 	if (!current || !(*current))
 		return (NULL);
 	left = parser_pipe(shell, current);
-	while (*current && ((*current)->type == TOKEN_OR || (*current)->type == TOKEN_AND))
+	while (*current && ((*current)->type == TOKEN_OR 
+			|| (*current)->type == TOKEN_AND))
 	{
 		logic_node = create_node(shell, 0);
 		if ((*current)->type == TOKEN_OR)

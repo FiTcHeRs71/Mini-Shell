@@ -20,7 +20,8 @@ static bool	loop_break(char *line, t_heredoc_data *data)
 	return (false);
 }
 
-static bool	write_line(t_shell *shell, char *line, t_heredoc_data *data, int *pipefd)
+static bool	write_line(t_shell *shell, char *line, t_heredoc_data *data,
+		int *pipefd)
 {
 	if (loop_break(line, data))
 	{

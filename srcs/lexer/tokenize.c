@@ -33,9 +33,10 @@ void	add_token(t_shell *shell, t_token *current, t_token *new)
 	last->next = next;
 }
 
-void	tokenize(t_token **token, t_token *new, char *buffer, t_state_data *data)
+void	tokenize(t_token **token, t_token *new, char *buffer,
+		t_state_data *data)
 {
-	if (!ft_strncmp(buffer, "|", 2)  && data->phrase->is_word == false)
+	if (!ft_strncmp(buffer, "|", 2) && data->phrase->is_word == false)
 		new->type = TOKEN_PIPE;
 	else if (!ft_strncmp(buffer, ">", 2) && data->phrase->is_word == false)
 		new->type = TOKEN_REDIR_OUT;
@@ -68,7 +69,8 @@ static int	extract_word(t_shell *shell, t_token *new_tok, char *line, int i)
 	data.word = new_word(shell, line, i);
 	while (line[i] && !data.done)
 	{
-		if ((data.state == SINGLE_QUOTE || data.state == DOUBLE_QUOTE) && line[i] == '*')
+		if ((data.state == SINGLE_QUOTE || data.state == DOUBLE_QUOTE)
+			&& line[i] == '*')
 			new_tok->wc = false;
 		i = quote_handling(shell, &data, line, i);
 	}
@@ -96,7 +98,8 @@ void	tokenisation(t_shell *shell, char *line)
 	{
 		while ((line[i] == 32 || (line[i] >= 9 && line[i] <= 12)) && line[i])
 			i++;
-		if (!line[i] || ((line[i] == ':' || line[i] == '!') && !shell->token_list))
+		if (!line[i] || ((line[i] == ':' || line[i] == '!')
+				&& !shell->token_list))
 		{
 			if (line[i] == '!')
 				g_signal = 1;

@@ -1,6 +1,7 @@
 #include "../includes/minishell.h"
 
-static void	reinitialise_heredoc_buffer(t_shell *shell, t_state_data *data, char *line, int i)
+static void	reinitialise_heredoc_buffer(t_shell *shell, t_state_data *data,
+		char *line, int i)
 {
 	data->word->buffer[data->word_i] = '\0';
 	add_word_to_phrase(&data->phrase, data->word);
@@ -12,7 +13,7 @@ static void	reinitialise_heredoc_buffer(t_shell *shell, t_state_data *data, char
 
 static int	find_words(t_shell *shell, t_state_data *data, char *line, int i)
 {
-	char c;
+	char	c;
 
 	c = line[i];
 	while (line[i] != ' ' && line[i])
@@ -22,7 +23,7 @@ static int	find_words(t_shell *shell, t_state_data *data, char *line, int i)
 			reinitialise_heredoc_buffer(shell, data, line, i);
 			return (i);
 		}
-		if ((line[i] == '"' || line[i] == '\'') && data->word_i !=0)
+		if ((line[i] == '"' || line[i] == '\'') && data->word_i != 0)
 		{
 			reinitialise_heredoc_buffer(shell, data, line, i);
 			return (i);

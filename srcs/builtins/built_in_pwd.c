@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-int	exec_pwd()
+int	exec_pwd(void)
 {
 	char	*pwd;
 
@@ -11,7 +11,7 @@ int	exec_pwd()
 		perror("pwd");
 		return (1);
 	}
-	if(printf("%s\n", pwd) < 0)
+	if (printf("%s\n", pwd) < 0)
 	{
 		perror("pwd: write error");
 		free(pwd);

@@ -9,7 +9,7 @@ static void	helpers_update_env(t_shell *shell, char *old_pwd)
 	current_pwd = getcwd(NULL, 0);
 	if (!current_pwd)
 	{
-		ft_putstr_fd("Unable to update env", 2);
+		ft_putstr_fd_checked("Unable to update env", 2);
 		return ;
 	}
 	finder = get_env_node(shell, "PWD");
@@ -36,7 +36,7 @@ static int	go_to_home(t_shell *shell, char *old_pwd)
 	finder = get_env_node(shell, "HOME");
 	if (!finder)
 	{
-		ft_putstr_fd("Home not set\n", 2);
+		ft_putstr_fd_checked("Home not set\n", 2);
 		return (1);
 	}
 	else
@@ -48,7 +48,7 @@ static int	go_to_home(t_shell *shell, char *old_pwd)
 		}
 		else
 		{
-			ft_putstr_fd("Unable to acces at the directory\n", 2);
+			ft_putstr_fd_checked("Unable to acces at the directory\n", 2);
 			return (1);
 		}
 	}
@@ -58,7 +58,7 @@ static int	go_back_directory(t_shell *shell, char *old_pwd)
 {
 	if (chdir(".."))
 	{
-		ft_putstr_fd("Unable to acces at the directory\n", 2);
+		ft_putstr_fd_checked("Unable to acces at the directory\n", 2);
 		return (1);
 	}
 	else
@@ -80,7 +80,7 @@ static int	go_to_directory(t_shell *shell, char *old_pwd, char *path)
 	}
 	else
 	{
-		ft_putstr_fd("Unable to acces at the directory\n", 2);
+		ft_putstr_fd_checked("Unable to acces at the directory\n", 2);
 		return (1);
 	}
 }
@@ -94,7 +94,7 @@ int	exec_cd(t_shell *shell, char **args)
 	signal = 0;
 	if (!old_pwd)
 	{
-		ft_putstr_fd("error retrieving current directory", 2);
+		ft_putstr_fd_checked("error retrieving current directory", 2);
 		return (2);
 	}
 	if (!args[1] || ft_strncmp(args[1], "~", ft_strlen(args[1])) == 0)

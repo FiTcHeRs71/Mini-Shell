@@ -7,7 +7,7 @@ void	clean_before_exit(t_shell *shell)
 	clean_up_fds(shell);
 	free_token(shell->token_list);
 	free_env_list(shell->env);
-	write(1,"Exit.\n", 6);
+	write(1, "Exit.\n", 6);
 	exit(shell->last_exit_status);
 }
 

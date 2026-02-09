@@ -9,7 +9,7 @@ int	exec_exit(t_shell *shell, char **args)
 	exit_code = 0;
 	i = 0;
 	if (array_calculator(args) > 2)
-		return(ft_putstr_fd("exit : too many arguments\n", 2), 1);
+		return (ft_putstr_fd_checked("exit : too many arguments\n", 2), 1);
 	if (args[1])
 	{
 		while (args[1][i])

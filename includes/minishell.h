@@ -11,7 +11,8 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-#include <sys/types.h>
+# include <sys/types.h>
+# include <dirent.h>
 # include <dirent.h>
 
 extern int	g_signal;

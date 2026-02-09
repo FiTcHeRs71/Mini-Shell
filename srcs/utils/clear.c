@@ -124,7 +124,8 @@ void	clean_all(t_shell *shell)
 	{
 		return ;
 	}
-	if (shell->pipe_depth == 0 && shell->is_child == 0 && shell->is_subshell == 0)
+	if (shell->pipe_depth == 0 && shell->is_child == 0
+		&& shell->is_subshell == 0)
 		return ;
 	free_ast(shell->tree_ast);
 	shell->tree_ast = NULL;
@@ -135,5 +136,4 @@ void	clean_all(t_shell *shell)
 	clean_up_fds(shell);
 	shell->is_child--;
 	shell->is_subshell--;
-	//rl_clear_history();
 }

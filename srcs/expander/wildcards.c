@@ -1,6 +1,4 @@
 #include "../includes/minishell.h"
-#include <sys/types.h>
-#include <dirent.h>
 
 static void	pattern_start_without_asterisk(t_shell *shell, t_token *token)
 {
@@ -49,7 +47,7 @@ static void	find_wildcard_pattern(t_shell *shell, t_token *token)
 
 static t_token	*process_wildcards(t_shell *shell, t_token *token)
 {
-	DIR	*dir;
+	DIR		*dir;
 	t_token	*new_list;
 
 	dir = opendir(".");

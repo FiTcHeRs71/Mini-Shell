@@ -2,7 +2,7 @@
 
 static void	close_heredoc_fds(t_ast_node *node)
 {
-	if(!node)
+	if (!node)
 		return ;
 	close(node->heredoc_fd);
 	if (node->left)
@@ -34,7 +34,7 @@ static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
 	exit(status);
 }
 
-static void child_process_r(t_shell *shell, t_ast_node *node, t_pipe *state)
+static void	child_process_r(t_shell *shell, t_ast_node *node, t_pipe *state)
 {
 	int	status;
 
@@ -64,14 +64,14 @@ int	exec_pipe(t_shell *shell, t_ast_node *node)
 		return (1);
 	state.pid_l = fork();
 	if (state.pid_l < 0)
-		return(1);
+		return (1);
 	if (state.pid_l == 0)
 	{
 		child_process_l(shell, node, &state);
 	}
 	state.pid_r = fork();
 	if (state.pid_r < 0)
-		return(1);
+		return (1);
 	if (state.pid_r == 0)
 	{
 		child_process_r(shell, node, &state);

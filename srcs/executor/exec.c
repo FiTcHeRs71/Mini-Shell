@@ -2,11 +2,11 @@
 
 static int	prepare_heredocs(t_shell *shell, t_ast_node *node)
 {
-	if(!node)
+	if (!node)
 	{
 		return (0);
 	}
-	if(node->type == NODE_REDIR && node->redir_type == TOKEN_HEREDOC)
+	if (node->type == NODE_REDIR && node->redir_type == TOKEN_HEREDOC)
 	{
 		node->heredoc_fd = exec_heredoc(shell, node);
 		if (node->heredoc_fd == 130)

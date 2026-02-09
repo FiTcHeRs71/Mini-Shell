@@ -65,7 +65,7 @@ static int	execute_is_builtin(t_shell *shell, t_ast_node *node)
 	signal = -1;
 	if (!ft_strncmp(node->args[0], "echo", 5))
 		signal = exec_echo(node->args, 1);
-	else if(!ft_strncmp(node->args[0], "cd", 3))
+	else if (!ft_strncmp(node->args[0], "cd", 3))
 		signal = exec_cd(shell, node->args);
 	else if (!ft_strncmp(node->args[0], "env", 4))
 		signal = exec_env(shell);
@@ -85,7 +85,7 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 	int	check;
 	int	exit_code;
 	int	pid;
-	
+
 	exit_code = execute_is_builtin(shell, node);
 	if (exit_code != -1)
 	{
@@ -94,7 +94,7 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 			clean_all(shell);
 			exit(exit_code);
 		}
-		return(exit_code);
+		return (exit_code);
 	}
 	check = check_cmd(shell, node);
 	if (check != 0)

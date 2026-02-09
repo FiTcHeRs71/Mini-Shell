@@ -13,7 +13,7 @@ int	wait_for_children(t_pipe state)
 	return (1);
 }
 
-int	wait_on_process(int	pid)
+int	wait_on_process(int pid)
 {
 	int	status;
 

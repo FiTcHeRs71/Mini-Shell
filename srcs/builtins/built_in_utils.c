@@ -34,12 +34,12 @@ int	checking_valid_name(char *key)
 
 	i = 0;
 	if (!key)
-		return(ft_putstr_fd_checked("Invalid KEY\n", 2), 1);
+		return (ft_putstr_fd_checked("Invalid KEY\n", 2), 1);
 	if (ft_strlen(key) <= 0)
-		return(ft_putstr_fd_checked("Invalid KEY\n", 2), 1);
+		return (ft_putstr_fd_checked("Invalid KEY\n", 2), 1);
 	if (!ft_isalpha(key[0]) && key[0] != '_')
 	{
-		ft_putstr_fd("Invalid KEY\n", 2);
+		ft_putstr_fd_checked("Invalid KEY\n", 2);
 		return (1);
 	}
 	i++;
@@ -47,7 +47,7 @@ int	checking_valid_name(char *key)
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_')
 		{
-			ft_putstr_fd("Invalid KEY\n", 2);
+			ft_putstr_fd_checked("Invalid KEY\n", 2);
 			return (1);
 		}
 		i++;
@@ -64,8 +64,8 @@ t_env	*get_env_node(t_shell *shell, char *key)
 	key_len = ft_strlen(key);
 	while (env)
 	{
-		if (ft_strlen(env->key) == key_len
-			&& ft_strncmp(env->key, key, key_len) == 0)
+		if (ft_strlen(env->key) == key_len && ft_strncmp(env->key, key,
+				key_len) == 0)
 		{
 			return (env);
 		}

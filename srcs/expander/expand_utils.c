@@ -13,7 +13,7 @@ char	*get_env_varname(t_shell *shell, char *key)
 		}
 		env = env->next;
 	}
-	return (NULL);	
+	return (NULL);
 }
 
 char	*common_expansion(t_shell *shell, char *value, int i)
