@@ -14,8 +14,6 @@ void	handle_sigint_exec(int sig)
 {
 	(void)sig;
 	g_signal = 130;
-	write(1, "\n", 1);
-	g_signal = 130;
 }
 
 void	init_signal(void)
