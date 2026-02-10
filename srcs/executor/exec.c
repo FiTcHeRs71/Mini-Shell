@@ -31,8 +31,6 @@ static int	exec_and(t_shell *shell, t_ast_node *node)
 		return (exec_ast(shell, node->right));
 	else
 	{
-		if (shell->heredoc)
-			close_heredoc_fds(node->right);
 		return (status);
 	}
 }
@@ -59,14 +57,8 @@ int	exec_sub(t_shell *shell, t_ast_node *node)
 	if (pid == 0)
 	{
 		code = exec_ast(shell, node->left);
-		close_heredoc_fds(node);
 		clean_all(shell);
 		exit(code);
-	}
-	if (shell->is_child || shell->is_subshell)
-	{
-		close_heredoc_fds(node);
-		clean_all(shell);
 	}
 	return (wait_on_process(pid));
 }

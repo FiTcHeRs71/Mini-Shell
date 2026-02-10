@@ -2,8 +2,8 @@
 
 void	close_heredoc_fds(t_ast_node *node)
 {
-	if (!node)
-		return ;
+	if (!node || node->heredoc_fd < 2)
+		return;
 	if (node->heredoc_fd > 2)
 		close(node->heredoc_fd);
 	node->heredoc_fd = -1;
@@ -27,7 +27,6 @@ static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
 	}
 	if (state->pipefd[1] != STDOUT_FILENO)
 		close(state->pipefd[1]);
-	close_heredoc_fds(node->right);
 	status = exec_ast(shell, node->left);
 	clean_all(shell);
 	exit(status);
@@ -49,7 +48,6 @@ static void	child_process_r(t_shell *shell, t_ast_node *node, t_pipe *state)
 	}
 	if (state->pipefd[0] != STDIN_FILENO)
 		close(state->pipefd[0]);
-	close_heredoc_fds(node->left);
 	status = exec_ast(shell, node->right);
 	clean_all(shell);
 	exit(status);
