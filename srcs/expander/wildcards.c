@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wildcards.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 09/02/2026 20:56:36 by fducrot           #+#    #+#             */
+/*   Updated: 10/02/2026 18:14:48 by fducrot          ###   ########.ch       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 static void	pattern_start_without_asterisk(t_shell *shell, t_token *token)

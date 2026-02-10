@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clear.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/10 18:18:46 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/10 18:18:53 by fducrot          ###   ########.ch       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -75,6 +86,8 @@ void	free_ast(t_ast_node *tree)
 		free(tree->cmd_path);
 	if (tree && tree->file)
 		free(tree->file);
+	if (tree->heredoc_fd > 2)
+		close(tree->heredoc_fd);
 	free(tree);
 }
 
@@ -106,24 +119,4 @@ void	clean_up_loop(t_shell *shell)
 	shell->is_subshell = 0;
 	dup2(shell->stdout_back_up, STDOUT_FILENO);
 	dup2(shell->stdin_back_up, STDIN_FILENO);
-}
-
-void	clean_all(t_shell *shell)
-{
-	if (!shell)
-	{
-		return ;
-	}
-	if (shell->pipe_depth == 0 && shell->is_child == 0
-		&& shell->is_subshell == 0)
-		return ;
-	free_ast(shell->tree_ast);
-	shell->tree_ast = NULL;
-	free_token(shell->token_list);
-	shell->token_list = NULL;
-	free_env_list(shell->env);
-	shell->env = NULL;
-	clean_up_fds(shell);
-	shell->is_child--;
-	shell->is_subshell--;
 }

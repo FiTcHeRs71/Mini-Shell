@@ -1,15 +1,16 @@
-#include "../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 10/02/2026 17:14:58 by fducrot           #+#    #+#             */
+/*   Updated: 10/02/2026 18:13:18 by fducrot          ###   ########.ch       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	close_heredoc_fds(t_ast_node *node)
-{
-	if (!node || node->heredoc_fd < 2)
-		return;
-	if (node->heredoc_fd > 2)
-		close(node->heredoc_fd);
-	node->heredoc_fd = -1;
-	close_heredoc_fds(node->left);
-	close_heredoc_fds(node->right);
-}
+#include "../includes/minishell.h"
 
 static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
 {

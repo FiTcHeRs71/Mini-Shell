@@ -17,7 +17,7 @@ SRCS_LEXER = $(addprefix $(SRCDIR)/lexer/, \
 
 SRCS_PARSER = $(addprefix $(SRCDIR)/parser/, \
 	parse.c parse_command.c parse_pipe.c parse_redir.c parse_utils.c \
-	parse_and.c parse_or.c parse_paren.c parse_utils2.c)
+	parse_logic.c parse_paren.c parse_utils2.c parse_utils3.c)
 
 SRCS_EXPANDER = $(addprefix $(SRCDIR)/expander/, \
 	expand.c expand_utils.c expand_heredoc.c wildcards.c wildcards_utils.c \
@@ -38,7 +38,7 @@ SRCS_ENV = $(addprefix $(SRCDIR)/env/, \
 	env_init.c)
 
 SRCS_UTILS = $(addprefix $(SRCDIR)/utils/, \
-	clear.c error.c helpers.c exit.c)
+	clear.c clear_2.c error.c exit.c)
 
 # Combine all sources
 SRCS = $(SRCS_MAIN) $(SRCS_LEXER) $(SRCS_PARSER) $(SRCS_EXPANDER) \

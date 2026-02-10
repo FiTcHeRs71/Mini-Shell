@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_in_echo.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/10 18:37:17 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/10 18:37:17 by fducrot          ###   ########.ch       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -71,17 +82,11 @@ static bool	check_n_flag(char **array, int *i)
 
 int	exec_echo(char **args, int i)
 {
-	int	n_flag;
-	int	saver_i;
+	int	n;
 
-	if (!(*args) || !args || !args[1])
-	{
-		if (ft_putstr_fd_checked("\n", 1) == -1)
-			return (perror("echo : write error"), 1);
+	if (!args || !args[0])
 		return (0);
-	}
-	n_flag = check_n_flag(args, &i);
-	saver_i = i;
+	n = check_n_flag(args, &i);
 	while (args[i])
 	{
 		if (ft_putstr_fd_checked(args[i], 1) == -1)
@@ -94,10 +99,7 @@ int	exec_echo(char **args, int i)
 			return (perror("echo : write error"), 1);
 		i++;
 	}
-	if (!n_flag && i > saver_i)
-	{
-		if (ft_putstr_fd_checked("\n", 1) == -1)
-			return (perror("echo : write error"), 1);
-	}
+	if (!n && ft_putstr_fd_checked("\n", 1) == -1)
+		return (perror("echo : write error"), 1);
 	return (0);
 }

@@ -1,12 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/10 18:37:52 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/10 18:37:52 by fducrot          ###   ########.ch       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#define _GNU_SOURCE
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define _GNU_SOURCE
 
 # include "../libft/include/libft.h"
 # include "minishell_struct.h"
-# include "lex.h"
-# include "work.h"
 # include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -25,10 +34,10 @@ void		add_env_variable(t_shell *shell, t_env **env, char *envp);
 
 /*========================== builtins ==========================*/
 /* built_in_X.c*/
-int			exec_echo(char **args , int i);
+int			exec_echo(char **args, int i);
 int			exec_env(t_shell *shell);
 int			exec_exit(t_shell *shell, char **args);
-int			exec_pwd();
+int			exec_pwd(void);
 int			exec_unset(t_shell *shell, char *args);
 int			exec_export(t_shell *shell, t_env **env, char **args);
 int			exec_cd(t_shell *shell, char **args);
@@ -59,18 +68,18 @@ int			open_and_dup(t_shell *shell, t_ast_node *node);
 int			open_and_dup(t_shell *shell, t_ast_node *node);
 int			exec_heredoc(t_shell *shell, t_ast_node *node);
 void		print_error(t_shell *shell, char *error, char *cmd);
-void		close_heredoc_fds(t_ast_node *node);
 
 /* exec_utils.c */
 int			open_redir_out(t_shell *shell, t_ast_node *right);
 int			open_redir_in(t_shell *shell, t_ast_node *right);
 int			open_append(t_shell *shell, t_ast_node *right);
 int			wait_for_children(t_pipe state);
-int			wait_on_process(int	pid);
+int			wait_on_process(int pid);
 
 /*=========================== lexer ============================*/
 /* tokenize.c */
-void		tokenize(t_token **token, t_token *new, char *buffer, t_state_data *data);
+void		tokenize(t_token **token, t_token *new, char *buffer,
+				t_state_data *data);
 void		tokenisation(t_shell *shell, char *line);
 void		add_token(t_shell *shell, t_token *current, t_token *new);
 void		swap_token(t_token **a);
@@ -83,7 +92,8 @@ int			increment_len(char *line, char c, int i);
 int			is_special_char(int c);
 
 /* tokenize_redirection.c */
-int			quote_handling(t_shell *shell, t_state_data *data, char *line, int i);
+int			quote_handling(t_shell *shell, t_state_data *data,
+				char *line, int i);
 void		reinitialise_buffer(t_state_data *data);
 
 /* tokenize_segments.c */
@@ -92,17 +102,16 @@ void		add_word_to_phrase(t_segments **phrase, t_segments *new);
 t_segments	*new_word(t_shell *shell, char *line, int i);
 
 /* tokenize_no_quotes.c */
-int			handle_no_quotes(t_shell *shell, t_state_data *data, char *line, int i);
+int			handle_no_quotes(t_shell *shell, t_state_data *data,
+				char *line, int i);
 
 /*========================== parser ==========================*/
 /* parse_X.c */
+t_ast_node	*parser_redir(t_shell *shell, t_token **current);
 t_ast_node	*parser_logic(t_shell *shell, t_token **current);
-t_ast_node	*parser_and(t_shell *shell, t_token **current);
 t_ast_node	*parser_command(t_shell *shell, t_token **current);
-t_ast_node	*parser_or(t_shell *shell, t_token **current);
 t_ast_node	*parser_paren(t_shell *shell, t_token **current);
 t_ast_node	*parser_pipe(t_shell *shell, t_token **current);
-t_ast_node	*parser_redir(t_shell *shell, t_token **current);
 
 /* parse_utils.c */
 bool		is_redirection(t_token *token);
@@ -114,22 +123,32 @@ bool		is_redir_or_word(t_token *token);
 /* parse_utils2.c */
 t_ast_node	*create_node(t_shell *shell, t_node_type type);
 void		advance_token(t_token **current);
-void		last_token_check(t_token *last, int paren_balance, t_token *prev_token, t_shell *shell);
+void		last_token_check(t_token *last, int paren_balance,
+				t_token *prev_token, t_shell *shell);
 int			check_token_rparen(int paren_balance, t_shell *shell);
-int			check_token_lparen(t_token *token, int paren_balance, t_shell *shell);
+int			check_token_lparen(t_token *token, int paren_balance,
+				t_shell *shell);
+
+/* parse_utils3.c */
+void		while_is_redir(t_ast_node **root, t_ast_node *redir,
+				t_ast_node *curr);
+void		if_is_cmd(t_ast_node **root, t_ast_node *redir);
 
 /* parse.c */
 void		parse(t_token *token, t_shell *shell);
 void		validate_syntaxe(t_token *token, t_shell *shell);
-void		check_token_and_or(t_token *token, t_token *prev_token, t_shell *shell);
+void		check_token_and_or(t_token *token, t_token *prev_token,
+				t_shell *shell);
 void		check_token_redir(t_token *token, t_shell *shell);
-void		check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
+void		check_token_pipe(t_token *token, t_token *prev_token,
+				t_shell *shell);
 
 /*========================== expansion ==========================*/
 /* expand.c */
 char		*process_expansion(t_shell *shell, char *value);
 char		*find_varname(t_shell *shell, char *value, int i);
-char		*expanded_value(t_shell *shell, char *value, char *varname, int index);
+char		*expanded_value(t_shell *shell, char *value,
+				char *varname, int index);
 char		*expand_last_status(t_shell *shell, char *value);
 
 /* expand_utils.c */
@@ -147,14 +166,17 @@ void		wildcards(t_shell *shell);
 int			strcmp_end(char *value, char *end);
 int			strncmp_with_maj(const char *s1, const char *s2, int n);
 int			find_asterisk(char *str, int i);
-void		is_directory(t_shell *shell, struct dirent *entry, t_token **new_list);
-void		add_wildcards_token(t_shell *shell, char *filename, t_token **new_list);
+void		is_directory(t_shell *shell, struct dirent *entry,
+				t_token **new_list);
+void		add_wildcards_token(t_shell *shell, char *filename,
+				t_token **new_list);
 
 /* wildcards_patterns.c*/
 t_token		*everything_pattern(t_shell *shell, DIR *dir);
 t_token		*start_with_pattern(t_shell *shell, t_token *token, DIR *dir);
 t_token		*end_with_pattern(t_shell *shell, t_token *token, DIR *dir);
-t_token		*anything_containing_pattern(t_shell *shell, t_token *token, DIR *dir);
+t_token		*anything_containing_pattern(t_shell *shell,
+				t_token *token, DIR *dir);
 t_token		*in_between_pattern(t_shell *shell, t_token *token, DIR *dir);
 
 /*=========================== signal =============================*/
@@ -162,10 +184,11 @@ t_token		*in_between_pattern(t_shell *shell, t_token *token, DIR *dir);
 void		update_signal(t_shell *shell);
 void		init_signal(void);
 void		init_signal_exec(void);
+void		handle_sigint(int sig);
 
 /* heredoc_signal.c */
-void	set_hd_signal(t_heredoc_data *data);
-void	restore_signals(t_heredoc_data *data);
+void		set_hd_signal(t_heredoc_data *data);
+void		restore_signals(t_heredoc_data *data);
 
 /*============================ utils =============================*/
 /* error.c */

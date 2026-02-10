@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   parse_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/10 18:16:50 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/10 18:16:50 by fducrot          ###   ########.ch       */
+/*   Created: 2026/02/10 18:34:01 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/10 18:34:01 by fducrot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	clean_before_exit(t_shell *shell)
+void	while_is_redir(t_ast_node **root, t_ast_node *redir, t_ast_node *curr)
 {
-	free_ast(shell->tree_ast);
-	clean_up_fds(shell);
-	free_token(shell->token_list);
-	free_env_list(shell->env);
-	write(1, "Exit.\n", 6);
-	exit(shell->last_exit_status);
+	curr = *root;
+	while (curr->left && curr->left->type == NODE_REDIR)
+		curr = curr->left;
+	redir->left = curr->left;
+	curr->left = redir;
 }
 
-void	clean_without_exit(t_shell *shell)
+void	if_is_cmd(t_ast_node **root, t_ast_node *redir)
 {
-	free_ast(shell->tree_ast);
-	clean_up_fds(shell);
-	free_token(shell->token_list);
-	free_env_list(shell->env);
+	redir->left = *root;
+	*root = redir;
 }

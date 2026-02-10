@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_heredoc.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 09/02/2026 20:56:36 by fducrot           #+#    #+#             */
+/*   Updated: 10/02/2026 18:13:50 by fducrot          ###   ########.ch       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 static void	reinitialise_heredoc_buffer(t_shell *shell, t_state_data *data,

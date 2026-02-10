@@ -1,6 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wildcards_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 04/02/2026 17:37:54 by fducrot           #+#    #+#             */
+/*   Updated: 10/02/2026 18:14:40 by fducrot          ###   ########.ch       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
-#include <sys/types.h>
-#include <dirent.h>
 
 void	is_directory(t_shell *shell, struct dirent *entry, t_token **new_list)
 {

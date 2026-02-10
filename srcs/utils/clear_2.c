@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   clear_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/10 18:16:50 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/10 18:16:50 by fducrot          ###   ########.ch       */
+/*   Created: 2026/02/10 18:18:59 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/10 18:18:59 by fducrot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	clean_before_exit(t_shell *shell)
+void	clean_all(t_shell *shell)
 {
+	if (!shell)
+	{
+		return ;
+	}
+	if (shell->pipe_depth == 0 && shell->is_child == 0
+		&& shell->is_subshell == 0)
+		return ;
 	free_ast(shell->tree_ast);
-	clean_up_fds(shell);
+	shell->tree_ast = NULL;
 	free_token(shell->token_list);
+	shell->token_list = NULL;
 	free_env_list(shell->env);
-	write(1, "Exit.\n", 6);
-	exit(shell->last_exit_status);
-}
-
-void	clean_without_exit(t_shell *shell)
-{
-	free_ast(shell->tree_ast);
+	shell->env = NULL;
 	clean_up_fds(shell);
-	free_token(shell->token_list);
-	free_env_list(shell->env);
+	shell->is_child--;
+	shell->is_subshell--;
 }

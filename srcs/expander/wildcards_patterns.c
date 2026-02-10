@@ -1,6 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wildcards_patterns.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 09/02/2026 20:56:36 by fducrot           #+#    #+#             */
+/*   Updated: 10/02/2026 18:14:10 by fducrot          ###   ########.ch       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
-#include <dirent.h>
-#include <sys/types.h>
 
 t_token	*everything_pattern(t_shell *shell, DIR *dir)
 {

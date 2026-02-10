@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_redir.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/10 18:34:50 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/10 18:34:56 by fducrot          ###   ########.ch       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static t_ast_node	*get_farthest_left(t_ast_node *node)
@@ -43,6 +55,7 @@ static int	create_token_redir(t_shell *shell, t_token **current,
 	t_ast_node	*redir;
 	t_ast_node	*curr;
 
+	curr = NULL;
 	redir = create_node(shell, NODE_REDIR);
 	redir->redir_type = (*current)->type;
 	advance_token(current);
@@ -58,18 +71,9 @@ static int	create_token_redir(t_shell *shell, t_token **current,
 	if (*root == NULL)
 		*root = redir;
 	else if ((*root)->type == NODE_CMD)
-	{
-		redir->left = *root;
-		*root = redir;
-	}
+		if_is_cmd(root, redir);
 	else
-	{
-		curr = *root;
-		while (curr->left && curr->left->type == NODE_REDIR)
-			curr = curr->left;
-		redir->left = curr->left;
-		curr->left = redir;
-	}
+		while_is_redir(root, redir, curr);
 	advance_token(current);
 	return (0);
 }

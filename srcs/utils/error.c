@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/10 18:21:05 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/10 18:21:05 by fducrot          ###   ########.ch       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -15,7 +26,7 @@ void	ft_error(t_shell *shell, int error)
 	{
 		ft_putstr_fd_checked("Memory allocation failed\n", 2);
 		clean_all(shell);
-		exit(EXIT_FAILURE); // TODO: A changer
+		exit(EXIT_FAILURE);
 	}
 	else if (error == CD)
 	{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenize_no_quotes.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/10 18:19:55 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/10 18:20:11 by fducrot          ###   ########.ch       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static void	quote_end_word(t_state_data *data, char *line, int i)
@@ -47,7 +59,8 @@ int	handle_no_quotes(t_shell *shell, t_state_data *data, char *line,
 	if (data->word_i == 0 && data->word->exist == false)
 		data->word = new_word(shell, line, i);
 	if (line[i] == '\'' || line[i] == '"'
-		|| (line[i] == '$' && data->word_i != 0) || line[i] == '(' || line[i] == ')')
+		|| (line[i] == '$' && data->word_i != 0)
+		|| line[i] == '(' || line[i] == ')')
 	{
 		i = end_word(data, line, i);
 	}
