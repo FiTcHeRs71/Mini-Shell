@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/10 18:37:52 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/10 18:37:52 by fducrot          ###   ########.ch       */
+/*   Created: 2026/02/10 18:58:55 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/10 18:58:55 by fducrot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <sys/types.h>
-# include <dirent.h>
 # include <dirent.h>
 
 extern int	g_signal;
@@ -205,8 +204,5 @@ void		clean_all(t_shell *shell);
 /* exit.c */
 void		clean_before_exit(t_shell *shell);
 void		clean_without_exit(t_shell *shell);
-
-/* A RANGER */
-void		print_ast(t_ast_node *node, int depth);
 
 #endif
