@@ -102,6 +102,15 @@ typedef struct s_pipe
 	int					code;
 }						t_pipe;
 
+typedef struct s_expansion
+{
+	char	*new_value;
+	char	*joined;
+	char	*result;
+	bool	last_status;
+	int		index;
+}			t_expansion;
+
 typedef enum e_node_type
 {
 	NODE_PIPE,
@@ -131,6 +140,7 @@ typedef struct s_shell
 	t_ast_node			*tree_ast;
 	bool				syntax_flag;
 	bool				heredoc;
+	bool				hd_expansion;
 	int					is_child;
 	int					is_subshell;
 	int					fd_in;

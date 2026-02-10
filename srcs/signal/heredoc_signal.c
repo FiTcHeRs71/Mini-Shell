@@ -8,7 +8,6 @@ void	restore_signals(t_heredoc_data *data)
 	sigaction(SIGQUIT, &data->old_quit, NULL);
 	rl_done = 0;
 	rl_event_hook = NULL;
-	rl_variable_bind("enable-bracketed-paste", "on");
 	rl_outstream = stdout;
 }
 
@@ -42,5 +41,4 @@ void	set_hd_signal(t_heredoc_data *data)
 	signal(SIGQUIT, SIG_IGN);
 	rl_event_hook = heredoc_event_hook;
 	rl_outstream = stderr;
-	rl_variable_bind("enable-bracketed-paste", "off");
 }

@@ -85,7 +85,11 @@ int	exec_echo(char **args, int i)
 	while (args[i])
 	{
 		if (ft_putstr_fd_checked(args[i], 1) == -1)
+		{
+			if (errno == EPIPE)
+				return (0);
 			return (perror("echo : write error"), 1);
+		}
 		if (args[i + 1] && ft_putstr_fd_checked(" ", 1) == -1)
 			return (perror("echo : write error"), 1);
 		i++;

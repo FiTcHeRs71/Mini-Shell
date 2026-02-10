@@ -16,7 +16,7 @@ char	*get_env_varname(t_shell *shell, char *key)
 	return (NULL);
 }
 
-char	*common_expansion(t_shell *shell, char *value, int i)
+static char	*common_expansion(t_shell *shell, char *value, int i)
 {
 	char	*varname;
 	char	*new_value;
@@ -29,6 +29,24 @@ char	*common_expansion(t_shell *shell, char *value, int i)
 	if (!new_value)
 		return (NULL);
 	return (new_value);
+}
+
+void	expand(t_shell *shell, t_expansion *data, char *value)
+{
+	if (data->last_status == true)
+	{
+		data->new_value = expand_last_status(shell, value);
+		data->index += 2;
+	}
+	else
+	{
+		data->new_value = common_expansion(shell, value, data->index);
+		data->index += increment_len(value, '$', data->index + 1) + 1;
+	}
+	data->joined = ft_strjoin(data->result, data->new_value);
+	free(data->result);
+	free(data->new_value);
+	data->result = data->joined;
 }
 
 void	free_segments(t_state_data *data)

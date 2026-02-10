@@ -15,13 +15,10 @@ static int	prepare_heredocs(t_shell *shell, t_ast_node *node)
 		}
 	}
 	if (prepare_heredocs(shell, node->left) == 130)
-	{
 		return (130);
-	}
 	if (prepare_heredocs(shell, node->right) == 130)
-	{
 		return (130);
-	}
+	shell->heredoc = true;
 	return (0);
 }
 
@@ -33,7 +30,11 @@ static int	exec_and(t_shell *shell, t_ast_node *node)
 	if (status == 0)
 		return (exec_ast(shell, node->right));
 	else
+	{
+		if (shell->heredoc)
+			close_heredoc_fds(node->right);
 		return (status);
+	}
 }
 
 static int	exec_or(t_shell *shell, t_ast_node *node)
@@ -58,8 +59,14 @@ int	exec_sub(t_shell *shell, t_ast_node *node)
 	if (pid == 0)
 	{
 		code = exec_ast(shell, node->left);
+		close_heredoc_fds(node);
 		clean_all(shell);
 		exit(code);
+	}
+	if (shell->is_child || shell->is_subshell)
+	{
+		close_heredoc_fds(node);
+		clean_all(shell);
 	}
 	return (wait_on_process(pid));
 }

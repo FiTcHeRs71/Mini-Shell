@@ -41,12 +41,14 @@ int			array_calculator(char **array);
 int			ft_putstr_fd_checked(char *s, int fd);
 
 /*=========================== executor =========================*/
-/* exec_cmd.c and exec_cmd_utils.c */
+/* exec_cmd.c, exec_cmd_utils.c, exec_cmd_builtin.c */
 char		*ft_strjoin_slash(char const *s1, char const *s2);
 char		**convert_env(t_shell *shell, t_env *env);
 int			update_cmd(t_shell *shell, t_ast_node *node, char *cmd);
 int			ft_envsize(t_env *lst);
 int			exec_cmd(t_shell *shell, t_ast_node *node);
+int			execute_is_builtin(t_shell *shell, t_ast_node *node);
+void		handle_exit_status(t_shell *shell, int exit_code);
 
 /* exec_X.c */
 int			exec_ast(t_shell *shell, t_ast_node *node);
@@ -57,6 +59,7 @@ int			open_and_dup(t_shell *shell, t_ast_node *node);
 int			open_and_dup(t_shell *shell, t_ast_node *node);
 int			exec_heredoc(t_shell *shell, t_ast_node *node);
 void		print_error(t_shell *shell, char *error, char *cmd);
+void		close_heredoc_fds(t_ast_node *node);
 
 /* exec_utils.c */
 int			open_redir_out(t_shell *shell, t_ast_node *right);
@@ -81,11 +84,15 @@ int			is_special_char(int c);
 
 /* tokenize_redirection.c */
 int			quote_handling(t_shell *shell, t_state_data *data, char *line, int i);
+void		reinitialise_buffer(t_state_data *data);
 
 /* tokenize_segments.c */
 char		*expand_phrase(t_shell *shell, t_segments *phrase);
 void		add_word_to_phrase(t_segments **phrase, t_segments *new);
 t_segments	*new_word(t_shell *shell, char *line, int i);
+
+/* tokenize_no_quotes.c */
+int			handle_no_quotes(t_shell *shell, t_state_data *data, char *line, int i);
 
 /*========================== parser ==========================*/
 /* parse_X.c */
@@ -123,11 +130,12 @@ void		check_token_pipe(t_token *token, t_token *prev_token, t_shell *shell);
 char		*process_expansion(t_shell *shell, char *value);
 char		*find_varname(t_shell *shell, char *value, int i);
 char		*expanded_value(t_shell *shell, char *value, char *varname, int index);
+char		*expand_last_status(t_shell *shell, char *value);
 
 /* expand_utils.c */
 char		*get_env_varname(t_shell *shell, char *key);
-char		*common_expansion(t_shell *shell, char *value, int i);
 void		free_segments(t_state_data *data);
+void		expand(t_shell *shell, t_expansion *data, char *value);
 
 /* expand_heredoc.c */
 char		*expand_heredoc(t_shell *shell, char *line);

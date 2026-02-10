@@ -37,7 +37,7 @@ static void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
 	if (execve(node->cmd_path, node->args, new_env) < 0)
 	{
 		ft_free_2d_array(new_env);
-		clean_without_exit(shell);
+		clean_all(shell);
 		check_error(shell, node, node->args[0], errno);
 		exit(1);
 	}
@@ -58,28 +58,6 @@ static int	check_cmd(t_shell *shell, t_ast_node *node)
 		return (update_cmd(shell, node, node->args[0]));
 }
 
-static int	execute_is_builtin(t_shell *shell, t_ast_node *node)
-{
-	int	signal;
-
-	signal = -1;
-	if (!ft_strncmp(node->args[0], "echo", 5))
-		signal = exec_echo(node->args, 1);
-	else if (!ft_strncmp(node->args[0], "cd", 3))
-		signal = exec_cd(shell, node->args);
-	else if (!ft_strncmp(node->args[0], "env", 4))
-		signal = exec_env(shell);
-	else if (!ft_strncmp(node->args[0], "exit", 5))
-		signal = exec_exit(shell, node->args);
-	else if (!ft_strncmp(node->args[0], "export", 7))
-		signal = exec_export(shell, &shell->env, node->args);
-	else if (!ft_strncmp(node->args[0], "pwd", 4))
-		signal = exec_pwd();
-	else if (!ft_strncmp(node->args[0], "unset", 5))
-		signal = exec_unset(shell, node->args[1]);
-	return (signal);
-}
-
 int	exec_cmd(t_shell *shell, t_ast_node *node)
 {
 	int	check;
@@ -89,11 +67,7 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 	exit_code = execute_is_builtin(shell, node);
 	if (exit_code != -1)
 	{
-		if (shell->is_child)
-		{
-			clean_all(shell);
-			exit(exit_code);
-		}
+		handle_exit_status(shell, exit_code);
 		return (exit_code);
 	}
 	check = check_cmd(shell, node);
@@ -106,7 +80,7 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		shell->is_child = true;
+		shell->is_child++;
 		execute_ext_cmd(shell, node);
 	}
 	return (wait_on_process(pid));

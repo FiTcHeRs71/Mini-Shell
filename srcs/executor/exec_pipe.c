@@ -1,14 +1,14 @@
 #include "../includes/minishell.h"
 
-static void	close_heredoc_fds(t_ast_node *node)
+void	close_heredoc_fds(t_ast_node *node)
 {
 	if (!node)
 		return ;
-	close(node->heredoc_fd);
-	if (node->left)
-		return (close_heredoc_fds(node->left));
-	if (node->right)
-		return (close_heredoc_fds(node->right));
+	if (node->heredoc_fd > 2)
+		close(node->heredoc_fd);
+	node->heredoc_fd = -1;
+	close_heredoc_fds(node->left);
+	close_heredoc_fds(node->right);
 }
 
 static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
@@ -17,10 +17,8 @@ static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_IGN);
 	shell->is_child++;
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	shell->is_child = 1;
 	close(state->pipefd[0]);
 	if (dup2(state->pipefd[1], STDOUT_FILENO) < 0)
 	{
@@ -29,6 +27,7 @@ static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
 	}
 	if (state->pipefd[1] != STDOUT_FILENO)
 		close(state->pipefd[1]);
+	close_heredoc_fds(node->right);
 	status = exec_ast(shell, node->left);
 	clean_all(shell);
 	exit(status);
@@ -40,6 +39,7 @@ static void	child_process_r(t_shell *shell, t_ast_node *node, t_pipe *state)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_IGN);
 	shell->is_child++;
 	close(state->pipefd[1]);
 	if (dup2(state->pipefd[0], STDIN_FILENO) < 0)
@@ -49,9 +49,23 @@ static void	child_process_r(t_shell *shell, t_ast_node *node, t_pipe *state)
 	}
 	if (state->pipefd[0] != STDIN_FILENO)
 		close(state->pipefd[0]);
+	close_heredoc_fds(node->left);
 	status = exec_ast(shell, node->right);
 	clean_all(shell);
 	exit(status);
+}
+
+static int	end_pipe_exec(t_shell *shell, t_pipe state)
+{
+	int	status;
+
+	close(state.pipefd[1]);
+	close(state.pipefd[0]);
+	status = wait_for_children(state);
+	shell->pipe_depth--;
+	if (shell->is_child || shell->is_subshell)
+		clean_all(shell);
+	return (status);
 }
 
 int	exec_pipe(t_shell *shell, t_ast_node *node)
@@ -76,13 +90,6 @@ int	exec_pipe(t_shell *shell, t_ast_node *node)
 	{
 		child_process_r(shell, node, &state);
 	}
-	if (shell->heredoc == true)
-		close_heredoc_fds(node);
-	close(state.pipefd[1]);
-	close(state.pipefd[0]);
-	status = wait_for_children(state);
-	shell->pipe_depth--;
-	if (shell->is_child || shell->is_subshell)
-		clean_all(shell);
+	status = end_pipe_exec(shell, state);
 	return (status);
 }

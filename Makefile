@@ -12,7 +12,8 @@ SRCS_MAIN = $(addprefix $(SRCDIR)/, \
 	main.c)
 
 SRCS_LEXER = $(addprefix $(SRCDIR)/lexer/, \
-	tokenize.c tokenize_utils.c tokenize_redirection.c tokenize_segments.c)
+	tokenize.c tokenize_utils.c tokenize_redirection.c tokenize_segments.c \
+	tokenize_no_quotes.c)
 
 SRCS_PARSER = $(addprefix $(SRCDIR)/parser/, \
 	parse.c parse_command.c parse_pipe.c parse_redir.c parse_utils.c \
@@ -23,7 +24,7 @@ SRCS_EXPANDER = $(addprefix $(SRCDIR)/expander/, \
 	wildcards_patterns.c )
 
 SRCS_EXECUTOR = $(addprefix $(SRCDIR)/executor/, \
-	exec.c exec_utils.c exec_pipe.c exec_heredoc.c \
+	exec.c exec_utils.c exec_pipe.c exec_heredoc.c exec_cmd_builtin.c \
 	exec_cmd.c exec_cmd_utils.c exec_redir.c exec_error.c)
 
 SRCS_BUILTINS = $(addprefix $(SRCDIR)/builtins/, \

@@ -81,25 +81,15 @@ void	free_ast(t_ast_node *tree)
 void	clean_up_fds(t_shell *shell)
 {
 	if (!shell)
-	{
 		return ;
-	}
 	if (shell->stdin_back_up > 2)
-	{
 		close(shell->stdin_back_up);
-	}
 	if (shell->stdout_back_up > 2)
-	{
 		close(shell->stdout_back_up);
-	}
 	if (shell->fd_in > 2)
-	{
 		close(shell->fd_in);
-	}
 	if (shell->fd_out > 2)
-	{
 		close(shell->fd_out);
-	}
 	shell->stdin_back_up = -1;
 	shell->stdout_back_up = -1;
 	shell->fd_in = -1;

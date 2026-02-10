@@ -11,17 +11,11 @@ static void	child_process_error(t_shell *shell, char *cmd, int error)
 		exit(127);
 	}
 	else if (error == EACCES)
-	{
 		print_error(shell, "permission denied: ", cmd);
-	}
 	else if (error == EISDIR)
-	{
 		print_error(shell, "is a directory: ", cmd);
-	}
 	else if (error == ENOEXEC)
-	{
 		print_error(shell, "Exec format error: ", cmd);
-	}
 	clean_without_exit(shell);
 	exit(126);
 }

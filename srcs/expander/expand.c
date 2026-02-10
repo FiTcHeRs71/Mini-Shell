@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-static char	*expand_last_status(t_shell *shell, char *value)
+char	*expand_last_status(t_shell *shell, char *value)
 {
 	char	*expand;
 	char	*res;
@@ -66,47 +66,41 @@ char	*find_varname(t_shell *shell, char *value, int i)
 	return (varname);
 }
 
+static void	dispatch_expansion(t_shell *shell, t_expansion *data, char *value)
+{
+	if (value[data->index] == '$' && value[data->index + 1] == '?')
+	{
+		data->last_status = true;
+		expand(shell, data, value);
+	}
+	else if (value[data->index] == '$' && value[data->index + 1])
+	{
+		data->last_status = false;
+		expand(shell, data, value);
+	}
+}
+
 char	*process_expansion(t_shell *shell, char *value)
 {
-	char	*new_value;
-	char	*joined;
-	char	*res;
-	int		i;
+	t_expansion	data;
 
-	i = 0;
-	res = ft_strdup("");
-	while (value[i])
+	ft_memset(&data, 0, sizeof(t_expansion));
+	data.result = ft_strdup("");
+	while (value[data.index])
 	{
-		while (value[i] != '$' && value[i])
-			i++;
-		if (!value[i])
+		while (value[data.index] != '$' && value[data.index])
+			data.index++;
+		if (!value[data.index])
 			break ;
-		if (value[i] == '$' && value[i + 1] == '?')
+		dispatch_expansion(shell, &data, value);
+		if (!data.result)
 		{
-			new_value = expand_last_status(shell, value);
-			joined = ft_strjoin(res, new_value);
-			free(res);
-			free(new_value);
-			res = joined;
-			i += 2;
-		}
-		else if (value[i] == '$' && value[i + 1])
-		{
-			new_value = common_expansion(shell, value, i);
-			joined = ft_strjoin(res, new_value);
-			free(res);
-			free(new_value);
-			res = joined;
-			i += increment_len(value, '$', i + 1) + 1;
-		}
-		else
-		{
-			free(res);
-			res = ft_strdup(value);
+			free(data.result);
+			data.result = ft_strdup(value);
 			free(value);
-			return (res);
+			return (data.result);
 		}
 	}
 	free(value);
-	return (res);
+	return (data.result);
 }
