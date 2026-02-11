@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:58:55 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 13:58:47 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/11 19:17:55 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void		print_error(t_shell *shell, char *error, char *cmd);
 int			open_redir_out(t_shell *shell, t_ast_node *right);
 int			open_redir_in(t_shell *shell, t_ast_node *right);
 int			open_append(t_shell *shell, t_ast_node *right);
-int			wait_for_children(t_pipe state);
-int			wait_on_process(int pid);
+int			wait_for_children(t_shell *shell, t_pipe state);
+int			wait_on_process(t_shell *shell, int pid);
 
 /*=========================== lexer ============================*/
 /* tokenize.c */
@@ -144,7 +144,8 @@ void		check_token_pipe(t_token *token, t_token *prev_token,
 /*========================== expansion ==========================*/
 /* expand.c */
 char		*process_expansion(t_shell *shell, char *value);
-char		*find_varname(t_shell *shell, t_expansion *data, char *value, int i);
+char		*find_varname(t_shell *shell,
+				t_expansion *data, char *value, int i);
 char		*expanded_value(t_shell *shell, char *value,
 				t_expansion *data, int index);
 char		*expand_last_status(t_shell *shell, char *value);

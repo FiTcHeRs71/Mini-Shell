@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:18:46 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 17:37:49 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/11 18:28:52 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,10 @@ void	clean_up_fds(t_shell *shell)
 {
 	if (!shell)
 		return ;
+	if (shell->stdin_back_up > 2)
+		close(shell->stdin_back_up);
+	if (shell->stdout_back_up > 2)
+		close(shell->stdout_back_up);
 	if (shell->fd_in > 2)
 		close(shell->fd_in);
 	if (shell->fd_out > 2)
@@ -112,6 +116,6 @@ void	clean_up_loop(t_shell *shell)
 	shell->is_child = 0;
 	shell->is_subshell = 0;
 	clean_up_fds(shell);
-	dup2(shell->stdout_back_up, STDOUT_FILENO);
-	dup2(shell->stdin_back_up, STDIN_FILENO);
+	shell->stdin_back_up = dup(STDIN_FILENO);
+	shell->stdout_back_up = dup(STDOUT_FILENO);
 }

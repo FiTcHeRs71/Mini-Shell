@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:18:59 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 15:00:50 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/11 18:31:09 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	clean_all(t_shell *shell)
 	free_env_list(shell->env);
 	shell->env = NULL;
 	clean_up_fds(shell);
+	shell->stdin_back_up = -1;
+	shell->stdout_back_up = -1;
 	if (shell->is_child)
 		shell->is_child--;
 	if (shell->is_subshell)

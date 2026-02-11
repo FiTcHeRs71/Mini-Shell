@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 15:14:56 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/11 19:15:04 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	end_pipe_exec(t_shell *shell, t_pipe state)
 
 	close(state.pipefd[1]);
 	close(state.pipefd[0]);
-	status = wait_for_children(state);
+	status = wait_for_children(shell, state);
 	shell->pipe_depth--;
 	if (shell->is_child)
 		clean_all(shell);

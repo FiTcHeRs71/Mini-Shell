@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 13:58:08 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/11 18:34:29 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ char	*get_env_varname(t_shell *shell, char *key)
 	return (NULL);
 }
 
-static char	*common_expansion(t_shell *shell, t_expansion *data, char *value, int i)
+static char	*common_expansion(t_shell *shell,
+		t_expansion *data, char *value, int i)
 {
 	char	*new_value;
 

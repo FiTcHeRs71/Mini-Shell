@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 18:11:41 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/11 19:28:35 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ static int	check_cmd(t_shell *shell, t_ast_node *node)
 {
 	if (access(node->args[0], X_OK) == 0)
 	{
-		if (!ft_strncmp(node->args[0], "/usr/bin/", 9) || !ft_strncmp(node->args[0], "/bin/", 5) || !ft_strncmp(node->args[0], "./", 2))
+		if (!ft_strncmp(node->args[0], "/usr/bin/", 9)
+			|| !ft_strncmp(node->args[0], "/bin/", 5)
+			|| !ft_strncmp(node->args[0], "./", 2))
 		{
 			node->cmd_path = ft_strdup(node->args[0]);
 			if (!node->cmd_path)
@@ -95,8 +97,9 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		signal(SIGPIPE, SIG_DFL);
 		shell->is_child++;
 		execute_ext_cmd(shell, node);
 	}
-	return (wait_on_process(pid));
+	return (wait_on_process(shell, pid));
 }

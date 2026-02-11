@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 10/02/2026 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 10/02/2026 18:13:10 by fducrot          ###   ########.ch       */
+/*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/11 19:01:03 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static bool	loop_break(char *line, t_heredoc_data *data)
 	}
 	if (!line)
 	{
-		data->interrupted = 0;
+		data->interrupted = -1;
 		return (true);
 	}
 	if (!ft_strncmp(line, data->limiter, ft_strlen(data->limiter) + 1))
@@ -69,10 +69,15 @@ int	exec_heredoc(t_shell *shell, t_ast_node *node)
 	}
 	close(pipefd[1]);
 	restore_signals(&data);
-	if (g_signal || data.interrupted)
+	if (g_signal || data.interrupted > 0)
 	{
 		close(pipefd[0]);
 		return (130);
+	}
+	if (data.interrupted == -1)
+	{
+		close(pipefd[0]);
+		return (0);
 	}
 	return (pipefd[0]);
 }

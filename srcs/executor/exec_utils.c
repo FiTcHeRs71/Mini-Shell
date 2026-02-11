@@ -3,21 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 09/02/2026 20:56:36 by fducrot           #+#    #+#             */
-/*   Updated: 10/02/2026 18:13:28 by fducrot          ###   ########.ch       */
+/*   Created: 2009/02/20 20:56:36 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/11 19:30:25 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	wait_for_children(t_pipe state)
+int	wait_for_children(t_shell *shell, t_pipe state)
 {
-	if (waitpid(state.pid_l, &state.status_l, 0) < 0)
+	(void)shell;
+	while (waitpid(state.pid_l, &state.status_l, 0) < 0)
+	{
+		if (errno == EINTR)
+		{
+			continue ;
+		}
 		return (1);
-	if (waitpid(state.pid_r, &state.status_r, 0) < 0)
+	}
+	while (waitpid(state.pid_r, &state.status_r, 0) < 0)
+	{
+		if (errno == EINTR)
+			continue ;
 		return (1);
+	}
 	if (WIFSIGNALED(state.status_r))
 		return (128 + WTERMSIG(state.status_r));
 	else if (WIFEXITED(state.status_r))
@@ -25,12 +36,19 @@ int	wait_for_children(t_pipe state)
 	return (1);
 }
 
-int	wait_on_process(int pid)
+int	wait_on_process(t_shell *shell, int pid)
 {
 	int	status;
 
-	if (waitpid(pid, &status, 0) < 0)
+	(void)shell;
+	while (waitpid(pid, &status, 0) < 0)
+	{
+		if (errno == EINTR)
+		{
+			continue ;
+		}
 		return (1);
+	}
 	if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	else if (WIFEXITED(status))

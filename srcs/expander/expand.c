@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 16:51:55 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/11 18:34:53 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*expand_last_status(t_shell *shell, char *value)
 	return (res);
 }
 
-char	*expanded_value(t_shell *shell, char *value, t_expansion *data, int index)
+char	*expanded_value(t_shell *shell,
+		char *value, t_expansion *data, int index)
 {
 	char	*var_value;
 	char	*buffer;

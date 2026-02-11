@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:16:29 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/10 18:16:29 by fducrot          ###   ########.ch       */
+/*   Updated: 2026/02/11 19:23:01 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	handle_sigint(int sig)
 {
+	
 	(void)sig;
 	g_signal = 130;
 	write(1, "\n", 1);

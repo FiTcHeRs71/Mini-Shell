@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:13:25 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 16:31:36 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/11 18:58:02 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ int	exec_redir(t_shell *shell, t_ast_node *node)
 	{
 		if (node->heredoc_fd == -1)
 			return (1);
+		if (node->heredoc_fd == 0)
+		{
+			return (0);
+		}
 		if (dup2(node->heredoc_fd, STDIN_FILENO) < 0)
 		{
 			close(node->heredoc_fd);
