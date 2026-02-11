@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 16:56:09 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/11 18:11:41 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,21 @@ static int	check_cmd(t_shell *shell, t_ast_node *node)
 {
 	if (access(node->args[0], X_OK) == 0)
 	{
-		node->cmd_path = ft_strdup(node->args[0]);
-		if (!node->cmd_path)
-			ft_error(shell, MALLOC);
-		if (!node->cmd_path)
-			return (1);
-		return (0);
+		if (!ft_strncmp(node->args[0], "/usr/bin/", 9) || !ft_strncmp(node->args[0], "/bin/", 5) || !ft_strncmp(node->args[0], "./", 2))
+		{
+			node->cmd_path = ft_strdup(node->args[0]);
+			if (!node->cmd_path)
+				ft_error(shell, MALLOC);
+			if (!node->cmd_path)
+				return (1);
+			return (0);
+		}
 	}
-	else
+	if (!ft_strchr(node->args[0], '/'))
 		return (update_cmd(shell, node, node->args[0]));
+	else
+		check_error(shell, node, node->args[0], ENOENT);
+	return (1);
 }
 
 static void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
@@ -81,7 +87,7 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 
 	exit_code = execute_is_builtin(shell, node);
 	if (exit_code != -1)
-	return (exit_code);
+		return (exit_code);
 	pid = fork();
 	if (pid < 0)
 		return (1);

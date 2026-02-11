@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 09/02/2026 20:56:36 by fducrot           #+#    #+#             */
-/*   Updated: 10/02/2026 18:12:53 by fducrot          ###   ########.ch       */
+/*   Created: 2009/02/20 20:56:36 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/11 17:22:38 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,22 @@ char	*ft_strjoin_slash(char const *s1, char const *s2)
 	return (s12);
 }
 
+static t_env	*check_path(t_shell *shell, t_ast_node *node, char *cmd)
+{
+	t_env	*tmp_env;
+
+	tmp_env = shell->env;
+	while (ft_strncmp(tmp_env->key, "PATH", 5) != 0)
+	{
+		tmp_env = tmp_env->next;
+		if (!tmp_env)
+			break ;
+	}
+	if (!tmp_env)
+		check_error(shell, node, cmd, ENOENT);
+	return (tmp_env);
+}
+
 int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd)
 {
 	t_env	*tmp_env;
@@ -60,11 +76,7 @@ int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd)
 	int		i;
 
 	i = 0;
-	tmp_env = shell->env;
-	while (ft_strncmp(tmp_env->key, "PATH", 5) != 0 && tmp_env)
-		tmp_env = tmp_env->next;
-	if (!tmp_env)
-		return (127);
+	tmp_env = check_path(shell, node, cmd);
 	paths = ft_split(tmp_env->value, ':');
 	while (paths[i])
 	{
