@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_patterns.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 09/02/2026 20:56:36 by fducrot           #+#    #+#             */
-/*   Updated: 10/02/2026 18:14:10 by fducrot          ###   ########.ch       */
+/*   Created: 2009/02/20 20:56:36 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/11 09:47:33 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ t_token	*everything_pattern(t_shell *shell, DIR *dir)
 	t_token			*new_list;
 
 	new_list = NULL;
-	while ((entry = readdir(dir)) != NULL)
+	while (1)
 	{
-		if (!entry)
-			ft_error(shell, MALLOC);
+		entry = readdir(dir);
+		if (entry == NULL)
+			break ;
 		if (!ft_strncmp(entry->d_name, ".", 1) || !ft_strncmp(entry->d_name,
 				"..", 2))
 			continue ;
@@ -40,10 +41,11 @@ t_token	*start_with_pattern(t_shell *shell, t_token *token, DIR *dir)
 	new_list = NULL;
 	cmp = token->wildcards.start;
 	len = ft_strlen(cmp);
-	while ((entry = readdir(dir)) != NULL)
+	while (1)
 	{
-		if (!entry)
-			ft_error(shell, MALLOC);
+		entry = readdir(dir);
+		if (entry == NULL)
+			break ;
 		if (!ft_strncmp(entry->d_name, cmp, len))
 			add_wildcards_token(shell, entry->d_name, &new_list);
 	}
@@ -60,10 +62,11 @@ t_token	*end_with_pattern(t_shell *shell, t_token *token, DIR *dir)
 	new_list = NULL;
 	cmp = token->wildcards.end;
 	len_end = ft_strlen(cmp);
-	while ((entry = readdir(dir)) != NULL)
+	while (1)
 	{
-		if (!entry)
-			ft_error(shell, MALLOC);
+		entry = readdir(dir);
+		if (entry == NULL)
+			break ;
 		if (!ft_strncmp(cmp, "/", 2) && entry->d_type == DT_DIR
 			&& !ft_strrchr(entry->d_name, '.'))
 			is_directory(shell, entry, &new_list);
@@ -83,10 +86,11 @@ t_token	*anything_containing_pattern(t_shell *shell, t_token *token, DIR *dir)
 
 	new_list = NULL;
 	cmp = token->wildcards.end;
-	while ((entry = readdir(dir)) != NULL)
+	while (1)
 	{
-		if (!entry)
-			ft_error(shell, MALLOC);
+		entry = readdir(dir);
+		if (entry == NULL)
+			break ;
 		if (!ft_strncmp(entry->d_name, ".", 1) || !ft_strncmp(entry->d_name,
 				"..", 2))
 			continue ;
@@ -111,10 +115,11 @@ t_token	*in_between_pattern(t_shell *shell, t_token *token, DIR *dir)
 	if (!start_len)
 		return (NULL);
 	cmp_end = token->wildcards.end;
-	while ((entry = readdir(dir)) != NULL)
+	while (1)
 	{
-		if (!entry)
-			ft_error(shell, MALLOC);
+		entry = readdir(dir);
+		if (entry == NULL)
+			break ;
 		if (!ft_strncmp(entry->d_name, cmp_start, start_len)
 			&& !strcmp_end(entry->d_name, cmp_end))
 			add_wildcards_token(shell, entry->d_name, &new_list);

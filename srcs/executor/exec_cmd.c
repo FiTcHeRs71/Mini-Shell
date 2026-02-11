@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 10/02/2026 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 10/02/2026 18:12:58 by fducrot          ###   ########.ch       */
+/*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/11 16:56:09 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,6 @@ char	**convert_env(t_shell *shell, t_env *env)
 	return (new_env);
 }
 
-static void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
-{
-	char	**new_env;
-
-	new_env = convert_env(shell, shell->env);
-	if (execve(node->cmd_path, node->args, new_env) < 0)
-	{
-		ft_free_2d_array(new_env);
-		clean_all(shell);
-		check_error(shell, node, node->args[0], errno);
-		exit(1);
-	}
-}
-
 static int	check_cmd(t_shell *shell, t_ast_node *node)
 {
 	if (access(node->args[0], X_OK) == 0)
@@ -70,21 +56,32 @@ static int	check_cmd(t_shell *shell, t_ast_node *node)
 		return (update_cmd(shell, node, node->args[0]));
 }
 
+static void	execute_ext_cmd(t_shell *shell, t_ast_node *node)
+{
+	char	**new_env;
+	int		check;
+
+	check = check_cmd(shell, node);
+	if (check != 0)
+		exit(check);
+	new_env = convert_env(shell, shell->env);
+	if (execve(node->cmd_path, node->args, new_env) < 0)
+	{
+		ft_free_2d_array(new_env);
+		check_error(shell, node, node->args[0], errno);
+		clean_all(shell);
+		exit(1);
+	}
+}
+
 int	exec_cmd(t_shell *shell, t_ast_node *node)
 {
-	int	check;
 	int	exit_code;
 	int	pid;
 
 	exit_code = execute_is_builtin(shell, node);
 	if (exit_code != -1)
-	{
-		handle_exit_status(shell, exit_code);
-		return (exit_code);
-	}
-	check = check_cmd(shell, node);
-	if (check != 0)
-		return (check);
+	return (exit_code);
 	pid = fork();
 	if (pid < 0)
 		return (1);

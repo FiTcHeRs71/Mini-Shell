@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:13:25 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/10 18:13:25 by fducrot          ###   ########.ch       */
+/*   Updated: 2026/02/11 16:31:36 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	open_and_dup(t_shell *shell, t_ast_node *node)
 {
 	int	signal;
+	int	status;
 
 	if (node->redir_type == TOKEN_APPEND)
 		signal = open_append(shell, node);
@@ -29,12 +30,17 @@ int	open_and_dup(t_shell *shell, t_ast_node *node)
 	}
 	if (shell->fd_out != STDOUT_FILENO)
 		close(shell->fd_out);
-	return (exec_ast(shell, node->left));
+	status = exec_ast(shell, node->left);
+	if (shell->fd_out > 2)
+		close(shell->fd_out);
+	dup2(shell->stdout_back_up, STDOUT_FILENO);
+	return (status);
 }
 
 static int	exec_redir_in(t_shell *shell, t_ast_node *node)
 {
 	int	signal;
+	int	status;
 
 	signal = open_redir_in(shell, node);
 	if (signal != 0)
@@ -46,7 +52,11 @@ static int	exec_redir_in(t_shell *shell, t_ast_node *node)
 	}
 	if (shell->fd_in != STDIN_FILENO)
 		close(shell->fd_in);
-	return (exec_ast(shell, node->left));
+	status = exec_ast(shell, node->left);
+	if (shell->fd_in > 2)
+		close(shell->fd_in);
+	dup2(shell->stdin_back_up, STDIN_FILENO);
+	return (status);
 }
 
 int	exec_redir(t_shell *shell, t_ast_node *node)

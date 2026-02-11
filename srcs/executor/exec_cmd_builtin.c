@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 10/02/2026 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 10/02/2026 18:12:47 by fducrot          ###   ########.ch       */
+/*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/11 11:05:07 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,4 @@ int	execute_is_builtin(t_shell *shell, t_ast_node *node)
 	else if (!ft_strncmp(node->args[0], "unset", 5))
 		signal = exec_unset(shell, node->args[1]);
 	return (signal);
-}
-
-void	handle_exit_status(t_shell *shell, int exit_code)
-{
-	if (shell->is_child)
-	{
-		clean_all(shell);
-		exit(exit_code);
-	}
 }

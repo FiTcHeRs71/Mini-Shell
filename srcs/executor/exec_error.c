@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 10/02/2026 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 10/02/2026 18:13:04 by fducrot          ###   ########.ch       */
+/*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/11 16:18:22 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	child_process_error(t_shell *shell, char *cmd, int error)
 			print_error(shell, "no such file or directory: ", cmd);
 		else
 			print_error(shell, "command not found: ", cmd);
+		clean_all(shell);
 		exit(127);
 	}
 	else if (error == EACCES)
@@ -28,7 +29,7 @@ static void	child_process_error(t_shell *shell, char *cmd, int error)
 		print_error(shell, "is a directory: ", cmd);
 	else if (error == ENOEXEC)
 		print_error(shell, "Exec format error: ", cmd);
-	clean_without_exit(shell);
+	clean_all(shell);
 	exit(126);
 }
 

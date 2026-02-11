@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 10/02/2026 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 10/02/2026 18:13:18 by fducrot          ###   ########.ch       */
+/*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/11 15:14:56 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	end_pipe_exec(t_shell *shell, t_pipe state)
 	close(state.pipefd[0]);
 	status = wait_for_children(state);
 	shell->pipe_depth--;
-	if (shell->is_child || shell->is_subshell)
+	if (shell->is_child)
 		clean_all(shell);
 	return (status);
 }

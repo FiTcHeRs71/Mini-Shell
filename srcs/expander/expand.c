@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 10/02/2026 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 10/02/2026 18:14:03 by fducrot          ###   ########.ch       */
+/*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/11 16:51:55 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ char	*expand_last_status(t_shell *shell, char *value)
 	return (res);
 }
 
-char	*expanded_value(t_shell *shell, char *value, char *varname, int index)
+char	*expanded_value(t_shell *shell, char *value, t_expansion *data, int index)
 {
 	char	*var_value;
 	char	*buffer;
 
-	var_value = get_env_varname(shell, varname);
+	var_value = get_env_varname(shell, data->varname);
 	if (!var_value)
 	{
 		if (ft_isalnum(value[1]))
@@ -52,13 +52,16 @@ char	*expanded_value(t_shell *shell, char *value, char *varname, int index)
 			buffer = ft_substr(value, index, increment_len(value, '$', index));
 		return (buffer);
 	}
-	buffer = ft_strdup(var_value);
+	if (data->spec_char == true)
+		buffer = ft_strjoin(var_value, &value[ft_strlen(value) - 1]);
+	else
+		buffer = ft_strdup(var_value);
 	if (!buffer)
 		ft_error(shell, MALLOC);
 	return (buffer);
 }
 
-char	*find_varname(t_shell *shell, char *value, int i)
+char	*find_varname(t_shell *shell, t_expansion *data, char *value, int i)
 {
 	char	*varname;
 	int		j;
@@ -69,9 +72,12 @@ char	*find_varname(t_shell *shell, char *value, int i)
 		ft_error(shell, MALLOC);
 	while (value[i])
 	{
-		if (!value[i] || value[i] == '$' || value[i] == ' ' || value[i] == '-'
-			|| value[i] == '\'' || value[i] == '"')
+		if (!value[i] || !ft_isalnum(value[i]))
+		{
+			if (!ft_isalnum(value[i]))
+				data->spec_char = true;
 			break ;
+		}
 		varname[j++] = value[i++];
 	}
 	varname[j] = '\0';
@@ -82,11 +88,13 @@ static void	dispatch_expansion(t_shell *shell, t_expansion *data, char *value)
 {
 	if (value[data->index] == '$' && value[data->index + 1] == '?')
 	{
+		data->result = ft_strdup("");
 		data->last_status = true;
 		expand(shell, data, value);
 	}
 	else if (value[data->index] == '$' && value[data->index + 1])
 	{
+		data->result = ft_strdup("");
 		data->last_status = false;
 		expand(shell, data, value);
 	}
@@ -97,7 +105,7 @@ char	*process_expansion(t_shell *shell, char *value)
 	t_expansion	data;
 
 	ft_memset(&data, 0, sizeof(t_expansion));
-	data.result = ft_strdup("");
+	data.result = NULL;
 	while (value[data.index])
 	{
 		while (value[data.index] != '$' && value[data.index])

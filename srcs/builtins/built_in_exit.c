@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:12:21 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/10 18:12:21 by fducrot          ###   ########.ch       */
+/*   Updated: 2026/02/11 14:28:02 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

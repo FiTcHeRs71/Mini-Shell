@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:18:46 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/10 18:18:53 by fducrot          ###   ########.ch       */
+/*   Updated: 2026/02/11 16:16:28 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	clean_up_loop(t_shell *shell)
 	shell->token_list = NULL;
 	shell->is_child = 0;
 	shell->is_subshell = 0;
+	clean_up_fds(shell);
 	dup2(shell->stdout_back_up, STDOUT_FILENO);
 	dup2(shell->stdin_back_up, STDIN_FILENO);
 }

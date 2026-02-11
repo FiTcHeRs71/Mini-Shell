@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 10/02/2026 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 10/02/2026 18:13:58 by fducrot          ###   ########.ch       */
+/*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/11 13:58:08 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,15 @@ char	*get_env_varname(t_shell *shell, char *key)
 	return (NULL);
 }
 
-static char	*common_expansion(t_shell *shell, char *value, int i)
+static char	*common_expansion(t_shell *shell, t_expansion *data, char *value, int i)
 {
-	char	*varname;
 	char	*new_value;
 
-	varname = find_varname(shell, value, i + 1);
-	if (!varname)
+	data->varname = find_varname(shell, data, value, i + 1);
+	if (!data->varname)
 		return (NULL);
-	new_value = expanded_value(shell, value, varname, i);
-	free(varname);
+	new_value = expanded_value(shell, value, data, i);
+	free(data->varname);
 	if (!new_value)
 		return (NULL);
 	return (new_value);
@@ -52,7 +51,7 @@ void	expand(t_shell *shell, t_expansion *data, char *value)
 	}
 	else
 	{
-		data->new_value = common_expansion(shell, value, data->index);
+		data->new_value = common_expansion(shell, data, value, data->index);
 		data->index += increment_len(value, '$', data->index + 1) + 1;
 	}
 	data->joined = ft_strjoin(data->result, data->new_value);

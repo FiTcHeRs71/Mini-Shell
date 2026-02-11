@@ -101,7 +101,7 @@ run: all
 valgrind: all
 	@echo "$(YELLOW)🔍 Running valgrind...$(RESET)"
 	@valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes \
-		--suppressions=readline.supp --log-fd=2 ./$(NAME)
+		--suppressions=readline.supp --log-file=vallog ./$(NAME)
 
 norm:
 	@echo "$(YELLOW)📋 Checking norminette...$(RESET)"

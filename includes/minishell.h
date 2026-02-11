@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:58:55 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/10 18:58:55 by fducrot          ###   ########.ch       */
+/*   Updated: 2026/02/11 13:58:47 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int			update_cmd(t_shell *shell, t_ast_node *node, char *cmd);
 int			ft_envsize(t_env *lst);
 int			exec_cmd(t_shell *shell, t_ast_node *node);
 int			execute_is_builtin(t_shell *shell, t_ast_node *node);
-void		handle_exit_status(t_shell *shell, int exit_code);
 
 /* exec_X.c */
 int			exec_ast(t_shell *shell, t_ast_node *node);
@@ -145,9 +144,9 @@ void		check_token_pipe(t_token *token, t_token *prev_token,
 /*========================== expansion ==========================*/
 /* expand.c */
 char		*process_expansion(t_shell *shell, char *value);
-char		*find_varname(t_shell *shell, char *value, int i);
+char		*find_varname(t_shell *shell, t_expansion *data, char *value, int i);
 char		*expanded_value(t_shell *shell, char *value,
-				char *varname, int index);
+				t_expansion *data, int index);
 char		*expand_last_status(t_shell *shell, char *value);
 
 /* expand_utils.c */
