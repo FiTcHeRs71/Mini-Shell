@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:16:54 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 19:20:48 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/11 19:39:38 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,6 @@ static void	tokenise_parse_exec(t_shell *shell, char *line)
 			init_signal();
 		}
 	}
-}
-
-t_shell	*get_t_shell()
-{
-	static t_shell *shell;
-	return(shell);
 }
 
 int	main(int argc, char **argv, char **envp)

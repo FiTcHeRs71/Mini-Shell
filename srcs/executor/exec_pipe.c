@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 19:15:04 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/11 19:39:16 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static void	child_process_l(t_shell *shell, t_ast_node *node, t_pipe *state)
 {
 	int	status;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGPIPE, SIG_IGN);
 	shell->is_child++;
 	close(state->pipefd[0]);
@@ -37,8 +37,8 @@ static void	child_process_r(t_shell *shell, t_ast_node *node, t_pipe *state)
 {
 	int	status;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGPIPE, SIG_IGN);
 	shell->is_child++;
 	close(state->pipefd[1]);
