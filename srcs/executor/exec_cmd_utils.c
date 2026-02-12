@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2009/02/20 20:56:36 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/12 09:26:16 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/12 13:53:54 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int	update_cmd(t_shell *shell, t_ast_node *node, char *cmd)
 	int		i;
 
 	i = 0;
+	if (!*cmd)
+		return (check_error(shell, node, cmd, EACCES));
 	tmp_env = check_path(shell, node, cmd);
 	paths = ft_split(tmp_env->value, ':');
 	while (paths[i])

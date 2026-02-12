@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 19:01:03 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/12 11:02:06 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,27 @@ static bool	write_line(t_shell *shell, char *line, t_heredoc_data *data,
 	return (true);
 }
 
+static int	check_interruption(t_heredoc_data *data, int *pipefd)
+{
+	if (g_signal || data->interrupted > 0)
+	{
+		close(pipefd[0]);
+		return (130);
+	}
+	if (data->interrupted == -1)
+	{
+		close(pipefd[0]);
+		return (1);
+	}
+	return (0);
+}
+
 int	exec_heredoc(t_shell *shell, t_ast_node *node)
 {
 	char			*line;
 	t_heredoc_data	data;
 	int				pipefd[2];
+	int				status;
 
 	shell->heredoc = true;
 	ft_memset(&data, 0, sizeof(t_heredoc_data));
@@ -69,15 +85,8 @@ int	exec_heredoc(t_shell *shell, t_ast_node *node)
 	}
 	close(pipefd[1]);
 	restore_signals(&data);
-	if (g_signal || data.interrupted > 0)
-	{
-		close(pipefd[0]);
-		return (130);
-	}
-	if (data.interrupted == -1)
-	{
-		close(pipefd[0]);
-		return (0);
-	}
+	status = check_interruption(&data, pipefd);
+	if (status)
+		return (status);
 	return (pipefd[0]);
 }

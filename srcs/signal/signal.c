@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:16:29 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 19:23:01 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/12 11:02:49 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	handle_sigint(int sig)
 {
-	
 	(void)sig;
 	g_signal = 130;
 	write(1, "\n", 1);

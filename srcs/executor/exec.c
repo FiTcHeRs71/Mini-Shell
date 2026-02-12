@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 19:18:18 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/12 14:20:45 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	prepare_heredocs(t_shell *shell, t_ast_node *node)
 		node->heredoc_fd = exec_heredoc(shell, node);
 		if (node->heredoc_fd == 130)
 			return (130);
-		if (node->heredoc_fd == 0)
+		if (node->heredoc_fd == 1)
 			return (0);
 	}
 	if (prepare_heredocs(shell, node->left) == 130)

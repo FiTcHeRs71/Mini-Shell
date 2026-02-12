@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/12 10:03:39 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/12 11:02:32 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,28 @@ static int	end_pipe_exec(t_shell *shell, t_pipe state)
 	return (status);
 }
 
+static int	next_node_ispipe(t_shell *shell, t_ast_node *node, t_pipe *state)
+{
+	int	status;
+
+	close(state->pipefd[1]);
+	if (dup2(state->pipefd[0], STDIN_FILENO) < 0)
+	{
+		close(state->pipefd[0]);
+		wait_on_process(shell, state->pid_l);
+		shell->pipe_depth--;
+		return (1);
+	}
+	if (state->pipefd[0] != STDIN_FILENO)
+		close(state->pipefd[0]);
+	status = exec_pipe(shell, node->right);
+	if (dup2(shell->stdin_back_up, STDIN_FILENO) < 0)
+		status = 1;
+	wait_on_process(shell, state->pid_l);
+	shell->pipe_depth--;
+	return (status);
+}
+
 int	exec_pipe(t_shell *shell, t_ast_node *node)
 {
 	t_pipe	state;
@@ -82,12 +104,7 @@ int	exec_pipe(t_shell *shell, t_ast_node *node)
 		child_process_l(shell, node, &state);
 	if (node->right->type == NODE_PIPE)
 	{
-		close(state.pipefd[1]);
-		close(state.pipefd[0]);
-		status = exec_pipe(shell, node->right);
-		wait_on_process(shell, state.pid_l);
-		shell->pipe_depth--;
-		return status;
+		return (next_node_ispipe(shell, node, &state));
 	}
 	else
 	{

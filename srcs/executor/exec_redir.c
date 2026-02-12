@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:13:25 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 18:58:02 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/12 14:23:52 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,26 @@ static int	exec_redir_in(t_shell *shell, t_ast_node *node)
 	return (status);
 }
 
+static int	exec_hd(t_shell *shell, t_ast_node *node)
+{
+	int	status;
+
+	if (node->heredoc_fd == -1)
+		return (1);
+	if (node->heredoc_fd == 1)
+		return (0);
+	if (dup2(node->heredoc_fd, STDIN_FILENO) < 0)
+	{
+		close(node->heredoc_fd);
+		return (1);
+	}
+	close(node->heredoc_fd);
+	status = exec_ast(shell, node->left);
+	if (dup2(shell->stdin_back_up, STDIN_FILENO) < 0)
+		status = 1;
+	return (status);
+}
+
 int	exec_redir(t_shell *shell, t_ast_node *node)
 {
 	if (node->redir_type == TOKEN_REDIR_OUT)
@@ -68,20 +88,6 @@ int	exec_redir(t_shell *shell, t_ast_node *node)
 	else if (node->redir_type == TOKEN_REDIR_IN)
 		return (exec_redir_in(shell, node));
 	else if (node->redir_type == TOKEN_HEREDOC)
-	{
-		if (node->heredoc_fd == -1)
-			return (1);
-		if (node->heredoc_fd == 0)
-		{
-			return (0);
-		}
-		if (dup2(node->heredoc_fd, STDIN_FILENO) < 0)
-		{
-			close(node->heredoc_fd);
-			return (1);
-		}
-		close(node->heredoc_fd);
-		return (exec_ast(shell, node->left));
-	}
+		return (exec_hd(shell, node));
 	return (1);
 }

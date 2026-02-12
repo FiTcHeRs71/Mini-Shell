@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_redirection.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:15:02 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/10 18:15:02 by fducrot          ###   ########.ch       */
+/*   Updated: 2026/02/12 14:17:39 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ static int	handle_double_quotes(t_shell *shell, t_state_data *data, char *line,
 		}
 		data->state = NO_QUOTE;
 		i++;
+	}
+	else if (line[i] == '$' && data->word_i != 0)
+	{
+		reinitialise_buffer(data);
+		return (i);
 	}
 	else
 		data->word->buffer[data->word_i++] = line[i++];
