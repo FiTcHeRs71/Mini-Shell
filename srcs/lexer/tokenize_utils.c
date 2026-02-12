@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:15:14 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/10 18:15:14 by fducrot          ###   ########.ch       */
+/*   Updated: 2026/02/12 14:38:42 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_token	*new_token(t_shell *shell)
 	t_token	*new_ele;
 
 	new_ele = ft_calloc(1, sizeof(t_token));
+	ft_memset(new_ele, 0, sizeof(t_token));
 	if (!new_ele)
 		ft_error(shell, MALLOC);
 	return (new_ele);

@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:58:55 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 19:17:55 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/12 15:40:43 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int			exec_pwd(void);
 int			exec_unset(t_shell *shell, char *args);
 int			exec_export(t_shell *shell, t_env **env, char **args);
 int			exec_cd(t_shell *shell, char **args);
+void		update_env_pwd(t_shell *shell, char *to_update, char *value);
 
 /* built_in_utils.c */
 void		update_env(t_shell *shell, t_env *finder, char *new_value);

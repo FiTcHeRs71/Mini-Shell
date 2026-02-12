@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 04/02/2026 17:37:54 by fducrot           #+#    #+#             */
-/*   Updated: 10/02/2026 18:14:40 by fducrot          ###   ########.ch       */
+/*   Created: 2004/02/20 17:37:54 by fducrot           #+#    #+#             */
+/*   Updated: 2026/02/12 14:50:01 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	strcmp_end(char *value, char *end)
 
 	len_end = ft_strlen(end);
 	len_value = ft_strlen(value);
+	if (len_end > len_value)
+		return (1);
 	if (!ft_strncmp(value + len_value - len_end, end, len_end + 1))
 		return (0);
 	return (1);

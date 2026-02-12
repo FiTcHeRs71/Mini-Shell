@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/12 14:11:38 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/12 14:57:33 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ char	*expanded_value(t_shell *shell,
 		return (buffer);
 	}
 	if (data->spec_char == true)
-		buffer = ft_strjoin(var_value, value + ft_strlen(data->varname) + data->index + 1);
+		buffer = ft_strjoin(var_value, value + ft_strlen(data->varname)
+				+ data->index + 1);
 	else
 		buffer = ft_strdup(var_value);
 	if (!buffer)

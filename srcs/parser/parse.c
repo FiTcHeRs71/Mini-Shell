@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:16:13 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/10 18:16:13 by fducrot          ###   ########.ch       */
+/*   Updated: 2026/02/12 15:33:53 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,6 @@ void	parse(t_token *token, t_shell *shell)
 	}
 	if (token != NULL)
 	{
-		syntaxe_error("");
+		syntaxe_error(token->value);
 	}
 }

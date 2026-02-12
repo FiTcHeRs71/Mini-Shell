@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2009/02/20 20:56:36 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 09:47:33 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/12 14:56:58 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_token	*end_with_pattern(t_shell *shell, t_token *token, DIR *dir)
 	struct dirent	*entry;
 	t_token			*new_list;
 	char			*cmp;
-	int				len_end;
+	size_t			len_end;
 
 	new_list = NULL;
 	cmp = token->wildcards.end;
@@ -70,8 +70,10 @@ t_token	*end_with_pattern(t_shell *shell, t_token *token, DIR *dir)
 		if (!ft_strncmp(cmp, "/", 2) && entry->d_type == DT_DIR
 			&& !ft_strrchr(entry->d_name, '.'))
 			is_directory(shell, entry, &new_list);
+		if (len_end > ft_strlen(entry->d_name))
+			return (NULL);
 		else if (!ft_strncmp(entry->d_name + ft_strlen(entry->d_name) - len_end,
-				cmp, len_end + 1))
+				cmp, len_end + 1) && !ft_strrchr(entry->d_name, '.'))
 			add_wildcards_token(shell, entry->d_name, &new_list);
 	}
 	return (new_list);

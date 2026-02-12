@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fducrot <fducrot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:12:10 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/10 18:12:10 by fducrot          ###   ########.ch       */
+/*   Updated: 2026/02/12 15:41:24 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,18 @@ static void	helpers_update_env(t_shell *shell, char *old_pwd)
 	}
 	finder = get_env_node(shell, "PWD");
 	if (finder)
-	{
 		update_env(shell, finder, current_pwd);
-	}
 	else
 	{
-		add_env_variable(shell, &shell->env, ft_strjoin("PWD=", current_pwd));
+		update_env_pwd(shell, "PWD=", current_pwd);
 	}
 	finder = get_env_node(shell, "OLDPWD");
 	if (finder)
 		update_env(shell, finder, old_pwd);
 	else
-		add_env_variable(shell, &shell->env, ft_strjoin("OLDPWD=", old_pwd));
+	{
+		update_env_pwd(shell, "OLDPWD=", old_pwd);
+	}
 	free(current_pwd);
 }
 
