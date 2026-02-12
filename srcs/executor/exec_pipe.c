@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/12 09:38:05 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/12 10:03:39 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,23 @@ int	exec_pipe(t_shell *shell, t_ast_node *node)
 	if (state.pid_l < 0)
 		return (1);
 	if (state.pid_l == 0)
-	{
 		child_process_l(shell, node, &state);
-	}
-	state.pid_r = fork();
-	if (state.pid_r < 0)
-		return (1);
-	if (state.pid_r == 0)
+	if (node->right->type == NODE_PIPE)
 	{
-		child_process_r(shell, node, &state);
+		close(state.pipefd[1]);
+		close(state.pipefd[0]);
+		status = exec_pipe(shell, node->right);
+		wait_on_process(shell, state.pid_l);
+		shell->pipe_depth--;
+		return status;
+	}
+	else
+	{
+		state.pid_r = fork();
+		if (state.pid_r < 0)
+			return (1);
+		if (state.pid_r == 0)
+			child_process_r(shell, node, &state);
 	}
 	status = end_pipe_exec(shell, state);
 	return (status);

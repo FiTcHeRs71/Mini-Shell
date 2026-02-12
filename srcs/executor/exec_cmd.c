@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2010/02/20 17:14:58 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 19:28:35 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/12 10:09:57 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,13 @@ int	exec_cmd(t_shell *shell, t_ast_node *node)
 	exit_code = execute_is_builtin(shell, node);
 	if (exit_code != -1)
 		return (exit_code);
+	if (shell->pipe_depth)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGPIPE, SIG_IGN);
+		execute_ext_cmd(shell, node);
+	}
 	pid = fork();
 	if (pid < 0)
 		return (1);
