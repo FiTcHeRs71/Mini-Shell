@@ -6,7 +6,7 @@
 /*   By: lgranger <lgranger@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2009/02/20 20:56:36 by fducrot           #+#    #+#             */
-/*   Updated: 2026/02/11 17:22:38 by lgranger         ###   ########.fr       */
+/*   Updated: 2026/02/12 09:26:16 by lgranger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static t_env	*check_path(t_shell *shell, t_ast_node *node, char *cmd)
 {
 	t_env	*tmp_env;
 
+	if (!shell->env)
+		check_error(shell, node, cmd, ENOENT);
 	tmp_env = shell->env;
 	while (ft_strncmp(tmp_env->key, "PATH", 5) != 0)
 	{
